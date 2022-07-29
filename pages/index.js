@@ -19,11 +19,11 @@ export default function Home() {
         <h1 className={styles.title}>
           Counterparty HW
         </h1>
-
+        <div className="w-[800px]">
         <p className={styles.description}>
-          Send Counterparty assets (rare pepes, fake rares, dank rares and more) from your Ledger Nano S or Nano X hardware wallet
+          Send Counterparty assets (rare pepes, fake rares, dank rares and more) from your Ledger Nano S / S Plus / X hardware wallet
         </p>
-
+        </div>
         <div className={styles.grid}>
           <Link href="/setup">
               <a href="#" className={styles.card}>

@@ -14,7 +14,7 @@ export default function SetupInstructions() {
         </p>
       
         <p className={styles.steps}>
-          <div className="inline-block font-bold">Step 2:</div> In the Bitcoin app, add an account then click on the "Show all address types" toggle
+          <div className="inline-block font-bold">Step 2:</div> In the Bitcoin app, add an account then click on the <div className="inline-block italic">Show all address types</div> toggle
         </p>
       
         <p className={styles.steps}>

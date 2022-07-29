@@ -118,7 +118,7 @@ export function AssetSendFormSent(props) {
     return (
         <div>
             <div className="max-w-3xl mb-10 text-center text-xl">Transaction sent!</div>
-            <div className="max-w-3xl mb-10 text-center text-sky-500"><a href={xchain} target="_blank">View on XChain</a></div>
+            <div className="max-w-3xl mb-10 text-center text-sky-500"><a href={xchain} target="_blank" rel="noreferrer">View on XChain</a></div>
         </div>
     )
 
