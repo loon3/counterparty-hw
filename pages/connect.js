@@ -20,7 +20,6 @@ export default function ConnectLedger() {
   useEffect(() => {
       setLoading(true)
       
-//use Ledger
       const address = window.sessionStorage.getItem("address")
       
       if(!address){
@@ -45,14 +44,7 @@ export default function ConnectLedger() {
           setAddress(address)
           setLoading(false)
       }
-      
-//for testing
-//
-//            setAddress("18VNeRv8vL528HF7ruKwxycrfNEeoqmHpa")
-//            window.sessionStorage.setItem("address", "18VNeRv8vL528HF7ruKwxycrfNEeoqmHpa")
-//            setLoading(false)
- 
-      
+        
   }, [])
 
   if (isLoading) return (

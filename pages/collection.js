@@ -95,7 +95,7 @@ export default function CollectionList(props) {
             <div>
 
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full">  
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full mb-16">  
                 {collection.map((asset) => (
                     <div 
                         key={asset.asset} 
@@ -108,6 +108,14 @@ export default function CollectionList(props) {
                         </div>
                     </div>
                 ))}
+            </div>
+
+            <div className={styles.grid}>
+                <Link href="/connect">
+                  <a href="#" className={styles.card}>
+                    <p>&larr; Back to Wallet</p>
+                  </a>
+                </Link>
             </div>
         </PageTemplate>
     )

@@ -1,4 +1,4 @@
-**// Alpha version - Use at your own risk //**
+**// Alpha v0.1.0 - Use at your own risk //**
 
 # Counterparty-HW
 
