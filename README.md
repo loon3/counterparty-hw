@@ -2,7 +2,7 @@
 
 # Counterparty-HW
 
-Send Counterparty assets (rare pepes, fake rares, dank rares and more) from your Ledger Nano S or Nano X hardware wallet.
+Send Counterparty assets (rare pepes, fake rares, dank rares and more) from your Ledger Nano S / S Plus / X hardware wallet.
 
 ## Getting Started
 
