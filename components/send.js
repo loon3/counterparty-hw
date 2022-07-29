@@ -98,6 +98,9 @@ export default function AssetSendForm(props) {
                 <div className="text-xs text-gray-500 text-right">(Suggested fee shown above)</div>
             </div>
             <div className="mt-12 text-center">
+                <div className="w-80 justify-center inline-flex">Unlock your Ledger device and open the Bitcoin app before clicking send</div>
+            </div>  
+            <div className="mt-12 text-center">
                 <button className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-black hover:bg-white hover:border-black hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black">Send</button>
             </div>  
         </form>  
