@@ -11,6 +11,7 @@ import { getAddressLedger } from '../lib/ledger.js'
 import { recommendedFee } from "../lib/xcp.js"
 
 
+
 export default function CollectionList(props) {
       
     const [error, setError] = useState(null)
@@ -22,8 +23,8 @@ export default function CollectionList(props) {
     const [isLoading, setLoading] = useState(false)  
     const [isSend, setSend] = useState(false)
       
-    function handleSend(asset, balance){
-        setSendData({asset: asset, balance: balance})
+    function handleSend(asset, balance, divisible){
+        setSendData({asset: asset, balance: balance, divisible: divisible})
         setSend(true)
     }
     
@@ -39,7 +40,10 @@ export default function CollectionList(props) {
         if(address){
             recommendedFee(function(feeData){
                 setFee(feeData)
-                getAssetsFromAddress(address, function(res) {    
+                getAssetsFromAddress(address, function(res) {     
+                    
+                    console.log(res.data)
+
                     setCollection(res.data)
                     setAddress(address)
                     setLoading(false)
@@ -74,7 +78,7 @@ export default function CollectionList(props) {
     if (isSend) {
         return (
             <PageTemplate>
-                <AssetSendForm asset={sendData.asset} balance={sendData.balance} fee={fee} />
+                <AssetSendForm asset={sendData.asset} balance={sendData.balance} divisible={sendData.divisible} fee={fee} />
                 
                     <button onClick={() => handleBack()} className={styles.card}>
                         <p>&larr; Back to Collection</p>
@@ -100,7 +104,7 @@ export default function CollectionList(props) {
                     <div 
                         key={asset.asset} 
                         className="my-1 px-1 hover:bg-slate-100 cursor-pointer text-center"
-                        onClick={() => handleSend(asset.asset, asset.quantity)}
+                        onClick={() => handleSend(asset.asset, asset.quantity, asset.divisible)}
                     >
                         <div className="m-3">
                             <div className="text-sm font-medium text-gray-900">{asset.asset}</div>
