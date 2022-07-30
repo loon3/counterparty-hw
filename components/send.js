@@ -33,7 +33,7 @@ export default function AssetSendForm(props) {
       balance: props.balance,    
       toAddress: event.target.address.value,
       amount: event.target.amount.value,
-      divisible: false,
+      divisible: props.divisible,
       txFeeSatoshis: txFeeSatoshis
     }
     
