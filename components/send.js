@@ -24,8 +24,7 @@ export default function AssetSendForm(props) {
     setSent("sending") 
        
     const txFeeSatoshis = parseInt(parseFloat(event.target.txfee.value) * 100000000)
-    
-    console.log(txFeeSatoshis)
+    const btcBalanceSatoshis = parseInt(parseFloat(props.btc.confirmed) * 100000000)
       
     const data = {
       fromAddress: window.sessionStorage.getItem("address"),
@@ -38,30 +37,43 @@ export default function AssetSendForm(props) {
     }
     
     setXcpData(data)
-    
-    createTxSendAssetOpreturn(data.fromAddress, data.toAddress, data.asset, data.amount, data.divisible, data.txFeeSatoshis, function(res){
-        getHexFromUtxo(res.inputs, function(hexData){
-            setStatus("Sending transaction to device for signing...")
-            var btcDataWithHex = {address: data.fromAddress, tx: res.tx, inputs: res.inputs, inputsWithHex: hexData}
-            console.log(btcDataWithHex)
-            setBtcData(btcDataWithHex)
-                     
-            sendAssetLedger(btcDataWithHex, function(response){
-                if(response.status == "success"){
-                    pushTx(response.message, function(txid){
-                        setTxid(txid)
-                        setSent("sent")
-                    })
-                } else if(response.status == "error"){
-                    setStatus(response.message)
-                } else {
-                    setStatus("Something went wrong.")
-                }            
+      
+    console.log(btcBalanceSatoshis)
+    console.log(txFeeSatoshis)    
+      
+    let stopSend = false  
+    if (btcBalanceSatoshis == 0 || btcBalanceSatoshis < txFeeSatoshis){
+        stopSend = true
+        setStatus("Not enough BTC to complete the transaction.")
+    }
+      
+//    stopSend = true
+//    setSent("sent")  
+     
+    if(!stopSend){
+        createTxSendAssetOpreturn(data.fromAddress, data.toAddress, data.asset, data.amount, data.divisible, data.txFeeSatoshis, function(res){
+            getHexFromUtxo(res.inputs, function(hexData){
+                setStatus("Sending transaction to device for signing...")
+                let btcDataWithHex = {address: data.fromAddress, tx: res.tx, inputs: res.inputs, inputsWithHex: hexData}
+                console.log(btcDataWithHex)
+                setBtcData(btcDataWithHex)
+
+                sendAssetLedger(btcDataWithHex, function(response){
+                    if(response.status == "success"){
+                        pushTx(response.message, function(txid){
+                            setTxid(txid)
+                            setSent("sent")
+                        })
+                    } else if(response.status == "error"){
+                        setStatus(response.message)
+                    } else {
+                        setStatus("Something went wrong.")
+                    }            
+                })
+
             })
-            
         })
-    })
-        
+    }    
       
   }
   
@@ -105,7 +117,9 @@ export default function AssetSendForm(props) {
             </div>  
         </form>  
       </div>  
-    </div>  
+      <div className="text-center">{props.children}</div>
+    </div>
+    
 
 
   )
@@ -113,12 +127,19 @@ export default function AssetSendForm(props) {
 
 export function AssetSendFormSent(props) {
     
-    var xchain = "https://xchain.io/tx/"+props.txid
+    let xchain = "https://xchain.io/tx/"+props.txid
     
     return (
-        <div>
-            <div className="max-w-3xl mb-10 text-center text-xl">Transaction sent!</div>
-            <div className="max-w-3xl mb-10 text-center text-sky-500"><a href={xchain} target="_blank" rel="noreferrer">View on XChain</a></div>
+        <div className="w-full">
+            <div className="text-center">
+                <div className="mb-6 text-2xl font-bold">Transaction sent!</div>
+                <div className="mb-10 text-sky-500"><a href={xchain} target="_blank" rel="noreferrer">View on XChain</a></div>
+            </div>
+            <div className="text-center">
+                <button onClick={() => window.location.reload()} className={styles.card}>
+                    <p>&larr; Back to Collection</p>
+                </button>
+            </div>
         </div>
     )
 
