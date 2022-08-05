@@ -46,6 +46,12 @@ export default function AssetSendForm(props) {
         stopSend = true
         setStatus("Not enough BTC to complete the transaction.")
     }
+    if(txFeeSatoshis < process.env.minFeeSatoshis){
+        stopSend = true
+        let minFee = process.env.minFeeSatoshis / 100000000
+        let statusMessage = "Fee is too low, must be at least "+minFee+" BTC"
+        setStatus(statusMessage)
+    }
       
 //    stopSend = true
 //    setSent("sent")  
@@ -107,7 +113,7 @@ export default function AssetSendForm(props) {
             <div className="mt-10">
                 <label htmlFor="txfee" className="block">Bitcoin Tx Fee</label>
                 <input type="text" name="txfee" id="txfee" className="pl-2 mt-1 w-full border-2 border-slate-400 rounded-md" defaultValue={props.fee} required />
-                <div className="text-xs text-gray-500 text-right">(Suggested fee shown above)</div>
+                <div className="text-xs text-gray-500 text-left">(Suggested fee shown above)</div>
             </div>
             <div className="mt-12 text-center">
                 <div className="w-80 justify-center inline-flex">Unlock your Ledger device and open the Bitcoin app before clicking send</div>

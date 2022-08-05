@@ -9,7 +9,6 @@ import { useState, useEffect } from "react";
 import { getAddressLedger } from '../lib/ledger.js'
 
 
-
 export default function ConnectLedger() {
       
   const [error, setError] = useState(null)

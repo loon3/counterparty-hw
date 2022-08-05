@@ -1,4 +1,3 @@
-import React, { Component } from 'react';
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 
@@ -24,7 +23,7 @@ export default function PageTemplate(props) {
 }
 
 export function Navigation(props) {
-    
+  
     if(props.btc) {
         return (   
             <div className="w-full fixed h-[58px] bg-white">
@@ -49,8 +48,16 @@ export function Navigation(props) {
                 </div>
             </div>
         )
+    } else if(props.address){
+        return (   
+            <div className="w-full fixed h-[58px] bg-white">
+                <div className="absolute top-4 right-6 inline-block">
+                    <div className="inline-block font-bold">{props.address}</div>
+                </div>
+            </div>
+        )
     } else {
         return (<div></div>)
-    }
-
+    } 
+                
 }

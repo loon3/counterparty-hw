@@ -6,10 +6,8 @@ import AssetSendForm from '../components/send'
 import ReactDOM from "react-dom";
 
 import { useState, useEffect } from "react";
-import { getAssetsFromAddress, getBtcFromAddress } from '../lib/fetch.js'
+import { recommendedFee, getAssetsFromAddress, getBtcFromAddress } from '../lib/fetch.js'
 import { getAddressLedger } from '../lib/ledger.js'
-import { recommendedFee } from "../lib/xcp.js"
-
 
 
 export default function CollectionList(props) {
@@ -23,7 +21,7 @@ export default function CollectionList(props) {
     
     const [isLoading, setLoading] = useState(false)  
     const [isSend, setSend] = useState(false)
-      
+    
     function handleSend(asset, balance, divisible){    
         setSendData({asset: asset, balance: balance, divisible: divisible})
         setSend(true)
@@ -31,7 +29,7 @@ export default function CollectionList(props) {
     
     function handleBack(){
         setSend(false)
-    }
+    }  
   
     useEffect(() => {
         
@@ -55,7 +53,8 @@ export default function CollectionList(props) {
 
                         setCollection(res.data)
                         setAddress(address)
-                        setLoading(false)
+                        setLoading(false)                      
+
                     })  
                 })
             })         
@@ -85,8 +84,7 @@ export default function CollectionList(props) {
         </PageTemplate>
     )
 
-    if (isSend) {
-                
+    if (isSend) {              
         return (
             <PageTemplate address={thisAddress} btc={btcBalance}>
                 <AssetSendForm asset={sendData.asset} balance={sendData.balance} divisible={sendData.divisible} fee={fee} btc={btcBalance}>
@@ -94,9 +92,6 @@ export default function CollectionList(props) {
                         <p>&larr; Back to Collection</p>
                     </button>
                 </AssetSendForm>
-                
-                    
-             
             </PageTemplate>    
         )   
     }
@@ -119,7 +114,23 @@ export default function CollectionList(props) {
                     >
                         <div className="m-3">
                             <div className="text-sm font-medium text-gray-900">{asset.asset}</div>
-                            <div className="text-sm text-gray-500">Balance: {asset.quantity}</div>
+                            <div className="text-sm">
+                                <div className="text-gray-500 inline-block">Balance: {asset.quantity}</div>
+                                {asset.unconfirmed < 0 &&
+                                    <div className="inline-block mx-1 text-red-400">
+                                    &#40;
+                                        {asset.unconfirmed}
+                                    &#41;
+                                    </div>
+                                }
+                                {asset.unconfirmed > 0 &&
+                                    <div className="inline-block mx-1 text-green-600">
+                                    &#40;&#43;
+                                        {asset.unconfirmed}
+                                    &#41;
+                                    </div>
+                                }
+                            </div>
                         </div>
                     </div>
                 ))}
