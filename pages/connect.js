@@ -72,6 +72,12 @@ export default function ConnectLedger() {
                 <h3>View Collection &rarr;</h3>
               </a>
           </Link>
+      
+          <Link href="/btc">
+              <a href="#" className={styles.card}>
+                <h3>Send Bitcoin &rarr;</h3>
+              </a>
+          </Link>
 
           <Link href="/sign">
            <a href="#" className={styles.card}>

@@ -16,6 +16,7 @@
     "biginteger": "^1.0.3",
     "bitcoinjs-lib": "^5.2.0",
     "buffer": "^6.0.3",
+    "decimal.js-light": "^2.5.1",
     "next": "12.2.2",
     "react": "18.2.0",
     "react-dom": "18.2.0"

@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 
 export default function PageTemplate(props) {
@@ -30,7 +31,7 @@ export function Navigation(props) {
                 <div className="absolute top-4 right-6 inline-block">
                     <div className="inline-block font-bold">{props.address}</div>
                     <div className="inline-block mx-2"> &#47;&#47; </div>
-                    <div className="inline-block">{props.btc.confirmed} BTC</div>
+                    <div className="inline-block"><Link href="/btc"><a>{props.btc.confirmed} BTC</a></Link></div>
                     {props.btc.unconfirmed < 0 &&
                         <div className="inline-block mx-1 text-red-400">
                         &#40;

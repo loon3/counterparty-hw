@@ -9,6 +9,8 @@ import { useState, useEffect } from "react";
 import { recommendedFee, getAssetsFromAddress, getBtcFromAddress } from '../lib/fetch.js'
 import { getAddressLedger } from '../lib/ledger.js'
 
+var Decimal = require('decimal.js-light')
+
 
 export default function CollectionList(props) {
       
@@ -22,9 +24,15 @@ export default function CollectionList(props) {
     const [isLoading, setLoading] = useState(false)  
     const [isSend, setSend] = useState(false)
     
-    function handleSend(asset, balance, divisible){    
-        setSendData({asset: asset, balance: balance, divisible: divisible})
+    function handleSend(asset, balance, divisible, unconfirmed){
+        
+        const balConf = new Decimal(balance)
+        const balUnconf = new Decimal(unconfirmed)
+        const finalBalance = balConf.plus(balUnconf).toNumber(); 
+ 
+        setSendData({asset: asset, balance: finalBalance, divisible: divisible})
         setSend(true)
+        
     }
     
     function handleBack(){
@@ -42,12 +50,10 @@ export default function CollectionList(props) {
                 setFee(feeData)
                 console.log(feeData)
                 getBtcFromAddress(address, function(btc){
-                    const confirmedFromSats = btc.balance / 100000000
-                    const unconfirmedFromSats = btc.unconfirmed_balance / 100000000
+                    const confirmedFromSats = new Decimal(btc.balance).dividedBy(1e8).toNumber()
+                    const unconfirmedFromSats = new Decimal(btc.unconfirmed_balance).dividedBy(1e8).toNumber()
                     setBtcBalance({confirmed: confirmedFromSats, unconfirmed: unconfirmedFromSats})
             
-//                    setFee(0.00001)
-//                    setBtcBalance({confirmed: 0.003, unconfirmed: 0})
                     getAssetsFromAddress(address, function(res) {  
                         console.log(res.data)
 
@@ -110,7 +116,7 @@ export default function CollectionList(props) {
                     <div 
                         key={asset.asset} 
                         className="my-1 px-1 hover:bg-slate-100 cursor-pointer text-center"
-                        onClick={() => handleSend(asset.asset, asset.quantity, asset.divisible)}
+                        onClick={() => handleSend(asset.asset, asset.quantity, asset.divisible, asset.unconfirmed)}
                     >
                         <div className="m-3">
                             <div className="text-sm font-medium text-gray-900">{asset.asset}</div>
