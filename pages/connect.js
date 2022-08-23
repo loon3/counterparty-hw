@@ -9,7 +9,6 @@ import { useState, useEffect } from "react";
 import { getAddressLedger } from '../lib/ledger.js'
 
 
-
 export default function ConnectLedger() {
       
   const [error, setError] = useState(null)
@@ -71,6 +70,12 @@ export default function ConnectLedger() {
           <Link href="/collection">
               <a href="#" className={styles.card}>
                 <h3>View Collection &rarr;</h3>
+              </a>
+          </Link>
+      
+          <Link href="/btc">
+              <a href="#" className={styles.card}>
+                <h3>Send Bitcoin &rarr;</h3>
               </a>
           </Link>
 
