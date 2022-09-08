@@ -5,7 +5,7 @@ import PageTemplate from '../components/template'
 
 import { useState, useEffect } from "react";
 import { createTxSendAssetOpreturn, createTxSendBtc } from "../lib/xcp.js"
-import { getHexFromUtxo, pushTx } from "../lib/fetch.js"
+import { getHexFromUtxo, pushTx, getAddressFromStorage } from "../lib/fetch.js"
 import { sendAssetLedger } from '../lib/ledger.js'
 
 var Decimal = require('decimal.js-light')
@@ -26,7 +26,7 @@ export default function AssetSendForm(props) {
   function handlePushTx(inputData, parsedData){
       getHexFromUtxo(parsedData.inputs, function(hexData){
         setStatus("Sending transaction to device for signing...")
-        let btcDataWithHex = {address: inputData.fromAddress, tx: parsedData.tx, inputs: parsedData.inputs, inputsWithHex: hexData}
+        let btcDataWithHex = {address: inputData.fromAddress, format: inputData.fromFormat, derivationPath: inputData.fromDerivationPath, tx: parsedData.tx, inputs: parsedData.inputs, inputsWithHex: hexData}
         console.log(btcDataWithHex)
         setBtcData(btcDataWithHex)
 
@@ -54,8 +54,12 @@ export default function AssetSendForm(props) {
       
     const txFeeSatoshis = new Decimal(event.target.txfee.value).toDecimalPlaces(8).times(1e8).toNumber();  
       
+    const fromAddress = getAddressFromStorage("all")  
+      
     const data = {
-      fromAddress: window.sessionStorage.getItem("address"),
+      fromAddress: fromAddress.address,
+      fromFormat: fromAddress.format,
+      fromDerivationPath: fromAddress.derivationPath,    
       asset: props.asset,
       balance: props.balance,    
       toAddress: event.target.address.value,

@@ -4,7 +4,10 @@ import { useRouter } from 'next/router'
 import { useState, useEffect } from "react";
 import PageTemplate from '../components/template'
 import AssetSendForm from '../components/send'
-import { recommendedFee, getAssetsFromAddress, getBtcFromAddress } from '../lib/fetch.js'
+import { recommendedFee, getAssetsFromAddress, getBtcFromAddress, getAddressFromStorage } from '../lib/fetch.js'
+
+var Decimal = require('decimal.js-light')
+
 
 export default function BtcPage() {
     
@@ -20,30 +23,26 @@ export default function BtcPage() {
         
         setLoading(true)
         
-        const address = window.sessionStorage.getItem("address")
-        
-        if(address){
+        const address = getAddressFromStorage()
+        if(!address){
+            router.push('/settings/select-address')
+        } else {
             recommendedFee(function(feeData){
                 setFee(feeData)
                 console.log(feeData)
                 getBtcFromAddress(address, function(btc){
-                    console.log(btc)
-                    const confirmedFromSats = btc.balance / 100000000
-                    const unconfirmedFromSats = btc.unconfirmed_balance / 100000000
+                   
+                    console.log(btc)                
+                    const confirmedFromSats = new Decimal(btc.balance).dividedBy(1e8).toNumber()
+                    const unconfirmedFromSats = new Decimal(btc.unconfirmed_balance).dividedBy(1e8).toNumber()
                     setBtcBalance({confirmed: confirmedFromSats, unconfirmed: unconfirmedFromSats})
-            
-//                    setFee(0.00001)
-//                    setBtcBalance({confirmed: 0.003, unconfirmed: 0})
 
-                        setAddress(address)
-                        setLoading(false)                      
+                    setAddress(address)
+                    setLoading(false)                      
 
                 })
             })         
-        } else {
-            setError("Device not connected.")
-            setLoading(false)
-        }      
+        }
 
     }, [])
     
@@ -54,12 +53,12 @@ export default function BtcPage() {
     )
     
     return (
-    <PageTemplate address={thisAddress} btc={btcBalance}>
-        <AssetSendForm address={thisAddress} asset="BTC" balance={btcBalance.confirmed} btc={btcBalance} fee={fee}>
-            <button onClick={() => router.push('/connect')} className={styles.card}>
-                <p>&larr; Back to Wallet</p>
-            </button>
-        </AssetSendForm>
-    </PageTemplate>
+        <PageTemplate address={thisAddress} btc={btcBalance}>
+            <AssetSendForm address={thisAddress} asset="BTC" balance={btcBalance.confirmed} btc={btcBalance} fee={fee}>
+                <button onClick={() => router.push('/connect')} className={styles.card}>
+                    <p>&larr; Back to Wallet</p>
+                </button>
+            </AssetSendForm>
+        </PageTemplate>
     )
 }

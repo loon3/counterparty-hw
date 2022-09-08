@@ -2,17 +2,19 @@ import styles from '../styles/Home.module.css'
 import Link from 'next/link'
 import PageTemplate from '../components/template'
 import AssetSendForm from '../components/send'
+import { useRouter } from 'next/router'
 
 import ReactDOM from "react-dom";
 
 import { useState, useEffect } from "react";
-import { recommendedFee, getAssetsFromAddress, getBtcFromAddress } from '../lib/fetch.js'
-import { getAddressLedger } from '../lib/ledger.js'
+import { recommendedFee, getAssetsFromAddress, getBtcFromAddress, getAddressFromStorage } from '../lib/fetch.js'
 
 var Decimal = require('decimal.js-light')
 
 
 export default function CollectionList(props) {
+    
+    const router = useRouter()
       
     const [error, setError] = useState(null)
     const [thisAddress, setAddress] = useState(null)
@@ -43,9 +45,11 @@ export default function CollectionList(props) {
         
         setLoading(true)
         
-        const address = window.sessionStorage.getItem("address")
+        const address = getAddressFromStorage()
+        if(!address){
+            router.push('/settings/select-address')
+        } else {
         
-        if(address){
             recommendedFee(function(feeData){
                 setFee(feeData)
                 console.log(feeData)
@@ -53,7 +57,7 @@ export default function CollectionList(props) {
                     const confirmedFromSats = new Decimal(btc.balance).dividedBy(1e8).toNumber()
                     const unconfirmedFromSats = new Decimal(btc.unconfirmed_balance).dividedBy(1e8).toNumber()
                     setBtcBalance({confirmed: confirmedFromSats, unconfirmed: unconfirmedFromSats})
-            
+
                     getAssetsFromAddress(address, function(res) {  
                         console.log(res.data)
 
@@ -64,11 +68,7 @@ export default function CollectionList(props) {
                     })  
                 })
             })         
-        } else {
-            setError("Device not connected.")
-            setLoading(false)
-        }      
-
+        }
     }, [])
 
     if (isLoading) return (
@@ -107,10 +107,6 @@ export default function CollectionList(props) {
             <h1 className="text-3xl font-bold">
               Collection
             </h1>
-
-            <div>
-
-            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full mt-12 mb-16">  
                 {collection.map((asset) => (
                     <div 

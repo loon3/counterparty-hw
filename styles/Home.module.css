@@ -138,9 +138,19 @@
   margin-left: 0.5rem;
 }
 
+.addressListSelect {
+    cursor: pointer;
+}
+
+.addressListSelect:hover,
+.addressListSelect:focus,
+.addressListSelect:active {
+  background-color: rgb(241 245 249);
+}
+
 @media (max-width: 600px) {
-  .grid {
-    width: 100%;
-    flex-direction: column;
-  }
+
+    .card {
+        min-width: 200px;
+    }
 }

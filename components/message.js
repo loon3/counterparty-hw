@@ -19,6 +19,8 @@ export default function MessageSignForm(props) {
 
         const data = {
             address: props.address,
+            format: props.format,
+            derivationPath: props.derivationPath,
             message: event.target.message.value,
         }
 
