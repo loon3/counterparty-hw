@@ -10,6 +10,8 @@ import { getAddressFromStorage } from '../lib/fetch.js'
 
 import { useRouter } from 'next/router'
 
+
+
 export default function ConnectLedger() {
     
     
@@ -57,12 +59,6 @@ export default function ConnectLedger() {
               <Link href="/collection">
                   <a href="#" className={styles.card}>
                     <h3>View Collection &rarr;</h3>
-                  </a>
-              </Link>
-
-              <Link href="/btc">
-                  <a href="#" className={styles.card}>
-                    <h3>Send Bitcoin &rarr;</h3>
                   </a>
               </Link>
 

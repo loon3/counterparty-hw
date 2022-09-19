@@ -106,11 +106,24 @@ export default function AssetSendForm(props) {
   }
   
   if (isSent == "sending") return (
-        <div className="mb-10">{status}</div>
+        <div>
+            <div className="w-[32rem] px-5 pt-12 pb-8 my-2 text-center">{status}</div>
+            <div className="mt-12 pt-6 w-full border-t border-solid border-slate-200">
+                <div className="text-center float-right">
+                    <div className="inline-flex text-center">{props.children}</div>
+                </div>
+            </div>
+        </div>
   )
   
   if (isSent == "sent") return (
-        <AssetSendFormSent xcpData={xcpData} btcData={btcData} txid={txid}/>
+      <AssetSendFormSent xcpData={xcpData} btcData={btcData} txid={txid}>
+        <div className="mt-12 pt-6 w-full border-t border-solid border-slate-200">
+            <div className="text-center float-right">
+                <div className="inline-flex text-center">{props.children}</div>
+            </div>
+        </div>
+      </AssetSendFormSent>
   )
   
   let availableBalance = props.balance
@@ -119,15 +132,14 @@ export default function AssetSendForm(props) {
   return (
   
     <div id="sendForm">  
-      <div className="w-[32rem] bg-slate-100 px-5 py-8 rounded-lg my-8">
-        <h1 className="text-3xl font-bold text-center">
-            Send {props.asset}
-        </h1>  
-        <div className="mt-4">              
-            <h3 className="text-xl text-center text-gray-500">Available Balance: {availableBalance}</h3>
+      <div className="w-[32rem] px-5 pt-4 pb-8 rounded-lg my-2">
+ 
+        <div className="mt-1">              
+            <h3 className="text-md text-center text-gray-500">Available Balance:</h3>
+            <h1 className="text-4xl text-center font-semibold">{availableBalance}</h1>
         </div>
         <form onSubmit={handleSubmit} autoComplete="off">
-            <div className="mt-14">
+            <div className="mt-10">
                 <label htmlFor="address" className="block">Receiver Address</label>
                 <input type="text" name="address" id="address" className="pl-2 mt-1 w-full border-2 border-slate-400 rounded-md" defaultValue="" required />
             </div>
@@ -143,12 +155,18 @@ export default function AssetSendForm(props) {
             <div className="mt-12 text-center">
                 <div className="w-80 justify-center inline-flex">Unlock your Ledger device and open the Bitcoin app before clicking send</div>
             </div>  
-            <div className="mt-12 text-center">
-                <button className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-black hover:bg-white hover:border-black hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black">Send</button>
+            <div className="mt-12 pt-6 w-full border-t border-solid border-slate-200">
+            <div className="text-center float-right">
+                <div className="inline-flex text-center">{props.children}</div>
+
+                <button className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
+                    Send
+                </button>
             </div>  
+            </div>
         </form>  
       </div>  
-      <div className="text-center">{props.children}</div>
+      
     </div>
     
 
@@ -156,17 +174,16 @@ export default function AssetSendForm(props) {
   )
 }
 
+
 export function AssetSendFormSent(props) {
 
     const router = useRouter()    
 
     function handleBack(){    
-        if(props.xcpData.asset == "BTC"){
-            router.push('/collection')
-        } else {
-            window.location.reload()
-        }
+        window.location.reload()
     }
+    
+    sessionStorage.setItem("txSent", true)
 
     let url = "https://xchain.io/tx/"+props.txid
     let urlTitle = "XChain"
@@ -176,16 +193,12 @@ export function AssetSendFormSent(props) {
     }
 
     return (
-        <div className="w-full">
-            <div className="text-center">
+        <div className="w-[32rem] px-5 pt-4 pb-8 rounded-lg my-2">
+            <div className="text-center mt-8 pb-8">
                 <div className="mb-6 text-2xl font-bold">Transaction sent!</div>
-                <div className="mb-10 text-sky-500"><a href={url} target="_blank" rel="noreferrer">View on {urlTitle}</a></div>
+                <div className="text-sky-500"><a href={url} target="_blank" rel="noreferrer">View on {urlTitle}</a></div>
             </div>
-            <div className="text-center">
-                <button onClick={() => handleBack()} className={styles.card}>
-                    <p>&larr; Back to Collection</p>
-                </button>
-            </div>
+            {props.children}
         </div>
     )
 

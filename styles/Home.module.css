@@ -21,6 +21,20 @@
   align-items: center;
 }
 
+.collectionItem {
+    padding: 0.5rem;
+    cursor: pointer;
+    text-align: center;
+}
+
+.collectionItem:hover {
+    background-color: rgb(241 245 249);
+}
+
+.collectionItemHidden {
+    display: none;
+}
+
 .footer {
   display: flex;
   flex: 1;

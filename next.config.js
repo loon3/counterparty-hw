@@ -6,6 +6,9 @@ const nextConfig = {
       blockcypherToken: '',
       defaultTxBytes: 249,
       minFeeSatoshis: 100
+  },
+  images: {
+    domains: ['pepewtf.s3.amazonaws.com'],
   }
 }
 
