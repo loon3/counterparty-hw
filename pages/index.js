@@ -30,7 +30,7 @@ export default function Home() {
             </a>
 
           
-              <a href="https://wiki.pepe.wtf" target="_blank" className={styles.card}>
+              <a href="https://wiki.pepe.wtf" target="_blank" rel="noreferrer" className={styles.card}>
                 <h2>About &rarr;</h2>
                 <p>Visit the Book of Kek to learn more about the history of Rare Pepes and Bitcoin NFTs.</p>
               </a>

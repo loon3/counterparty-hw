@@ -11,7 +11,7 @@ export default function PageTemplate(props) {
     return (   
         <div className={styles.container}>
             <Head>
-                <title>Counterparty HW</title>
+                <title>rpw.wtf</title>
                 <meta name="description" content="" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
