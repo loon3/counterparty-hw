@@ -250,7 +250,7 @@ export default function CollectionList(props) {
 
                     ))}
                 </div>
-            ) : (<div className="text-center"><div className="text-xl pb-16">You don't have any pepes</div><Image src="/feels-bad-man-frog.gif" height="250" width="250" alt="" /></div>)
+            ) : (<div className="text-center"><div className="text-xl pb-16">You don&#39;t have any pepes</div><Image src="/feels-bad-man-frog.gif" height="250" width="250" alt="" /></div>)
         }
         </PageTemplate>
     )
