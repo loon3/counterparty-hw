@@ -2,7 +2,7 @@ import styles from '../styles/Home.module.css'
 import Link from 'next/link'
 import React from 'react';
 import PageTemplate from '../components/template'
-
+import Image from 'next/image';
 import ReactDOM from "react-dom";
 
 import { useState, useEffect } from "react";
@@ -50,7 +50,7 @@ export default function ConnectLedger() {
     return (  
         <PageTemplate>
             <div>
-                <img src="/rarefakemerge.gif" className="h-[200px]"/>
+                <Image src="/rarefakemerge.gif" height="200px" width="200px" alt=""/>
             </div>
             <h1 className="text-3xl font-bold">
               Wallet Address

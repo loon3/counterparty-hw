@@ -2,7 +2,7 @@ import styles from '../styles/Home.module.css'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import PageTemplate from '../components/template'
-
+import Image from 'next/image'
 
 
 export default function Home() {  
@@ -17,7 +17,7 @@ export default function Home() {
   return (
       <PageTemplate>
         <div>
-            <img src="/rarefakemerge.gif" className="h-[200px]"/>
+            <Image src="/rarefakemerge.gif" height="200px" width="200px" alt=""/>
         </div>
         <h1 className="text-5xl pt-6 pb-20 font-black">
           Rare Pepe Wallet .wtf

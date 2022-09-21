@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 import AssetSendForm from '../components/send'
-
+import Image from 'next/image';
 import { useState } from "react"
 import { useRouter } from 'next/router'
 
@@ -104,7 +104,7 @@ export function Navigation(props) {
                     <div className="w-full top-4 inline-block pt-4 pl-1 pr-4 text-center">
                         
                         <div className="float-left">
-                            <div className="inline-block -mt-3"><img src="/rarefakemerge.gif" className="h-[50px]"/></div>
+                            <div className="inline-block -mt-3"><Image src="/rarefakemerge.gif" height="50px" width="50px" alt=""/></div>
                         </div>
                         <div className="float-left">
                             <button className="inline-block bg-black text-white active:bg-white active:text-black font-bold uppercase text-sm px-2 py-1 -mt-2 mx-5 mb-4 ease-linear transition-all duration-150" onClick={() => handleBack()}>
@@ -139,7 +139,7 @@ export function Navigation(props) {
                 <div className="w-full fixed h-[58px] bg-white z-10">
                     <div className="w-full top-4 inline-block pt-4 pl-1 pr-4">
                         <div className="float-left">
-                            <div className="inline-block -mt-3"><img src="/rarefakemerge.gif" className="h-[50px]"/></div>
+                            <div className="inline-block -mt-3"><Image src="/rarefakemerge.gif" height="50px" width="50px" alt=""/></div>
                         </div>
                         <div className="float-left">
                             <button className="inline-block bg-black text-white active:bg-white active:text-black font-bold uppercase text-sm px-2 py-1 -mt-2 mx-5 mb-4 ease-linear transition-all duration-150" onClick={() => handleBack()}>
