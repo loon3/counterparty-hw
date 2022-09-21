@@ -16,25 +16,25 @@ export default function Home() {
     
   return (
       <PageTemplate hideLogoInFooter>
-        <div>
+        <div className="pb-12">
             <Image src="/rarefakemerge.gif" height="200px" width="200px" alt=""/>
         </div>
-        <h1 className="text-5xl pt-6 pb-20 font-black">
-          Rare Pepe Wallet .wtf
-        </h1>
+
         <div className={styles.grid}>
-          <Link href="/setup">
-              <a href="#" className={styles.card}>
-                <h2>Setup (READ FIRST!) &rarr;</h2>
-                <p>Instructions for setting up your Ledger wallet to receive rares and fakes.</p>
-              </a>
-          </Link>
+
 
 
            <a href="#" className={styles.card} onClick={() => connectLedger()}>
               <h2>Connect &rarr;</h2>
-              <p>Prior to connecting, please setup your Ledger wallet per the instructions above.</p>
+              <p>Prior to connecting, you must download and open the Bitcoin app on your Ledger wallet device.</p>
             </a>
+
+          
+              <a href="https://wiki.pepe.wtf" target="_blank" className={styles.card}>
+                <h2>About &rarr;</h2>
+                <p>Visit the Book of Kek to learn more about the history of Rare Pepes and Bitcoin NFTs.</p>
+              </a>
+          
 
         </div>
       </PageTemplate>
