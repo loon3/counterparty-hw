@@ -6,7 +6,6 @@ import { useRouter } from 'next/router'
 import Image from 'next/image';
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import 'react-lazy-load-image-component/src/effects/blur.css';
-import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 
 import ReactDOM from "react-dom";
 
@@ -24,6 +23,8 @@ export default function CollectionList(props) {
     const [thisAddress, setAddress] = useState(null)
     const [btcBalance, setBtcBalance] = useState({confirmed: 0, unconfirmed: 0})
     const [collection, setCollection] = useState(null)
+    const [directories, setDirectories] = useState(null)
+    const [directoryView, setDirectoryView] = useState(null)
     const [sendData, setSendData] = useState(null)
     const [fee, setFee] = useState(null)
     
@@ -38,12 +39,24 @@ export default function CollectionList(props) {
  
         setSendData({asset: asset, balance: finalBalance, divisible: divisible})
         setSendModal(true)
-        disableBodyScroll("AssetSendModal")
+              
+        const scrollBarCompensation = window.innerWidth - document.body.offsetWidth;
+        document.body.style.paddingRight = `${scrollBarCompensation}px`;       
+        document.body.style.overflow = 'hidden';
+        
+    }
+    
+    function handleDirectory(name){
+        console.log(name)
+        let nameNoSpaces = name.replace(/\s+/g, '-').toLowerCase()
+        setDirectoryView(nameNoSpaces)
     }
     
 
     function handleModalClose(){
-        enableBodyScroll("AssetSendModal")
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = ''
+        
         const isTxSent = window.sessionStorage.getItem("txSent")
         
         setSendModal(false)
@@ -59,7 +72,7 @@ export default function CollectionList(props) {
           {sendModal ? (
             <>
               <div
-                className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+                className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
               >
                 <div className="relative w-auto my-6 mx-auto max-w-3xl">
                   {/*content*/}
@@ -82,12 +95,16 @@ export default function CollectionList(props) {
                   </div>
                 </div>
               </div>
-              <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+              <div className="opacity-50 fixed inset-0 z-40 bg-black"></div>
             </>
           ) : null}
         </>
       )
     }
+    
+    useEffect(() => {
+      window.scrollTo(0, 0)
+    }, [directoryView])
   
     useEffect(() => {
         
@@ -98,7 +115,7 @@ export default function CollectionList(props) {
         
         const address = getAddressFromStorage()
 //FOR TESTING...
-//        const address = "1Kvddk8d9HywrXjpFUTxuPwgHgm2Cdc9h9"
+//        const address = "1AtcSh7uxenQ6AR5xqr6agAegWRUF5N4uh"
         if(!address){
             router.push('/settings/select-address')
         } else {
@@ -128,6 +145,12 @@ export default function CollectionList(props) {
 
                     getAssetsFromAddress(address, function(res) {  
                         console.log(res.data)
+                        
+                        console.log(res.directories[0])
+                        
+                        setDirectoryView(res.directories[0].replace(/\s+/g, '-').toLowerCase())
+                        setDirectories(res.directories)
+
                         setCollection(res.data)
                         setAddress(address)
                         setLoading(false)                      
@@ -156,28 +179,37 @@ export default function CollectionList(props) {
             </div>
         </PageTemplate>
     )
+//                    asset.wtf != null ? ( 
+//                    ) : null
 
+//            <h1 className="text-4xl font-bold">
+//              Collection
+//            </h1>
     return (  
         <PageTemplate address={thisAddress} btc={btcBalance} fee={fee}>
-            <h1 className="text-4xl font-bold">
-              Collection
-            </h1>
-        
+
+        <div className="w-full fixed mt-[42px] pt-6 h-[148px] md:h-[116px] bg-white z-10 top-4 text-center">
+        {directories.map((directoryName) => (
+             <button key={directoryName} className="inline-block bg-emerald-700 text-white active:bg-emerald-800 font-bold uppercase text-sm px-3 py-2 rounded outline-none focus:outline-none mx-4 mb-4 ease-linear transition-all duration-150" onClick={() => handleDirectory(directoryName)}>
+                {directoryName}
+            </button>
+        ))}
+        </div>
         <div>
             <AssetSendModal />
         </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 w-full mt-12 mb-16">  
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 w-full mt-20 pt-12 mb-16">  
                 {collection.map((asset) => (
-                    asset.wtf != null ? (           
+          
                         <div 
                             key={asset.asset} 
-                            className={styles.collectionItem}
+                            className={`${directoryView != asset.directory ? ("hidden"):("")} ${styles.collectionItem}`}
                             onClick={() => handleSend(asset.asset, asset.quantity, asset.divisible, asset.unconfirmed)}
                         >      
                             <div className="m-3">
                                 <div className="m-auto">
-                                    <LazyLoadImage
-                                        src={asset.wtf.img_url}
+                                    <LazyLoadImage 
+                                        src={asset.wtf != null ? (asset.wtf.img_url):("/notrare.jpeg")}
                                         height="560"
                                         width="400"
                                         alt={asset.asset}
@@ -206,16 +238,8 @@ export default function CollectionList(props) {
                                 </div>
                             </div>
                         </div>    
-                    ) : null
-                ))}
-            </div>
 
-            <div className={styles.grid}>
-                <Link href="/connect">
-                  <a href="#" className={styles.card}>
-                    <p>&larr; Back to Wallet</p>
-                  </a>
-                </Link>
+                ))}
             </div>
         </PageTemplate>
     )

@@ -2,10 +2,9 @@ import Head from 'next/head'
 import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 import AssetSendForm from '../components/send'
-import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 
 import { useState } from "react"
-
+import { useRouter } from 'next/router'
 
 export default function PageTemplate(props) {
     
@@ -30,16 +29,28 @@ export default function PageTemplate(props) {
 
 export function Navigation(props) {
     
+    const router = useRouter()
+    
     const [sendModalBtc, setSendModalBtc] = useState(false)
     
+    function handleBack(){
+        router.push('/connect')
+    }
+    
     function handleSend(){
+
+        const scrollBarCompensation = window.innerWidth - document.body.offsetWidth;
+        document.body.style.paddingRight = `${scrollBarCompensation}px`;       
+        document.body.style.overflow = 'hidden';
+        
         setSendModalBtc(true)
-        disableBodyScroll("BtcSendModal")
     }
     
 
     function handleModalClose(){
-        enableBodyScroll("BtcSendModal")
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = ''
+        
         const isTxSent = window.sessionStorage.getItem("txSent")
         
         setSendModalBtc(false)
@@ -90,35 +101,56 @@ export function Navigation(props) {
             <div>
                 <BtcSendModal />
                 <div className="w-full fixed h-[58px] bg-white z-10">
-                    <div className="absolute top-4 right-6 inline-block">
-                        <div className="inline-block font-bold">{props.address}</div>
-                        <div className="inline-block mx-2"> &#47;&#47; </div>
-                        <div className="inline-block cursor-pointer" onClick={() => handleSend()}>{props.btc.confirmed} BTC</div>
-                        {props.btc.unconfirmed < 0 &&
-                            <div className="inline-block mx-1 text-red-400">
-                            &#40;
-                                {props.btc.unconfirmed}
-                            &#41;
-                            </div>
-                        }
-                        {props.btc.unconfirmed > 0 &&
-                            <div className="inline-block mx-1 text-green-600">
-                            &#40;&#43;
-                                {props.btc.unconfirmed}
-                            &#41;
-                            </div>
-                        }
+                    <div className="w-full top-4 inline-block pt-4 pl-1 pr-4 text-center">
+                        
+                        <div className="float-left">
+                            <div className="inline-block -mt-3"><img src="/rarefakemerge.gif" className="h-[50px]"/></div>
+                        </div>
+                        <div className="float-left">
+                            <button className="inline-block bg-black text-white active:bg-white active:text-black font-bold uppercase text-sm px-2 py-1 -mt-2 mx-5 mb-4 ease-linear transition-all duration-150" onClick={() => handleBack()}>
+                                &larr; Back to Wallet
+                            </button>
+                        </div>
+                        <div className="float-right">
+                            <div className="inline-block font-bold">{props.address}</div>
+                            <div className="inline-block mx-2"> &#47;&#47; </div>
+                            <div className="inline-block cursor-pointer" onClick={() => handleSend()}>{props.btc.confirmed} BTC</div>
+                            {props.btc.unconfirmed < 0 &&
+                                <div className="inline-block mx-1 text-red-400">
+                                &#40;
+                                    {props.btc.unconfirmed}
+                                &#41;
+                                </div>
+                            }
+                            {props.btc.unconfirmed > 0 &&
+                                <div className="inline-block mx-1 text-green-600">
+                                &#40;&#43;
+                                    {props.btc.unconfirmed}
+                                &#41;
+                                </div>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
         )
     } else if(props.address){
         return (   
-            <div className="w-full fixed h-[58px] bg-white z-10">
-                <div className="absolute top-4 right-6 inline-block">
-                    <div className="inline-block font-bold">{props.address}</div>
+                <div className="w-full fixed h-[58px] bg-white z-10">
+                    <div className="w-full top-4 inline-block pt-4 pl-1 pr-4">
+                        <div className="float-left">
+                            <div className="inline-block -mt-3"><img src="/rarefakemerge.gif" className="h-[50px]"/></div>
+                        </div>
+                        <div className="float-left">
+                            <button className="inline-block bg-black text-white active:bg-white active:text-black font-bold uppercase text-sm px-2 py-1 -mt-2 mx-5 mb-4 ease-linear transition-all duration-150" onClick={() => handleBack()}>
+                                &larr; Back to Wallet
+                            </button>
+                        </div>
+                        <div className="float-right">
+                            <div className="inline-block font-bold">{props.address}</div>
+                        </div>
+                    </div>
                 </div>
-            </div>
         )
     } else {
         return (<div></div>)

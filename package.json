@@ -15,7 +15,6 @@
     "@material-tailwind/react": "^1.0.6",
     "biginteger": "^1.0.3",
     "bitcoinjs-lib": "^5.2.0",
-    "body-scroll-lock": "^4.0.0-beta.0",
     "buffer": "^6.0.3",
     "decimal.js-light": "^2.5.1",
     "eciesjs": "^0.3.15",

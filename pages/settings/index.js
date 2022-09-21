@@ -40,27 +40,12 @@ export default function SettingsPage() {
                 <h3>Select Wallet Address &rarr;</h3>
               </a>
             </Link>
-        
-              <Link href="/settings/sign">
-               <a href="#" className={styles.card}>
-                  <h3>Sign Message &rarr;</h3>
-                </a>
-             </Link>
-        
+                
             <Link href="/settings/forget">
                <a href="#" className={styles.card}>
                   <h3>Forget Device &rarr;</h3>
                 </a>
              </Link>
-        </div>
-        <div className="mt-12">
-            <div className={styles.grid}>
-                <Link href="/connect">
-                  <a href="#" className={styles.card}>
-                    <p>&larr; Back to Wallet</p>
-                  </a>
-                </Link>
-            </div>
         </div>
     </PageTemplate>
     )

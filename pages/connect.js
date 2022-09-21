@@ -49,6 +49,9 @@ export default function ConnectLedger() {
 
     return (  
         <PageTemplate>
+            <div>
+                <img src="/rarefakemerge.gif" className="h-[200px]"/>
+            </div>
             <h1 className="text-3xl font-bold">
               Wallet Address
             </h1>
@@ -62,11 +65,19 @@ export default function ConnectLedger() {
                   </a>
               </Link>
 
+              <Link href="/sign">
+               <a href="#" className={styles.card}>
+                  <h3>Sign Message &rarr;</h3>
+                </a>
+             </Link>
+        
               <Link href="/settings">
                <a href="#" className={styles.card}>
                   <h3>Settings &rarr;</h3>
                 </a>
              </Link>
+        
+              
             </div>
         </PageTemplate>
     )

@@ -1,10 +1,10 @@
-import styles from '../../styles/Home.module.css'
+import styles from '../styles/Home.module.css'
 import Link from 'next/link'
 import { useState, useEffect } from "react";
 import { useRouter } from 'next/router'
-import PageTemplate from '../../components/template'
-import MessageSignForm from '../../components/message'
-import { getAddressFromStorage } from '../../lib/fetch.js'
+import PageTemplate from '../components/template'
+import MessageSignForm from '../components/message'
+import { getAddressFromStorage } from '../lib/fetch.js'
 
 
 export default function SignMessagePage() {
@@ -34,13 +34,6 @@ export default function SignMessagePage() {
     return (
         <PageTemplate address={thisAddress.address}>
             <MessageSignForm address={thisAddress.address} format={thisAddress.format} derivationPath={thisAddress.derivationPath} />
-            <div className={styles.grid}>
-                <Link href="/connect">
-                  <a href="#" className={styles.card}>
-                    <p>&larr; Back to Wallet</p>
-                  </a>
-                </Link>
-            </div>
         </PageTemplate>
     )
 }

@@ -16,19 +16,17 @@ export default function Home() {
     
   return (
       <PageTemplate>
-        <h1 className={styles.title}>
-          Counterparty HW
-        </h1>
-        <div className="w-[800px]">
-        <p className={styles.description}>
-          Send Counterparty assets (rare pepes, fake rares, dank rares and more) from your Ledger Nano S / S Plus / X hardware wallet
-        </p>
+        <div>
+            <img src="/rarefakemerge.gif" className="h-[200px]"/>
         </div>
+        <h1 className="text-5xl pt-6 pb-20 font-black">
+          Rare Pepe Wallet .wtf
+        </h1>
         <div className={styles.grid}>
           <Link href="/setup">
               <a href="#" className={styles.card}>
                 <h2>Setup (READ FIRST!) &rarr;</h2>
-                <p>Instructions for setting up your Ledger wallet to receive Counterparty assets.</p>
+                <p>Instructions for setting up your Ledger wallet to receive rares and fakes.</p>
               </a>
           </Link>
 

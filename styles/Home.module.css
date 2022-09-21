@@ -4,7 +4,7 @@
 
 .main {
   min-height: 100vh;
-  padding: 8rem;
+  padding: 4rem 8rem 8rem 8rem;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -28,7 +28,7 @@
 }
 
 .collectionItem:hover {
-    background-color: rgb(241 245 249);
+    background-color: rgb(220 252 231);
 }
 
 .collectionItemHidden {
