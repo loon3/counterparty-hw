@@ -15,7 +15,7 @@ export default function Home() {
   }
     
   return (
-      <PageTemplate>
+      <PageTemplate hideLogoInFooter>
         <div>
             <Image src="/rarefakemerge.gif" height="200px" width="200px" alt=""/>
         </div>

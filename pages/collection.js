@@ -11,6 +11,7 @@ import ReactDOM from "react-dom";
 
 import { useState, useEffect } from "react";
 import { recommendedFee, getAssetsFromAddress, getBtcFromAddress, getAddressFromStorage } from '../lib/fetch.js'
+import { checkArrayEmpty } from '../lib/util.js'
 
 var Decimal = require('decimal.js-light')
 
@@ -63,6 +64,11 @@ export default function CollectionList(props) {
         if(isTxSent){
             window.location.reload()
         } 
+    }
+    
+    function getDirectoryNameNoSpaces(directoryName){
+        const directoryNameNoSpaces = directoryName.replace(/\s+/g, '-').toLowerCase()
+        return directoryNameNoSpaces
     }
 
     function AssetSendModal() {
@@ -144,9 +150,10 @@ export default function CollectionList(props) {
                     getAssetsFromAddress(address, function(res) {  
                         console.log(res.data)
                         
-                        console.log(res.directories[0])
                         
-                        setDirectoryView(res.directories[0].replace(/\s+/g, '-').toLowerCase())
+                        let firstDirectory = null
+                        if(res.directories[0]){firstDirectory = res.directories[0].replace(/\s+/g, '-').toLowerCase()}
+                        setDirectoryView(firstDirectory)
                         setDirectories(res.directories)
 
                         setCollection(res.data)
@@ -183,12 +190,15 @@ export default function CollectionList(props) {
 //            <h1 className="text-4xl font-bold">
 //              Collection
 //            </h1>
-    return (  
-        <PageTemplate address={thisAddress} btc={btcBalance} fee={fee}>
 
-        <div className="w-full fixed mt-[42px] pt-6 h-[148px] md:h-[116px] bg-white z-10 top-4 text-center">
+    
+
+    return (  
+        <PageTemplate address={thisAddress} btc={btcBalance} fee={fee} directories={directories}>
+
+        <div className="w-full fixed mt-[10px] pt-[22px] h-[138px] md:h-[86px] z-10 top-12 text-center border-b-4 border-green-800 bg-white">
         {directories.map((directoryName) => (
-             <button key={directoryName} className="inline-block bg-emerald-700 text-white active:bg-emerald-800 font-bold uppercase text-sm px-3 py-2 rounded outline-none focus:outline-none mx-4 mb-4 ease-linear transition-all duration-150" onClick={() => handleDirectory(directoryName)}>
+             <button key={directoryName} className={`${styles.directoryBtn} ${directoryView == getDirectoryNameNoSpaces(directoryName) ? (styles.directoryBtnActive):("")}`} onClick={() => handleDirectory(directoryName)}>
                 {directoryName}
             </button>
         ))}
@@ -196,9 +206,10 @@ export default function CollectionList(props) {
         <div>
             <AssetSendModal />
         </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 w-full mt-20 pt-12 mb-16">  
-                {collection.map((asset) => (
-          
+
+            {checkArrayEmpty(collection) != true ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 w-full mt-20 pt-12 mb-16">  
+                    {collection.map((asset) => (
                         <div 
                             key={asset.asset} 
                             className={`${directoryView != asset.directory ? ("hidden"):("")} ${styles.collectionItem}`}
@@ -237,8 +248,10 @@ export default function CollectionList(props) {
                             </div>
                         </div>    
 
-                ))}
-            </div>
+                    ))}
+                </div>
+            ) : (<div className="text-center"><div className="text-xl pb-16">You don't have any pepes</div><Image src="/feels-bad-man-frog.gif" height="250" width="250" alt="" /></div>)
+        }
         </PageTemplate>
     )
 

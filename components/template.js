@@ -19,12 +19,25 @@ export default function PageTemplate(props) {
             <main className={styles.main}>
                 {props.children}
             </main>
-            <footer className={styles.footer}>
-                Counterparty HW - Powered by Bitcoin and Counterparty 
-            </footer>
+            <PageFooter hideLogo={props.hideLogoInFooter}/>
         </div>
     )
 
+}
+
+export function PageFooter(props) {
+    return (
+            <footer className={styles.footer}>
+                {props.hideLogo ? null : (
+                <div className="inline-block pl-4">
+                    <Image src="/rarefakemerge.gif" height="50px" width="50px" alt=""/>
+                </div>  
+                )}
+                <div className="inline-block pl-4 font-mono font-bold text-white">
+                    rpw.wtf
+                </div>       
+            </footer>
+    )
 }
 
 export function Navigation(props) {
@@ -96,18 +109,20 @@ export function Navigation(props) {
       )
     }
   
+//    <div className="float-left">
+//        <div className="inline-block -mt-3"><Image src="/rarefakemerge.gif" height="50px" width="50px" alt=""/></div>
+//    </div>
+
     if(props.btc) {
         return (   
             <div>
                 <BtcSendModal />
-                <div className="w-full fixed h-[58px] bg-white z-10">
-                    <div className="w-full top-4 inline-block pt-4 pl-1 pr-4 text-center">
+                <div className="w-full fixed h-[58px] z-10 border-b-2 border-slate-300 bg-white">
+                    <div className="w-full top-4 inline-block pt-4 pr-4 text-center">
+                        
                         
                         <div className="float-left">
-                            <div className="inline-block -mt-3"><Image src="/rarefakemerge.gif" height="50px" width="50px" alt=""/></div>
-                        </div>
-                        <div className="float-left">
-                            <button className="inline-block bg-black text-white active:bg-white active:text-black font-bold uppercase text-sm px-2 py-1 -mt-2 mx-5 mb-4 ease-linear transition-all duration-150" onClick={() => handleBack()}>
+                            <button className="inline-block bg-white text-black rounded border-2 border-black hover:shadow-md font-bold uppercase text-sm px-2 py-1 -mt-2 mx-4 mb-4 ease-linear transition-all duration-150 select-none" onClick={() => handleBack()}>
                                 &larr; Back to Wallet
                             </button>
                         </div>
@@ -136,13 +151,11 @@ export function Navigation(props) {
         )
     } else if(props.address){
         return (   
-                <div className="w-full fixed h-[58px] bg-white z-10">
-                    <div className="w-full top-4 inline-block pt-4 pl-1 pr-4">
+                <div className="w-full fixed h-[58px] z-10 border-b-2 border-slate-300 bg-white">
+                    <div className="w-full top-4 inline-block pt-4 pr-4">
+
                         <div className="float-left">
-                            <div className="inline-block -mt-3"><Image src="/rarefakemerge.gif" height="50px" width="50px" alt=""/></div>
-                        </div>
-                        <div className="float-left">
-                            <button className="inline-block bg-black text-white active:bg-white active:text-black font-bold uppercase text-sm px-2 py-1 -mt-2 mx-5 mb-4 ease-linear transition-all duration-150" onClick={() => handleBack()}>
+                            <button className="inline-block bg-white text-black border-2 border-black hover:shadow-md font-bold uppercase text-sm px-2 py-1 -mt-2 mx-4 mb-4 ease-linear transition-all duration-150 select-none rounded" onClick={() => handleBack()}>
                                 &larr; Back to Wallet
                             </button>
                         </div>
