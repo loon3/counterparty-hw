@@ -197,7 +197,7 @@ export default function CollectionList(props) {
         <PageTemplate address={thisAddress} btc={btcBalance} fee={fee} collection="true">
 
         <div className="w-full min-w-0 fixed mt-[10px] pt-[22px] h-[86px] z-10 top-12 text-center border-b-4 border-green-800 bg-white">
-        <div class="overflow-x-auto flex">
+        <div className="overflow-x-auto flex">
         {directories.map((directoryName) => (
              <button key={directoryName} className={`${styles.directoryBtn} ${directoryView == getDirectoryNameNoSpaces(directoryName) ? (styles.directoryBtnActive):("")}`} onClick={() => handleDirectory(directoryName)}>
                 {directoryName}
