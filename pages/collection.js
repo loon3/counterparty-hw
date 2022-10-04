@@ -1,6 +1,7 @@
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
 import PageTemplate from '../components/template'
+import ModalTemplate from '../components/modal'
 import AssetSendForm from '../components/send'
 import { useRouter } from 'next/router'
 import Image from 'next/image';
@@ -26,7 +27,7 @@ export default function CollectionList(props) {
     const [collection, setCollection] = useState(null)
     const [directories, setDirectories] = useState(null)
     const [directoryView, setDirectoryView] = useState(null)
-    const [sendData, setSendData] = useState(null)
+    const [sendData, setSendData] = useState({asset: null, balance: null, divisible: null})
     const [fee, setFee] = useState(null)
     
     const [isLoading, setLoading] = useState(false)  
@@ -55,7 +56,7 @@ export default function CollectionList(props) {
     
 
     function handleModalClose(){
-        document.body.style.overflow = '';
+        document.body.style.overflow = ''
         document.body.style.paddingRight = ''
         
         const isTxSent = window.sessionStorage.getItem("txSent")
@@ -72,35 +73,19 @@ export default function CollectionList(props) {
     }
 
     function AssetSendModal() {
+        
+      const title = "Send "+sendData.asset
       
       return (
         <>
           {sendModal ? (
-            <>
-              <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-                <div className="relative w-auto my-6 mx-auto max-w-3xl">
-                  {/*content*/}
-                  <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                    {/*header*/}
-                    <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 bg-black rounded-t">
-                      <h3 className="text-3xl font-semibold text-white">
-                        Send {sendData.asset}
-                      </h3>
-                      
-                    </div>
-                    <div className="relative p-6 flex-auto">
-                        <AssetSendForm asset={sendData.asset} balance={sendData.balance} divisible={sendData.divisible} fee={fee} btc={btcBalance}>
-                            <button className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => handleModalClose()}>
-                                Close
-                            </button>
-                        </AssetSendForm>
-                    </div>
-                    
-                  </div>
-                </div>
-              </div>
-              <div className="opacity-50 fixed inset-0 z-40 bg-black"></div>
-            </>
+            <ModalTemplate title={title}>
+                <AssetSendForm address={thisAddress} asset={sendData.asset} balance={sendData.balance} divisible={sendData.divisible} fee={fee} btc={btcBalance}>
+                    <button className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => handleModalClose()}>
+                        Close
+                    </button>
+                </AssetSendForm>
+            </ModalTemplate>
           ) : null}
         </>
       )
@@ -117,11 +102,10 @@ export default function CollectionList(props) {
         const isTxSent = window.sessionStorage.getItem("txSent")
         if(isTxSent){sessionStorage.removeItem('txSent')}
         
-        const address = getAddressFromStorage()
-//FOR TESTING...
-//        const address = "1AtcSh7uxenQ6AR5xqr6agAegWRUF5N4uh"
+        const address = getAddressFromStorage("all")
+
         if(!address){
-            router.push('/settings/select-address')
+            router.push('/settings/select')
         } else {
         
             recommendedFee(function(feeData){
@@ -129,7 +113,7 @@ export default function CollectionList(props) {
 //                const feeData = 0.00000747
                 setFee(feeData)
                 console.log(feeData)
-                getBtcFromAddress(address, function(btc){
+                getBtcFromAddress(address.address, function(btc){
 //FOR TESTING...
 //                    const btc = {
 //                                  "address": "1Kvddk8d9HywrXjpFUTxuPwgHgm2Cdc9h9",
@@ -147,13 +131,11 @@ export default function CollectionList(props) {
                     const unconfirmedFromSats = new Decimal(btc.unconfirmed_balance).dividedBy(1e8).toNumber()
                     setBtcBalance({confirmed: confirmedFromSats, unconfirmed: unconfirmedFromSats})
 
-                    getAssetsFromAddress(address, function(res) {  
-                        console.log(res.data)
+                    getAssetsFromAddress(address.address, function(res) {  
+                         
+                        console.log(res)
                         
-                        
-                        let firstDirectory = null
-                        if(res.directories[0]){firstDirectory = res.directories[0].replace(/\s+/g, '-').toLowerCase()}
-                        setDirectoryView(firstDirectory)
+                        setDirectoryView(res.mostFrequentDirectory)
                         setDirectories(res.directories)
 
                         setCollection(res.data)
@@ -208,7 +190,7 @@ export default function CollectionList(props) {
         </div>
 
             {checkArrayEmpty(collection) != true ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 w-full mt-20 pt-12 mb-16">  
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 w-full mt-12 pt-14 mb-16">  
                     {collection.map((asset) => (
                         <div 
                             key={asset.asset} 
@@ -250,7 +232,7 @@ export default function CollectionList(props) {
 
                     ))}
                 </div>
-            ) : (<div className="text-center"><div className="text-xl pb-16">You don&#39;t have any pepes</div><Image src="/feels-bad-man-frog.gif" height="250" width="250" alt="" /></div>)
+            ) : (<div className="text-center mt-32"><div className="text-xl pb-16">You don&#39;t have any pepes</div><Image src="/feels-bad-man-frog.gif" height="250" width="250" alt="" /></div>)
         }
         </PageTemplate>
     )

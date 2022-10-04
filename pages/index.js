@@ -10,8 +10,8 @@ export default function Home() {
   const router = useRouter()    
   
   function connectLedger(){
-      window.localStorage.clear();
-      router.push('/settings/select-address')
+//      window.localStorage.clear();
+      router.push('/settings/select')
   }
     
   return (
@@ -25,8 +25,8 @@ export default function Home() {
 
 
            <a href="#" className={styles.card} onClick={() => connectLedger()}>
-              <h2>Connect &rarr;</h2>
-              <p>Prior to connecting, you must download and open the Bitcoin app on your Ledger wallet device.</p>
+              <h2>Wallet &rarr;</h2>
+              <p>Use a 12-word passphrase or connect a Ledger hardware wallet device via USB.</p>
             </a>
 
           

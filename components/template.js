@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 import AssetSendForm from '../components/send'
+import ModalTemplate from '../components/modal'
 import Image from 'next/image';
 import { useState } from "react"
 import { useRouter } from 'next/router'
@@ -61,7 +62,7 @@ export function Navigation(props) {
     
 
     function handleModalClose(){
-        document.body.style.overflow = '';
+        document.body.style.overflow = ''
         document.body.style.paddingRight = ''
         
         const isTxSent = window.sessionStorage.getItem("txSent")
@@ -77,41 +78,17 @@ export function Navigation(props) {
       return (
         <>
           {sendModalBtc ? (
-            <>
-              <div
-                className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
-              >
-                <div className="relative w-auto my-6 mx-auto max-w-3xl">
-                  {/*content*/}
-                  <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                    {/*header*/}
-                    <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 bg-black rounded-t">
-                      <h3 className="text-3xl font-semibold text-white">
-                        Send BTC
-                      </h3>
-                      
-                    </div>
-                    <div className="relative p-6 flex-auto">                   
-                        <AssetSendForm address={props.address} asset="BTC" balance={props.btc.confirmed} btc={props.btc} fee={props.fee}>
-                            <button className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => handleModalClose()}>
-                                Close
-                            </button>
-                        </AssetSendForm>
-                    </div>
-                    
-                  </div>
-                </div>
-              </div>
-              <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
-            </>
+            <ModalTemplate title="Send BTC">                 
+                <AssetSendForm address={props.address} asset="BTC" balance={props.btc.confirmed} btc={props.btc} fee={props.fee}>
+                    <button className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => handleModalClose()}>
+                        Close
+                    </button>
+                </AssetSendForm>
+            </ModalTemplate>
           ) : null}
         </>
       )
     }
-  
-//    <div className="float-left">
-//        <div className="inline-block -mt-3"><Image src="/rarefakemerge.gif" height="50px" width="50px" alt=""/></div>
-//    </div>
 
     if(props.btc) {
         return (   
@@ -127,8 +104,13 @@ export function Navigation(props) {
                             </button>
                         </div>
                         <div className="float-right">
-                            <div className="inline-block font-bold">{props.address}</div>
+                            <div className={styles.hideAddressInNav}>
+                            {props.address.key == "ledger" &&
+                            <div className="inline-block align-middle mt-[2px] mr-2"><Image src="/ledger-logo.png" height="20px" width="23px" /></div>
+                            }
+                            <div className="inline-block font-bold">{props.address.address}</div>
                             <div className="inline-block mx-2"> &#47;&#47; </div>
+                            </div>
                             <div className="inline-block cursor-pointer" onClick={() => handleSend()}>{props.btc.confirmed} BTC</div>
                             {props.btc.unconfirmed < 0 &&
                                 <div className="inline-block mx-1 text-red-400">
@@ -160,7 +142,12 @@ export function Navigation(props) {
                             </button>
                         </div>
                         <div className="float-right">
-                            <div className="inline-block font-bold">{props.address}</div>
+                            <div className={styles.hideAddressInNav}>
+                            {props.address.key == "ledger" &&
+                            <div className="inline-block align-middle mt-[2px] mr-2"><Image src="/ledger-logo.png" height="20px" width="23px" /></div>
+                            }
+                            <div className="inline-block font-bold">{props.address.address}</div>
+                            </div>
                         </div>
                     </div>
                 </div>

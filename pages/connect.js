@@ -12,7 +12,7 @@ import { useRouter } from 'next/router'
 
 
 
-export default function ConnectLedger() {
+export default function ConnectLandingPage() {
     
     
     const router = useRouter()
@@ -25,9 +25,9 @@ export default function ConnectLedger() {
     useEffect(() => {
         setLoading(true)
       
-        const address = getAddressFromStorage()
+        const address = getAddressFromStorage("all")
         if(!address){
-            router.push('/settings/select-address')
+            router.push('/settings/select')
         } else {
             setAddress(address)
             setLoading(false)
@@ -55,9 +55,14 @@ export default function ConnectLedger() {
             <h1 className="text-3xl font-bold">
               Wallet Address
             </h1>
-            <h1 className="text-2xl mb-12">
-              {thisAddress}
-            </h1>
+
+            <div className="text-2xl mb-12 text-center">
+                {thisAddress.key == "ledger" &&
+                    <div className="inline-block mr-2 align-middle -mt-[2px] select-none"><Image src="/ledger-logo.png" height="20px" width="23px" /></div>
+                }
+                <div className="inline-block break-all">{thisAddress.address}</div>
+            </div>
+        
             <div className={styles.grid}>
               <Link href="/collection">
                   <a href="#" className={styles.card}>

@@ -5,18 +5,22 @@ import { useRouter } from 'next/router'
 import PageTemplate from '../../components/template'
 import { getAddressFromStorage } from '../../lib/fetch.js'
 
+
 export default function SettingsPage() {
     
     const router = useRouter()
 
     const [thisAddress, setAddress] = useState(null)  
     const [isLoading, setLoading] = useState(false)  
+    
 
     useEffect(() => {
+        
         setLoading(true)
-        const address = getAddressFromStorage()
+        const address = getAddressFromStorage("array")
+        
         if(!address){
-            router.push('/settings/select-address')
+            router.push('/settings/select')
         } else {
             setAddress(address)
             setLoading(false)
@@ -35,17 +39,19 @@ export default function SettingsPage() {
           Settings
         </h1>
         <div className={styles.grid}>
-            <Link href="/settings/select-address">
+            <Link href="/settings/select">
               <a href="#" className={styles.card}>
-                <h3>Select Wallet Address &rarr;</h3>
+                <h3>Select Wallet &nbsp; &frasl; &nbsp; Address &rarr;</h3>
               </a>
             </Link>
+        
                 
             <Link href="/settings/forget">
                <a href="#" className={styles.card}>
-                  <h3>Forget Device &rarr;</h3>
+                  <h3>Forget Wallet &rarr;</h3>
                 </a>
              </Link>
+        
         </div>
     </PageTemplate>
     )
