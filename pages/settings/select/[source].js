@@ -104,23 +104,23 @@ export function AddAddressSelect(props) {
     }
     
     if (loading) return (
-        <div className="ml-3 py-4">
-            <div className="inline-block text-sm font-medium">{loading}</div>            
+        <div className="ml-3 py-2">
+            <div className="inline-block text-sm font-medium my-4">{loading}</div>            
         </div>
     )
 
     if (status == "clicked") return (
-        <div className="py-4 text-center">
-            <button className="inline-block justify-center mx-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-black hover:bg-white hover:border-black hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black" onClick={() => handleAdd("legacy")}>ADD LEGACY</button>
-            <button className="inline-block justify-center mx-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-black hover:bg-white hover:border-black hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black" onClick={() => handleAdd("bech32")}>ADD NATIVE SEGWIT</button>
+        <div className="py-2 text-center">
+            <button className="inline-block justify-center m-2 px-4 py-1.5 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-black hover:bg-white hover:border-black hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black" onClick={() => handleAdd("legacy")}>ADD LEGACY</button>
+            <button className="inline-block justify-center m-2 px-4 py-1.5 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-black hover:bg-white hover:border-black hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black" onClick={() => handleAdd("bech32")}>ADD NATIVE SEGWIT</button>
         </div>
     )
     
 
 
     return (
-        <div className="ml-3 py-4" onClick={() => handleClick()}>
-            <div className="inline-block text-sm font-medium">Add New Address...</div>            
+        <div className="ml-3 py-2" onClick={() => handleClick()}>
+            <div className="inline-block text-sm font-medium my-4">Add New Address...</div>            
         </div>
     )
 }
@@ -263,7 +263,7 @@ export default function SelectAddressPage(props) {
                     Open Wallet
                 </h1>
                 <div id="sendForm">  
-                    <div className="w-full max-w-2xl px-5 pt-2 pb-8 rounded-lg">
+                    <div className="w-full max-w-2xl px-2 pt-2 pb-8 rounded-lg">
 
                         <form onSubmit={handlePasswordSubmit} autoComplete="off" className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                             <div>
@@ -301,17 +301,17 @@ export default function SelectAddressPage(props) {
         <h1 className="text-3xl font-bold mb-8">
           Select Address
         </h1>
-        <div className={styles.grid}>
-            <ul role="list" className="p-6 divide-y divide-slate-200">
+        <div className="w-full max-w-2xl">
+            <ul role="list" className="p-2 divide-y divide-slate-200">
             {addressList.map((address) => (
                 <li 
                     className={styles.addressListSelect} 
                     key={address.address}
                     onClick={() => handleAddressSelect(address)}
                 >
-                    <div className="ml-3 overflow-hidden truncate py-4">
-                        <div className="inline-block text-sm font-medium">{address.address}</div>
-                        <div className="inline-block text-xs p-1 mx-2 text-white bg-slate-400 rounded float-right">{address.formatType} &#35;{address.index+1}</div>
+                    <div className="ml-3 break-all py-4 overflow-hidden">
+                        <div className="inline-block text-sm font-medium py-2">{address.address}</div>
+                        <div className="inline-block text-xs p-1 mx-2 mt-1.5 text-white bg-slate-400 rounded float-right">{address.formatType} &#35;{address.index+1}</div>
                     </div>
                 </li>
             ))}

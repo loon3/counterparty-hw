@@ -105,8 +105,8 @@ export function MessageSignForm(props) {
     ) 
     
     if (isSigned == "signed") return (
-        <div>
-            <div className="w-[32rem] px-5 pt-4 pb-8 rounded-lg">
+        <div className="w-full max-w-2xl">
+            <div className="px-5 pt-4 pb-8 rounded-lg">
                 <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                     <div className="mb-10">
                         <div className="text-lg underline text-gray-500">Message:</div>
@@ -131,12 +131,12 @@ export function MessageSignForm(props) {
   
     return (
   
-        <div>    
+        <div className="w-full max-w-2xl">    
             <h1 className="text-3xl font-bold mb-8 text-center">
                 Sign Message
             </h1>
             <div id="sendForm">  
-                <div className="w-[32rem] px-5 pt-4 pb-8 rounded-lg">
+                <div className="w-full px-5 pt-4 pb-8 rounded-lg">
 
                     <form onSubmit={handleSubmit} autoComplete="off" className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                         <div>

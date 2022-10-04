@@ -194,19 +194,21 @@ export default function CollectionList(props) {
     
 
     return (  
-        <PageTemplate address={thisAddress} btc={btcBalance} fee={fee} directories={directories}>
+        <PageTemplate address={thisAddress} btc={btcBalance} fee={fee} collection="true">
 
-        <div className="w-full fixed mt-[10px] pt-[22px] h-[138px] md:h-[86px] z-10 top-12 text-center border-b-4 border-green-800 bg-white">
+        <div className="w-full min-w-0 fixed mt-[10px] pt-[22px] h-[86px] z-10 top-12 text-center border-b-4 border-green-800 bg-white">
+        <div class="overflow-x-auto flex">
         {directories.map((directoryName) => (
              <button key={directoryName} className={`${styles.directoryBtn} ${directoryView == getDirectoryNameNoSpaces(directoryName) ? (styles.directoryBtnActive):("")}`} onClick={() => handleDirectory(directoryName)}>
                 {directoryName}
             </button>
         ))}
         </div>
+        </div>
         <div>
             <AssetSendModal />
         </div>
-
+        <div className="mx-1 md:mx-6">
             {checkArrayEmpty(collection) != true ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 w-full mt-12 pt-14 mb-16">  
                     {collection.map((asset) => (
@@ -215,7 +217,7 @@ export default function CollectionList(props) {
                             className={`${directoryView != asset.directory ? ("hidden"):("")} ${styles.collectionItem}`}
                             onClick={() => handleSend(asset.asset, asset.quantity, asset.divisible, asset.unconfirmed)}
                         >      
-                            <div className="m-3">
+                            <div className="m-2">
                                 <div className="m-auto">
                                     <LazyLoadImage 
                                         src={asset.wtf != null ? (asset.wtf.img_url):("/notrare.jpeg")}
@@ -252,6 +254,7 @@ export default function CollectionList(props) {
                 </div>
             ) : (<div className="text-center mt-32"><div className="text-xl pb-16">You don&#39;t have any pepes</div><Image src="/feels-bad-man-frog.gif" height="250" width="250" alt="" /></div>)
         }
+        </div>
         </PageTemplate>
     )
 

@@ -17,7 +17,7 @@ export default function PageTemplate(props) {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <Navigation address={props.address} btc={props.btc} fee={props.fee}/>
-            <main className={styles.main}>
+            <main className={props.collection ? (styles.mainCollection) : (styles.main)}>
                 {props.children}
             </main>
             <PageFooter hideLogo={props.hideLogoInFooter}/>
@@ -111,7 +111,8 @@ export function Navigation(props) {
                             <div className="inline-block font-bold">{props.address.address}</div>
                             <div className="inline-block mx-2"> &#47;&#47; </div>
                             </div>
-                            <div className="inline-block cursor-pointer" onClick={() => handleSend()}>{props.btc.confirmed} BTC</div>
+                            <div className="inline-block cursor-pointer" onClick={() => handleSend()}><div className={styles.hideBalanceInNav}>{props.btc.confirmed}</div> BTC</div>
+                            <div className={styles.hideBalanceInNav}>
                             {props.btc.unconfirmed < 0 &&
                                 <div className="inline-block mx-1 text-red-400">
                                 &#40;
@@ -126,6 +127,7 @@ export function Navigation(props) {
                                 &#41;
                                 </div>
                             }
+                            </div>
                         </div>
                     </div>
                 </div>

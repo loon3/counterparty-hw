@@ -197,7 +197,7 @@ export default function AssetSendForm(props) {
   return (
   
     <div id="sendForm">  
-      <div className="w-full px-5 pt-4 pb-8 rounded-lg my-2">
+      <div className="w-full pt-4 pb-8 rounded-lg my-2">
  
         <div className="mt-1">              
             <h3 className="text-md text-center text-gray-500">Available Balance:</h3>

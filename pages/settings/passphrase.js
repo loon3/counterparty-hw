@@ -165,7 +165,7 @@ export function ImportPassphrase(props){
             <h1 className="text-3xl font-bold mb-8 text-center">
                 Your New Wallet was Created&#33;
             </h1>
-            <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <div className="bg-white shadow-md rounded px-1 pt-6 pb-8 mb-4">
                 <div className="mb-12 mx-4 p-2 bg-black text-white font-mono text-center">
                     {thisPassphrase}
                 </div>
@@ -271,13 +271,13 @@ export function EncryptPassphrase(props){
             <h1 className="text-3xl font-bold mb-8 text-center">
                 Choose a Password to Lock your Wallet
             </h1>
-            <form onSubmit={handleEncrypt} autoComplete="off" className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <form onSubmit={handleEncrypt} autoComplete="off" className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 text-center">
                 <div className="mb-10">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
                         Your Password
                     </label>
                     <div className="flex">
-                        <input name="password" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="" required/>
+                        <input name="password" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-center" id="password" type="password" placeholder="" required/>
                     </div>
                 </div>
                 <div className="mb-10">
@@ -285,7 +285,7 @@ export function EncryptPassphrase(props){
                         Your Password Again
                     </label>
                     <div className="flex">
-                        <input name="passwordagain" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="passwordagain" type="password" placeholder="" required/>
+                        <input name="passwordagain" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-center" id="passwordagain" type="password" placeholder="" required/>
                     </div>
                 </div>
 
