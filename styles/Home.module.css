@@ -209,6 +209,12 @@
     }
 }
 
+@media (max-width: 767px) {
+    .mainCollection {
+        padding: 2.5rem 0;
+    }
+}
+
 
 @media (max-width: 900px) {
     .hideAddressInNav {
@@ -231,5 +237,6 @@
         display: inline-block;
     }
 }
+
 
 
