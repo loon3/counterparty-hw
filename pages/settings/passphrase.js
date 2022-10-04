@@ -166,11 +166,11 @@ export function ImportPassphrase(props){
                 Your New Wallet was Created&#33;
             </h1>
             <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                <div className="mb-12 mx-12 p-2 bg-black text-white font-mono text-center">
+                <div className="mb-12 mx-4 p-2 bg-black text-white font-mono text-center">
                     {thisPassphrase}
                 </div>
                 <div className="mb-8 mx-4">
-                    <p>Your 12&#8208;word passphrase to access your wallet is shown in the black box above. Write it down and keep it safe. If you lose this passphrase, you will lose access to your wallet forever. If someone gets your passphrase, they gain access to your wallet. We do not store your passphrase and cannot recover it if lost.</p>
+                    <p className="text-justify w-full">Your 12&#8208;word passphrase to access your wallet is shown in the black box above. Write it down and keep it safe. If you lose this passphrase, you will lose access to your wallet forever. If someone gets your passphrase, they gain access to your wallet. We do not store your passphrase and cannot recover it if lost.</p>
                 </div>
 
                 <div className="flex flex-col max-w-xs text-center m-auto">

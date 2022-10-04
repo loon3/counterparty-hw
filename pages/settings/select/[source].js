@@ -258,17 +258,18 @@ export default function SelectAddressPage(props) {
     if (needPassword) return (
 
             <PageTemplate address={thisAddress}>
-                <h1 className="text-3xl font-bold mb-8">
+            <div className="w-full max-w-lg text-center">
+                <h1 className="text-3xl font-bold mb-8 text-center">
                     Open Wallet
                 </h1>
                 <div id="sendForm">  
-                    <div className="w-[32rem] px-5 pt-4 pb-8 rounded-lg">
+                    <div className="w-full max-w-2xl px-5 pt-2 pb-8 rounded-lg">
 
                         <form onSubmit={handlePasswordSubmit} autoComplete="off" className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                             <div>
                                 <label htmlFor="password" className="block text-gray-700 text-sm font-bold mb-2">Enter Your Password</label>
                                 <div className="flex">
-                                    <input type="password" name="password" id="password" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" defaultValue="" required />
+                                    <input type="password" name="password" id="password" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-center" defaultValue="" required />
                                 </div>
                             </div>
 
@@ -289,8 +290,8 @@ export default function SelectAddressPage(props) {
                         </form>  
                     </div>  
                 </div>
-
-           </PageTemplate>
+            </div>
+            </PageTemplate>
            
     )
 
