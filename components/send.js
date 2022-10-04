@@ -248,10 +248,6 @@ export function AssetSendFormSent(props) {
 
     const router = useRouter()    
 
-    function handleBack(){    
-        window.location.reload()
-    }
-    
     sessionStorage.setItem("txSent", true)
 
     let url = "https://xchain.io/tx/"+props.txid
@@ -262,7 +258,7 @@ export function AssetSendFormSent(props) {
     }
 
     return (
-        <div className="w-[32rem] px-5 pt-4 pb-8 rounded-lg my-2">
+        <div className="w-full px-5 pt-4 pb-8 rounded-lg my-2">
             <div className="text-center mt-8 pb-8">
                 <div className="mb-6 text-2xl font-bold">Transaction sent!</div>
                 <div className="text-sky-500"><a href={url} target="_blank" rel="noreferrer">View on {urlTitle}</a></div>

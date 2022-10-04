@@ -63,7 +63,25 @@ export default function CollectionList(props) {
         
         setSendModal(false)
         if(isTxSent){
-            window.location.reload()
+            
+            setLoading(true)       
+            getBtcFromAddress(thisAddress.address, function(btc){
+
+                    console.log(btc)
+                    const confirmedFromSats = new Decimal(btc.balance).dividedBy(1e8).toNumber()
+                    const unconfirmedFromSats = new Decimal(btc.unconfirmed_balance).dividedBy(1e8).toNumber()
+                    setBtcBalance({confirmed: confirmedFromSats, unconfirmed: unconfirmedFromSats})
+
+                    getAssetsFromAddress(thisAddress.address, function(res) {  
+                         
+                        console.log(res)
+                        
+                        setCollection(res.data)
+                        setLoading(false)                      
+
+                    })  
+                })
+            
         } 
     }
     
