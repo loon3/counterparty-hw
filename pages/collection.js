@@ -205,24 +205,24 @@ export default function CollectionList(props) {
             router.push('/settings/select')
         } else {
         
-//            recommendedFee(function(feeData){
+            recommendedFee(function(feeData){
 //FOR TESTING...
-                const feeData = 0.00000747
+//                const feeData = 0.00000747
                 setFee(feeData)
                 console.log(feeData)
-//                getBtcFromAddress(address.address, function(btc){
+                getBtcFromAddress(address.address, function(btc){
 //FOR TESTING...
-                    const btc = {
-                                  "address": "1Kvddk8d9HywrXjpFUTxuPwgHgm2Cdc9h9",
-                                  "total_received": 143028,
-                                  "total_sent": 128165,
-                                  "balance": 14863,
-                                  "unconfirmed_balance": 0,
-                                  "final_balance": 14863,
-                                  "n_tx": 70,
-                                  "unconfirmed_n_tx": 0,
-                                  "final_n_tx": 70
-                                }
+//                    const btc = {
+//                                  "address": "1Kvddk8d9HywrXjpFUTxuPwgHgm2Cdc9h9",
+//                                  "total_received": 143028,
+//                                  "total_sent": 128165,
+//                                  "balance": 14863,
+//                                  "unconfirmed_balance": 0,
+//                                  "final_balance": 14863,
+//                                  "n_tx": 70,
+//                                  "unconfirmed_n_tx": 0,
+//                                  "final_n_tx": 70
+//                                }
                     console.log(btc)
                     const confirmedFromSats = new Decimal(btc.balance).dividedBy(1e8).toNumber()
                     const unconfirmedFromSats = new Decimal(btc.unconfirmed_balance).dividedBy(1e8).toNumber()
@@ -240,8 +240,8 @@ export default function CollectionList(props) {
                         setLoading(false)                      
 
                     })  
-//                })
-//            })         
+                })
+            })         
         }
     }, [])
     
