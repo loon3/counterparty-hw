@@ -43,7 +43,7 @@ class AssetCardFlip extends Component {
         {this.props.mp4 ? (
             <video controls loop className="lozad m-auto" width="400px" height="560px" preload="none" poster="/card-placeholder.png" data-poster={this.props.front}>
                 <source data-src={this.props.mp4} type="video/mp4" />
-                Sorry, your browser doesn't support embedded videos.
+                Sorry, your browser doesn&#39;t support embedded videos.
             </video>
         ):(
             <img 
