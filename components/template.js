@@ -94,19 +94,19 @@ export function Navigation(props) {
         return (   
             <div>
                 <BtcSendModal />
-                <div className="w-full fixed h-[58px] z-10 border-b-2 border-slate-300 bg-white">
+                <div className="w-full fixed h-[58px] z-10 border-b-2 border-stone-300 bg-stone-200 text-stone-700">
                     <div className="w-full top-4 inline-block pt-4 pr-4 text-center">
                         
                         
                         <div className="float-left">
-                            <button className="inline-block bg-white text-black rounded border-2 border-black hover:shadow-md font-bold uppercase text-sm px-2 py-1 -mt-2 mx-4 mb-4 ease-linear transition-all duration-150 select-none" onClick={() => handleBack()}>
+                            <button className="inline-block bg-green-600 text-white rounded border-2 border-green-600 hover:shadow-md font-bold uppercase text-sm px-2 py-1 -mt-2 mx-4 mb-4 ease-linear transition-all duration-150 select-none" onClick={() => handleBack()}>
                                 &larr; Back to Wallet
                             </button>
                         </div>
                         <div className="float-right">
                             <div className={styles.hideAddressInNav}>
                             {props.address.key == "ledger" &&
-                            <div className="inline-block align-middle mt-[2px] mr-2"><Image src="/ledger-logo.png" height="20px" width="23px" /></div>
+                            <div className="inline-block align-middle mt-[2px] mr-2"><Image src="/ledger-logo-stone.png" height="20px" width="23px" /></div>
                             }
                             <div className="inline-block font-bold">{props.address.address}</div>
                             <div className="inline-block mx-2"> &#47;&#47; </div>
@@ -135,18 +135,18 @@ export function Navigation(props) {
         )
     } else if(props.address){
         return (   
-                <div className="w-full fixed h-[58px] z-10 border-b-2 border-slate-300 bg-white">
+                <div className="w-full fixed h-[58px] z-10 border-b-2 border-stone-300 bg-stone-200 text-stone-700">
                     <div className="w-full top-4 inline-block pt-4 pr-4">
 
                         <div className="float-left">
-                            <button className="inline-block bg-white text-black border-2 border-black hover:shadow-md font-bold uppercase text-sm px-2 py-1 -mt-2 mx-4 mb-4 ease-linear transition-all duration-150 select-none rounded" onClick={() => handleBack()}>
+                            <button className="inline-block bg-green-600 text-white rounded border-2 border-green-600 hover:shadow-md font-bold uppercase text-sm px-2 py-1 -mt-2 mx-4 mb-4 ease-linear transition-all duration-150 select-none rounded" onClick={() => handleBack()}>
                                 &larr; Back to Wallet
                             </button>
                         </div>
                         <div className="float-right">
                             <div className={styles.hideAddressInNav}>
                             {props.address.key == "ledger" &&
-                            <div className="inline-block align-middle mt-[2px] mr-2"><Image src="/ledger-logo.png" height="20px" width="23px" /></div>
+                            <div className="inline-block align-middle mt-[2px] mr-2"><Image src="/ledger-logo-stone.png" height="20px" width="23px" /></div>
                             }
                             <div className="inline-block font-bold">{props.address.address}</div>
                             </div>

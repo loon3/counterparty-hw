@@ -58,7 +58,7 @@ export default function ConnectLandingPage() {
 
             <div className="text-2xl mb-12 text-center">
                 {thisAddress.key == "ledger" &&
-                    <div className="inline-block mr-2 align-middle -mt-[2px] select-none"><Image src="/ledger-logo.png" height="20px" width="23px" /></div>
+                    <div className="inline-block mr-2 align-middle -mt-[2px] select-none"><Image src="/ledger-logo-stone.png" height="20px" width="23px" /></div>
                 }
                 <div className="inline-block break-all">{thisAddress.address}</div>
             </div>

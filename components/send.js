@@ -228,7 +228,7 @@ export default function AssetSendForm(props) {
             <div className="text-center float-right">
                 <div className="inline-flex text-center">{props.children}</div>
 
-                <button className="bg-emerald-500 text-white hover:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
+                <button className="bg-blue-500 text-white hover:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
                     Send
                 </button>
             </div>  

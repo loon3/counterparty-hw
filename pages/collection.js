@@ -1,32 +1,90 @@
+import lozad from "lozad";
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
 import PageTemplate from '../components/template'
 import ModalTemplate from '../components/modal'
 import AssetSendForm from '../components/send'
+import AssetNavbar from '../components/navbar'
 import { useRouter } from 'next/router'
 import Image from 'next/image';
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import 'react-lazy-load-image-component/src/effects/blur.css';
+import { BuildingStorefrontIcon, DocumentTextIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline'
 
 import ReactDOM from "react-dom";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Component } from "react";
 import { recommendedFee, getAssetsFromAddress, getBtcFromAddress, getAddressFromStorage } from '../lib/fetch.js'
-import { checkArrayEmpty } from '../lib/util.js'
+import { checkArrayEmpty, classNames, viewToName } from '../lib/util.js'
 
 var Decimal = require('decimal.js-light')
+
+import ReactCardFlip from 'react-card-flip';
+
+
+class AssetCardFlip extends Component {
+  constructor(props) {
+    super(props);
+      this.state = {
+      isFlipped: false
+    };
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(e) {
+    e.preventDefault();
+    this.setState(prevState => ({ isFlipped: !prevState.isFlipped }));
+  }
+
+  render() {
+    return (
+      <ReactCardFlip isFlipped={this.state.isFlipped} flipDirection="horizontal" flipSpeedBackToFront="1" flipSpeedFrontToBack="1">
+        <div onClick={this.handleClick}>
+        {this.props.mp4 ? (
+            <video controls loop className="lozad m-auto" width="400px" height="560px" preload="none" poster="/card-placeholder.png" data-poster={this.props.front}>
+                <source data-src={this.props.mp4} type="video/mp4" />
+                Sorry, your browser doesn't support embedded videos.
+            </video>
+        ):(
+            <img 
+                src="/card-placeholder.png"
+                data-src={this.props.front}
+                className="lozad m-auto border-0 outline-none"
+                height="560"
+                width="400"
+                
+            />  
+        )}
+        </div>
+        <div onClick={this.handleClick}>
+            <img 
+                data-src={this.props.back}
+                className="lozad m-auto"
+                height="560"
+                width="400"
+                
+            />         
+        </div>
+      </ReactCardFlip>
+    )
+  }
+}
 
 
 export default function CollectionList(props) {
     
     const router = useRouter()
-      
+    //const { observe } = lozad();
+    
+
+          
     const [error, setError] = useState(null)
     const [thisAddress, setAddress] = useState(null)
     const [btcBalance, setBtcBalance] = useState({confirmed: 0, unconfirmed: 0})
     const [collection, setCollection] = useState(null)
     const [directories, setDirectories] = useState(null)
-    const [directoryView, setDirectoryView] = useState(null)
+    const [directoryView, setDirectoryView] = useState("show-all")
+    const [assetSearch, setAssetSearch] = useState("")
     const [sendData, setSendData] = useState({asset: null, balance: null, divisible: null})
     const [fee, setFee] = useState(null)
     
@@ -89,6 +147,18 @@ export default function CollectionList(props) {
         const directoryNameNoSpaces = directoryName.replace(/\s+/g, '-').toLowerCase()
         return directoryNameNoSpaces
     }
+    
+    function checkIfAssetShown(asset){
+        if(asset.directory == directoryView || directoryView == "show-all"){
+            
+            if((asset.asset).includes(assetSearch.toUpperCase())){
+                return true
+            } else {
+                return false
+            }
+
+        }
+    }
 
     function AssetSendModal() {
         
@@ -110,11 +180,20 @@ export default function CollectionList(props) {
     }
     
     useEffect(() => {
+        const { observe } = lozad('.lozad', {
+            loaded: el => {
+                el.classList.add(styles.fade);
+            }
+        });
+        observe();
+    }, [isLoading])
+    
+    useEffect(() => {
       window.scrollTo(0, 0)
     }, [directoryView])
   
     useEffect(() => {
-        
+            
         setLoading(true)
         
         const isTxSent = window.sessionStorage.getItem("txSent")
@@ -126,24 +205,24 @@ export default function CollectionList(props) {
             router.push('/settings/select')
         } else {
         
-            recommendedFee(function(feeData){
+//            recommendedFee(function(feeData){
 //FOR TESTING...
-//                const feeData = 0.00000747
+                const feeData = 0.00000747
                 setFee(feeData)
                 console.log(feeData)
-                getBtcFromAddress(address.address, function(btc){
+//                getBtcFromAddress(address.address, function(btc){
 //FOR TESTING...
-//                    const btc = {
-//                                  "address": "1Kvddk8d9HywrXjpFUTxuPwgHgm2Cdc9h9",
-//                                  "total_received": 143028,
-//                                  "total_sent": 128165,
-//                                  "balance": 14863,
-//                                  "unconfirmed_balance": 0,
-//                                  "final_balance": 14863,
-//                                  "n_tx": 70,
-//                                  "unconfirmed_n_tx": 0,
-//                                  "final_n_tx": 70
-//                                }
+                    const btc = {
+                                  "address": "1Kvddk8d9HywrXjpFUTxuPwgHgm2Cdc9h9",
+                                  "total_received": 143028,
+                                  "total_sent": 128165,
+                                  "balance": 14863,
+                                  "unconfirmed_balance": 0,
+                                  "final_balance": 14863,
+                                  "n_tx": 70,
+                                  "unconfirmed_n_tx": 0,
+                                  "final_n_tx": 70
+                                }
                     console.log(btc)
                     const confirmedFromSats = new Decimal(btc.balance).dividedBy(1e8).toNumber()
                     const unconfirmedFromSats = new Decimal(btc.unconfirmed_balance).dividedBy(1e8).toNumber()
@@ -153,7 +232,7 @@ export default function CollectionList(props) {
                          
                         console.log(res)
                         
-                        setDirectoryView(res.mostFrequentDirectory)
+
                         setDirectories(res.directories)
 
                         setCollection(res.data)
@@ -161,8 +240,8 @@ export default function CollectionList(props) {
                         setLoading(false)                      
 
                     })  
-                })
-            })         
+//                })
+//            })         
         }
     }, [])
     
@@ -184,54 +263,63 @@ export default function CollectionList(props) {
             </div>
         </PageTemplate>
     )
-//                    asset.wtf != null ? ( 
-//                    ) : null
 
-//            <h1 className="text-4xl font-bold">
-//              Collection
-//            </h1>
 
-    
+
+
+//className={`${checkIfAssetShown(asset) ? (""):("hidden")} ${styles.collectionItem}`}
+    function displayCardInfo(series, card, directory, artist){
+        if(directory != "Other"){
+            return "S"+series+" C"+card+" "+directory
+        }
+        return "Directory Unknown"
+    }
+
+    function checkCard(wtf){
+        if(!wtf){
+            return (<AssetCardFlip front="/notrare.jpeg" back="/cardback.png"/>)
+        }
+        if(!wtf.mp4){
+            return (<AssetCardFlip front={wtf.img_url} back="/cardback.png"/>)
+        }
+
+        return (<AssetCardFlip front={wtf.img_url} back="/cardback.png" mp4={wtf.mp4}/>)
+
+    }
+        
+
+//                                <div className="m-auto cursor-pointer" onClick={() => handleSend(asset.asset, asset.quantity, asset.divisible, asset.unconfirmed)}>
+//                                    <LazyLoadImage 
+//                                        src={asset.wtf != null ? (asset.wtf.img_url):("/notrare.jpeg")}
+//                                        height="560"
+//                                        width="400"
+//                                        alt={asset.asset}
+//                                        effect="blur"
+//                                    />               
+//                                </div>
 
     return (  
         <PageTemplate address={thisAddress} btc={btcBalance} fee={fee} collection="true">
 
-        <div className="w-full min-w-0 fixed mt-[10px] pt-[22px] h-[86px] z-10 top-12 text-center border-b-4 border-green-800 bg-white">
-        <div className="overflow-x-auto flex">
-        {directories.map((directoryName) => (
-             <button key={directoryName} className={`${styles.directoryBtn} ${directoryView == getDirectoryNameNoSpaces(directoryName) ? (styles.directoryBtnActive):("")}`} onClick={() => handleDirectory(directoryName)}>
-                {directoryName}
-            </button>
-        ))}
-        </div>
+        <div className="w-full min-w-0 fixed h-[86px] z-10 -mt-1.5">
+     
+            <AssetNavbar view={directoryView} setView={(view) => setDirectoryView(view)} setSearch={(query) => setAssetSearch(query)}/>
+       
         </div>
         <div>
             <AssetSendModal />
         </div>
         <div className="mx-1 md:mx-6">
             {checkArrayEmpty(collection) != true ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 w-full mt-12 pt-14 mb-16">  
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-6 w-full mt-10 pt-14 mb-16">  
                     {collection.map((asset) => (
                         <div 
                             key={asset.asset} 
-                            className={`${directoryView != asset.directory ? ("hidden"):("")} ${styles.collectionItem}`}
-                            onClick={() => handleSend(asset.asset, asset.quantity, asset.divisible, asset.unconfirmed)}
-                        >      
-                            <div className="m-2">
-                                <div className="m-auto">
-                                    <LazyLoadImage 
-                                        src={asset.wtf != null ? (asset.wtf.img_url):("/notrare.jpeg")}
-                                        height="560"
-                                        width="400"
-                                        alt={asset.asset}
-                                        effect="blur"
-                                    />               
-                                </div>
-                            </div>
-                            <div className="m-1">
-                                <div className="text-sm font-medium text-gray-900">{asset.asset}</div>
-                                <div className="text-sm">
-                                    <div className="text-gray-500 inline-block">Balance: {asset.quantity}</div>
+                            className={classNames(checkIfAssetShown(asset) ? "":"hidden", styles.collectionItem)}
+                        >   
+                            <div className="mx-2 mt-2 mb-3 text-left">
+                                <div className="text-sm font-medium text-stone-800">{asset.asset}
+                                <div className="inline-block float-right text-base text-stone-800"><span className="font-bold">x{asset.quantity}</span>
                                     {asset.unconfirmed < 0 &&
                                         <div className="inline-block mx-1 text-red-400">
                                         &#40;
@@ -246,6 +334,34 @@ export default function CollectionList(props) {
                                         &#41;
                                         </div>
                                     }
+                                </div>
+                                </div>
+                                <div className="text-sm">
+                                    <div className="text-stone-800 inline-block">
+                                        {asset.wtf != null ? (displayCardInfo(asset.wtf.serie, asset.wtf.card, asset.wtf.collectionName, asset.wtf.artist)):("Directory Unknown")}
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="m-2">
+                                <div className="m-auto">
+                                    {checkCard(asset.wtf)}
+                                </div>    
+                            </div>
+                            <div className="ml-1 my-2 h-7 text-center">
+                                <div className="text-slate-600 inline-block cursor-pointer" onClick={() => handleSend(asset.asset, asset.quantity, asset.divisible, asset.unconfirmed)}>
+                                        <PaperAirplaneIcon className="inline-block h-6"/>
+                                </div>
+                                <div className="float-left inline-block">
+                                    <a href={`https://xchain.io/asset/${asset.asset}`} target="_blank" rel="noreferrer" className="text-slate-600 underline underline-offset-2 text-sm">
+                                        <DocumentTextIcon className="inline-block h-6"/>
+                                    </a>
+                                </div>
+                                <div className="float-right inline-block">
+
+
+                                    <a href={`https://pepe.wtf/asset/${asset.asset}`} target="_blank" rel="noreferrer" className="text-slate-600 underline underline-offset-2 text-sm">
+                                        <BuildingStorefrontIcon className="inline-block mr-1.5 h-6"/>
+                                    </a>
                                 </div>
                             </div>
                         </div>    
