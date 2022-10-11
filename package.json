@@ -26,9 +26,7 @@
     "next": "12.2.2",
     "randombytes": "^2.1.0",
     "react": "18.2.0",
-    "react-card-flip": "^1.1.5",
-    "react-dom": "18.2.0",
-    "react-lazy-load-image-component": "^1.5.5"
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.7",

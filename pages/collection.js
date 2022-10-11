@@ -6,9 +6,6 @@ import ModalTemplate from '../components/modal'
 import AssetSendForm from '../components/send'
 import AssetNavbar from '../components/navbar'
 import { useRouter } from 'next/router'
-import Image from 'next/image';
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import 'react-lazy-load-image-component/src/effects/blur.css';
 import { BuildingStorefrontIcon, DocumentTextIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline'
 
 import ReactDOM from "react-dom";
@@ -19,10 +16,10 @@ import { checkArrayEmpty, classNames, viewToName } from '../lib/util.js'
 
 var Decimal = require('decimal.js-light')
 
-import ReactCardFlip from 'react-card-flip';
 
 
-class AssetCardFlip extends Component {
+
+class AssetCard extends Component {
   constructor(props) {
     super(props);
       this.state = {
@@ -38,34 +35,42 @@ class AssetCardFlip extends Component {
 
   render() {
     return (
-      <ReactCardFlip isFlipped={this.state.isFlipped} flipDirection="horizontal" flipSpeedBackToFront="1" flipSpeedFrontToBack="1">
-        <div onClick={this.handleClick}>
-        {this.props.mp4 ? (
-            <video controls loop className="lozad m-auto" width="400px" height="560px" preload="none" poster="/card-placeholder.png" data-poster={this.props.front}>
-                <source data-src={this.props.mp4} type="video/mp4" />
-                Sorry, your browser doesn&#39;t support embedded videos.
-            </video>
-        ):(
-            <img 
-                src="/card-placeholder.png"
-                data-src={this.props.front}
-                className="lozad m-auto border-0 outline-none"
-                height="560"
-                width="400"
-                
-            />  
-        )}
+        <div>
+            <div 
+                className={classNames(this.state.isFlipped ? styles.flip:"", styles.flipContainer)}
+            >
+                <div className={styles.flipper}>
+                    <div className={classNames(styles.front, styles.cardFlex)} onClick={this.handleClick}>
+                    {this.props.mp4 ? (
+                        <video controls loop className="lozad m-auto" width="400px" height="560px" preload="none" poster="/card-placeholder.png" data-poster={this.props.front}>
+                            <source data-src={this.props.mp4} type="video/mp4" />
+                            Sorry, your browser doesn&#39;t support embedded videos.
+                        </video>
+                    ):(
+                        <img 
+                            src="/card-placeholder.png"
+                            data-src={this.props.front}
+                            className="lozad m-auto border-0 outline-none"
+                            height="560"
+                            width="400"
+
+                        />  
+                    )}
+                    </div>
+                    <div className={classNames(styles.back, styles.cardFlex)} onClick={this.handleClick}>
+                        <img 
+                            src="/card-placeholder.png"
+                            data-src={this.props.back}
+                            className="lozad m-auto"
+                            height="560"
+                            width="400"
+
+                        />         
+                    </div>
+                </div>
+            </div>
         </div>
-        <div onClick={this.handleClick}>
-            <img 
-                data-src={this.props.back}
-                className="lozad m-auto"
-                height="560"
-                width="400"
-                
-            />         
-        </div>
-      </ReactCardFlip>
+
     )
   }
 }
@@ -205,24 +210,24 @@ export default function CollectionList(props) {
             router.push('/settings/select')
         } else {
         
-            recommendedFee(function(feeData){
+//            recommendedFee(function(feeData){
 //FOR TESTING...
-//                const feeData = 0.00000747
+                const feeData = 0.00000747
                 setFee(feeData)
                 console.log(feeData)
-                getBtcFromAddress(address.address, function(btc){
+//                getBtcFromAddress(address.address, function(btc){
 //FOR TESTING...
-//                    const btc = {
-//                                  "address": "1Kvddk8d9HywrXjpFUTxuPwgHgm2Cdc9h9",
-//                                  "total_received": 143028,
-//                                  "total_sent": 128165,
-//                                  "balance": 14863,
-//                                  "unconfirmed_balance": 0,
-//                                  "final_balance": 14863,
-//                                  "n_tx": 70,
-//                                  "unconfirmed_n_tx": 0,
-//                                  "final_n_tx": 70
-//                                }
+                    const btc = {
+                                  "address": "1Kvddk8d9HywrXjpFUTxuPwgHgm2Cdc9h9",
+                                  "total_received": 143028,
+                                  "total_sent": 128165,
+                                  "balance": 14863,
+                                  "unconfirmed_balance": 0,
+                                  "final_balance": 14863,
+                                  "n_tx": 70,
+                                  "unconfirmed_n_tx": 0,
+                                  "final_n_tx": 70
+                                }
                     console.log(btc)
                     const confirmedFromSats = new Decimal(btc.balance).dividedBy(1e8).toNumber()
                     const unconfirmedFromSats = new Decimal(btc.unconfirmed_balance).dividedBy(1e8).toNumber()
@@ -240,8 +245,8 @@ export default function CollectionList(props) {
                         setLoading(false)                      
 
                     })  
-                })
-            })         
+//                })
+//            })         
         }
     }, [])
     
@@ -277,13 +282,13 @@ export default function CollectionList(props) {
 
     function checkCard(wtf){
         if(!wtf){
-            return (<AssetCardFlip front="/notrare.jpeg" back="/cardback.png"/>)
+            return (<AssetCard front="/notrare.jpeg" back="/cardback.png"/>)
         }
         if(!wtf.mp4){
-            return (<AssetCardFlip front={wtf.img_url} back="/cardback.png"/>)
+            return (<AssetCard front={wtf.img_url} back="/cardback.png"/>)
         }
 
-        return (<AssetCardFlip front={wtf.img_url} back="/cardback.png" mp4={wtf.mp4}/>)
+        return (<AssetCard front={wtf.img_url} back="/cardback.png" mp4={wtf.mp4}/>)
 
     }
         

@@ -59,6 +59,55 @@
 }
 
 
+/* entire container, keeps perspective */
+.flipContainer {
+	perspective: 1000px;
+}
+
+.flipContainer, .front, .back {
+    max-width: 100%;    
+}
+
+/* flip speed goes here */
+.flipper {
+	transition: 0.6s;
+	transform-style: preserve-3d;
+	position: relative;
+}
+
+/* hide back of pane during swap */
+.front, .back {
+	backface-visibility: hidden;
+    cursor: pointer;
+	
+}
+
+/* front pane, placed above back */
+.front {
+	z-index: 2;
+	/* for firefox 31 */
+	transform: rotateY(0deg);
+    
+}
+
+/* back, initially hidden pane */
+.back {
+	transform: rotateY(180deg);
+    position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.flipContainer.flip .flipper {
+	transform: rotateY(180deg);
+}
+
+.cardFlex {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
 .collectionItem {
     padding: 2rem;
 /*    cursor: pointer;*/
@@ -76,7 +125,7 @@
 
 .fade {
   animation-name: fade;
-  animation-duration: 1s;
+  animation-duration: 0.7s;
   animation-timing-function: ease;
 }
 

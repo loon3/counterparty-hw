@@ -14,7 +14,7 @@ export default function PageTemplate(props) {
             <Head>
                 <title>rpw.wtf</title>
                 <meta name="description" content="" />
-                <link rel="icon" href="/favicon.ico" />
+                <link rel="icon" href="/favicon-16x16.png" />
             </Head>
             <Navigation address={props.address} btc={props.btc} fee={props.fee}/>
             <main className={props.collection ? (styles.mainCollection) : (styles.main)}>
