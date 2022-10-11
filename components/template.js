@@ -99,7 +99,7 @@ export function Navigation(props) {
                         
                         
                         <div className="float-left">
-                            <button className="inline-block bg-stone-500 text-white rounded border-2 border-stone-500 hover:shadow-md font-bold uppercase text-sm px-2 py-1 -mt-2 mx-4 mb-4 ease-linear transition-all duration-150 select-none" onClick={() => handleBack()}>
+                            <button className="inline-block bg-green-600 text-white rounded border-2 border-green-600 hover:shadow-md font-bold uppercase text-sm px-2 py-1 -mt-2 mx-4 mb-4 ease-linear transition-all duration-150 select-none" onClick={() => handleBack()}>
                                 &larr; Back to Wallet
                             </button>
                         </div>
@@ -139,7 +139,7 @@ export function Navigation(props) {
                     <div className="w-full top-4 inline-block pt-4 pr-4">
 
                         <div className="float-left">
-                            <button className="inline-block bg-stone-500 text-white rounded border-2 border-stone-500 hover:shadow-md font-bold uppercase text-sm px-2 py-1 -mt-2 mx-4 mb-4 ease-linear transition-all duration-150 select-none rounded" onClick={() => handleBack()}>
+                            <button className="inline-block bg-green-600 text-white rounded border-2 border-green-600 hover:shadow-md font-bold uppercase text-sm px-2 py-1 -mt-2 mx-4 mb-4 ease-linear transition-all duration-150 select-none rounded" onClick={() => handleBack()}>
                                 &larr; Back to Wallet
                             </button>
                         </div>
