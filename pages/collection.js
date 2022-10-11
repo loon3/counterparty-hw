@@ -6,6 +6,8 @@ import ModalTemplate from '../components/modal'
 import AssetSendForm from '../components/send'
 import AssetNavbar from '../components/navbar'
 import { useRouter } from 'next/router'
+import Image from 'next/image';
+
 import { BuildingStorefrontIcon, DocumentTextIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline'
 
 import ReactDOM from "react-dom";
@@ -373,7 +375,7 @@ export default function CollectionList(props) {
 
                     ))}
                 </div>
-            ) : (<div className="text-center mt-32"><div className="text-xl pb-16">You don&#39;t have any pepes</div><Image src="/feels-bad-man-frog.gif" height="250" width="250" alt="" /></div>)
+            ) : (<div className="text-center mt-32"><div className="text-xl pb-16">You don&#39;t have any pepes</div><Image src="/sad-pepe-transparent.png" width="240" height="190" alt="" /></div>)
         }
         </div>
         </PageTemplate>

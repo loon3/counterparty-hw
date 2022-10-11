@@ -220,14 +220,12 @@
   margin: 1rem 0 1rem 0;
   padding: 1.5rem;
   text-align: left;
-  color: rgb(68 64 60);
+  color: white;
   text-decoration: none;
-  border: 1px solid rgb(68 64 60);
   border-radius: 10px;
-  transition: color 0.15s ease, border-color 0.15s ease;
   max-width: 32rem;
   width: 100%;
-  background-color: rgb(231 229 228);
+  	background-color: rgb(120 113 108);
 }
 
 .card:hover,
@@ -276,6 +274,10 @@
 
     .card {
         min-width: 200px;
+    }
+    
+    .card h3 {
+      font-size: 1.25rem;
     }
 }
 
