@@ -422,7 +422,7 @@ export default function CollectionList(props) {
         <div>
             <AssetSendModal />
         </div>
-        <div className="mx-0 md:mx-0">
+        <div className="mx-0 md:mx-0 xs:mb-72">
             {checkArrayEmpty(collection) != true ? (
                 <VirtualCollection collection={filterCollection(collection, directoryView, assetSearch)} width={self.innerWidth} height={self.innerHeight} handleSend={(asset, balance, divisible, unconfirmed) => handleSend(asset, balance, divisible, unconfirmed)}/>
             ) : (<div className="text-center mt-32"><div className="text-xl pb-16">You don&#39;t have any pepes</div><Image src="/sad-pepe-transparent.png" width="240" height="190" alt="" /></div>)
