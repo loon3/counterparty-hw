@@ -214,12 +214,12 @@
   margin: 1rem 0 1rem 0;
   padding: 1.5rem;
   text-align: center;
-  color: white;
   text-decoration: none;
   border-radius: 10px;
+    border: 2px solid rgb(90,197,69);
   max-width: 32rem;
   width: 100%;
-	  background: rgb(90,197,69);
+	  color: rgb(90,197,69);
     font-weight: 700;
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }

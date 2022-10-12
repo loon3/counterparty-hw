@@ -60,9 +60,9 @@ export default function SelectTypePage() {
                     <h3><div className="inline-block mr-1 align-middle -mt-[5px] select-none"><Image src="/ledger-logo-white.png" height="17px" width="20px" /></div> Ledger Nano <div className="inline-block ml-1 mr-2 -mt-1 text-sm align-middle">S &frasl; S Plus &frasl; X </div>&rarr;</h3>
                     {isAttachedLedger ? 
                         (
-                            <p className='text-green-300'>CONNECTED</p>
+                            <p className='text-green-600'>CONNECTED</p>
                         ) : (
-                            <p className='text-red-300'>NOT CONNECTED</p>
+                            <p className='text-red-500'>NOT CONNECTED</p>
                         )
                     }
                 </a>
@@ -72,9 +72,9 @@ export default function SelectTypePage() {
                     <h3>Passphrase  &rarr;</h3>
                     {isAttachedPassphrase ? 
                         (
-                            <p className='text-green-300'>CONNECTED</p>
+                            <p className='text-green-600'>CONNECTED</p>
                         ) : (
-                            <p className='text-red-300'>NOT CONNECTED</p>
+                            <p className='text-red-500'>NOT CONNECTED</p>
                         )
                     }
                 </a>
