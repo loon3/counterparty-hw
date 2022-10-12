@@ -12,6 +12,7 @@
   align-items: center;
   background-color: rgb(250 250 249);
   color: rgb(41 37 36);
+  
 }
 
 .mainCollection {
@@ -23,6 +24,11 @@
   background-color: rgb(250 250 249);
   color: rgb(41 37 36);
 /*  align-items: center;*/
+    overflow-x: hidden;
+}
+
+.newGrid {
+    margin-top:100px;
 }
 
 .directoryBtn {
@@ -59,54 +65,42 @@
 }
 
 
-/* entire container, keeps perspective */
 .flipContainer {
 	perspective: 1000px;
 }
 
-.flipContainer, .front, .back {
-    max-width: 100%;    
-}
-
-/* flip speed goes here */
 .flipper {
 	transition: 0.6s;
 	transform-style: preserve-3d;
 	position: relative;
+    display: flex;
 }
 
-/* hide back of pane during swap */
 .front, .back {
 	backface-visibility: hidden;
     cursor: pointer;
-	
+    margin:auto;
+    max-width: 400px;
 }
 
-/* front pane, placed above back */
 .front {
 	z-index: 2;
 	/* for firefox 31 */
 	transform: rotateY(0deg);
-    
 }
 
-/* back, initially hidden pane */
 .back {
 	transform: rotateY(180deg);
     position: absolute;
-	top: 0;
-	left: 0;
+    left: 0;
+    right: 0;
 }
 
 .flipContainer.flip .flipper {
 	transform: rotateY(180deg);
 }
 
-.cardFlex {
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-}
+
 
 .collectionItem {
     padding: 2rem;
@@ -219,14 +213,18 @@
 .card {
   margin: 1rem 0 1rem 0;
   padding: 1.5rem;
-  text-align: left;
+  text-align: center;
   color: white;
   text-decoration: none;
   border-radius: 10px;
   max-width: 32rem;
   width: 100%;
-  	background-color: rgb(120 113 108);
+	  background: rgb(90,197,69);
+    font-weight: 700;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
+
+
 
 .card:hover,
 .card:focus,

@@ -5,7 +5,8 @@ const nextConfig = {
   env: {
       blockcypherToken: '',
       defaultTxBytes: 249,
-      minFeeSatoshis: 100
+      minFeeSatoshis: 100,
+      testMode: false
   },
   images: {
     domains: ['pepewtf.s3.amazonaws.com'],

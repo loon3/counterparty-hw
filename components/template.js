@@ -7,6 +7,8 @@ import Image from 'next/image';
 import { useState } from "react"
 import { useRouter } from 'next/router'
 
+import { classNames } from '../lib/util.js'
+
 export default function PageTemplate(props) {
     
     return (   
@@ -89,6 +91,8 @@ export function Navigation(props) {
         </>
       )
     }
+    
+  
 
     if(props.btc) {
         return (   
@@ -99,9 +103,11 @@ export function Navigation(props) {
                         
                         
                         <div className="float-left">
-                            <button className="inline-block bg-green-600 text-white rounded border-2 border-green-600 hover:shadow-md font-bold uppercase text-sm px-2 py-1 -mt-2 mx-4 mb-4 ease-linear transition-all duration-150 select-none" onClick={() => handleBack()}>
-                                &larr; Back to Wallet
-                            </button>
+                          
+                                <button className="inline-block text-white rounded border-2 hover:shadow-md font-bold uppercase font-mono text-sm px-2 py-1 -mt-2 mx-4 mb-4 ease-linear transition-all duration-150 select-none bg-[#5AC545] border-[#5AC545]" onClick={() => handleBack()}>
+                                    &larr; Back
+                                </button>
+                         
                         </div>
                         <div className="float-right">
                             <div className={styles.hideAddressInNav}>
@@ -139,9 +145,9 @@ export function Navigation(props) {
                     <div className="w-full top-4 inline-block pt-4 pr-4">
 
                         <div className="float-left">
-                            <button className="inline-block bg-green-600 text-white rounded border-2 border-green-600 hover:shadow-md font-bold uppercase text-sm px-2 py-1 -mt-2 mx-4 mb-4 ease-linear transition-all duration-150 select-none rounded" onClick={() => handleBack()}>
-                                &larr; Back to Wallet
-                            </button>
+                            <button className="inline-block text-white rounded border-2 hover:shadow-md font-bold uppercase font-mono text-sm px-2 py-1 -mt-2 mx-4 mb-4 ease-linear transition-all duration-150 select-none bg-[#5AC545] border-[#5AC545]" onClick={() => handleBack()}>
+                                    &larr; Back
+                                </button>
                         </div>
                         <div className="float-right">
                             <div className={styles.hideAddressInNav}>

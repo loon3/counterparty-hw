@@ -21,12 +21,15 @@
     "crypto-js": "^4.1.1",
     "decimal.js-light": "^2.5.1",
     "eciesjs": "^0.3.15",
+    "lodash": "^4.17.21",
     "lozad": "^1.16.0",
     "mnemonic": "^1.0.1",
     "next": "12.2.2",
     "randombytes": "^2.1.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-lazy-load-image-component": "^1.5.5",
+    "react-window": "^1.8.7"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.7",

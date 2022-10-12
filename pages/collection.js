@@ -7,18 +7,148 @@ import AssetSendForm from '../components/send'
 import AssetNavbar from '../components/navbar'
 import { useRouter } from 'next/router'
 import Image from 'next/image';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
+import { debounce } from "lodash"
+import { FixedSizeGrid } from 'react-window';
 
 import { BuildingStorefrontIcon, DocumentTextIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline'
 
 import ReactDOM from "react-dom";
 
-import { useState, useEffect, Component } from "react";
+import { useState, useEffect, useCallback, Component, PureComponent } from "react";
 import { recommendedFee, getAssetsFromAddress, getBtcFromAddress, getAddressFromStorage } from '../lib/fetch.js'
 import { checkArrayEmpty, classNames, viewToName } from '../lib/util.js'
 
 var Decimal = require('decimal.js-light')
 
 
+function VirtualCollection(props){
+    
+    const cardAspectRatio = 362/562.8
+      
+    const collection = props.collection
+    const assetTotal = props.collection.length
+    const columnCount = getColumnCount(props.width)
+        
+
+    console.log(columnCount)
+    
+    const rowCount = Math.ceil(assetTotal / columnCount)
+    
+    function getColumnCount(width){
+        if(width <= 700) return 1;
+        else if(width <= 1100) return 2;
+        else if(width <= 1600) return 3;
+        else if(width <= 2100) return 4;
+        return 6;
+        
+    } 
+    
+    function displayCardInfo(series, card, directory, artist){
+        if(directory != "Other"){
+            return "S"+series+" C"+card+" "+directory
+        }
+        return "Directory Unknown"
+    }
+
+    function checkCard(wtf){
+        if(!wtf){
+            return (<AssetCard front="/notrare.jpeg" back="/cardback.png"/>)
+        }
+        if(!wtf.mp4){
+            return (<AssetCard front={wtf.img_url} back="/cardback.png"/>)
+        }
+
+        return (<AssetCard front={wtf.img_url} back="/cardback.png" mp4={wtf.mp4}/>)
+
+    }
+    
+    class ItemRenderer extends PureComponent {
+        
+      constructor(props) {
+        super(props);
+        this.assetCount = Math.ceil(this.props.rowIndex * columnCount)+this.props.columnIndex 
+      }
+            
+      render() { 
+        return (
+          <div style={this.props.style}>
+            {collection[this.assetCount] ? (     
+                <div 
+                    className={styles.collectionItem}
+                >   
+                    <div className="mx-2 mt-2 mb-3 text-left">
+                        <div className="text-sm font-medium text-stone-800">{collection[this.assetCount].asset}
+                        <div className="inline-block float-right text-base text-stone-800"><span className="font-bold">x{collection[this.assetCount].quantity}</span>
+                            {collection[this.assetCount].unconfirmed < 0 &&
+                                <div className="inline-block mx-1 text-red-400">
+                                &#40;
+                                    {collection[this.assetCount].unconfirmed}
+                                &#41;
+                                </div>
+                            }
+                            {collection[this.assetCount].unconfirmed > 0 &&
+                                <div className="inline-block mx-1 text-green-600">
+                                &#40;&#43;
+                                    {collection[this.assetCount].unconfirmed}
+                                &#41;
+                                </div>
+                            }
+                        </div>
+                        </div>
+                        <div className="text-sm">
+                            <div className="text-stone-800 inline-block">
+                                {collection[this.assetCount].wtf != null ? (displayCardInfo(collection[this.assetCount].wtf.serie, collection[this.assetCount].wtf.card, collection[this.assetCount].wtf.collectionName, collection[this.assetCount].wtf.artist)):("Directory Unknown")}
+                            </div>
+                        </div>
+                    </div>
+                    <div className="m-2">
+                        <div className="m-auto">
+                            {checkCard(collection[this.assetCount].wtf)}
+                        </div>    
+                    </div>
+                    <div className="ml-1 my-2 h-7 text-center">
+                        <div className="text-slate-600 inline-block cursor-pointer" onClick={() => props.handleSend(collection[this.assetCount].asset, collection[this.assetCount].quantity, collection[this.assetCount].divisible, collection[this.assetCount].unconfirmed)}>
+                                <PaperAirplaneIcon className="inline-block h-6"/>
+                        </div>
+                        <div className="float-left inline-block">
+                            <a href={`https://xchain.io/asset/${collection[this.assetCount].asset}`} target="_blank" rel="noreferrer" className="text-slate-600 underline underline-offset-2 text-sm">
+                                <DocumentTextIcon className="inline-block h-6"/>
+                            </a>
+                        </div>
+                        <div className="float-right inline-block">
+
+
+                            <a href={`https://pepe.wtf/asset/${collection[this.assetCount].asset}`} target="_blank" rel="noreferrer" className="text-slate-600 underline underline-offset-2 text-sm">
+                                <BuildingStorefrontIcon className="inline-block mr-1.5 h-6"/>
+                            </a>
+                        </div>
+                    </div>
+                </div>      
+            ) : ""}
+          </div>
+        );   
+      }
+    }
+
+    
+//        columnWidth={Math.ceil(props.width/columnCount)}
+    return (
+      <FixedSizeGrid
+        className={styles.newGrid}
+        columnCount={columnCount}
+        columnWidth={Math.ceil((props.width-((70/2189)*props.width))/columnCount)}
+        height={props.height}
+        rowCount={rowCount}
+        rowHeight={Math.ceil((Math.ceil((props.width-20)/columnCount))/cardAspectRatio)}
+        width={props.width}
+      >
+        {ItemRenderer}
+      </FixedSizeGrid>
+    );
+
+}
 
 
 class AssetCard extends Component {
@@ -42,31 +172,31 @@ class AssetCard extends Component {
                 className={classNames(this.state.isFlipped ? styles.flip:"", styles.flipContainer)}
             >
                 <div className={styles.flipper}>
-                    <div className={classNames(styles.front, styles.cardFlex)} onClick={this.handleClick}>
+                    <div className={styles.front} onClick={this.handleClick}>
                     {this.props.mp4 ? (
-                        <video controls loop className="lozad m-auto" width="400px" height="560px" preload="none" poster="/card-placeholder.png" data-poster={this.props.front}>
-                            <source data-src={this.props.mp4} type="video/mp4" />
+                        <video controls loop className="m-auto" width="400px" height="560px" preload="none" poster={this.props.front}>
+                            <source src={this.props.mp4} type="video/mp4" />
                             Sorry, your browser doesn&#39;t support embedded videos.
                         </video>
                     ):(
-                        <img 
-                            src="/card-placeholder.png"
-                            data-src={this.props.front}
-                            className="lozad m-auto border-0 outline-none"
+                        <LazyLoadImage 
+                            src={this.props.front}
                             height="560"
                             width="400"
-
+                            alt=""
+                            effect="blur"
+                            threshold="400"
                         />  
                     )}
                     </div>
-                    <div className={classNames(styles.back, styles.cardFlex)} onClick={this.handleClick}>
-                        <img 
-                            src="/card-placeholder.png"
-                            data-src={this.props.back}
-                            className="lozad m-auto"
+                    <div className={styles.back} onClick={this.handleClick}>
+                        <LazyLoadImage 
+                            src={this.props.back}
                             height="560"
                             width="400"
-
+                            alt=""
+                            effect="blur"
+                            threshold="400"
                         />         
                     </div>
                 </div>
@@ -81,9 +211,6 @@ class AssetCard extends Component {
 export default function CollectionList(props) {
     
     const router = useRouter()
-    //const { observe } = lozad();
-    
-
           
     const [error, setError] = useState(null)
     const [thisAddress, setAddress] = useState(null)
@@ -97,6 +224,16 @@ export default function CollectionList(props) {
     
     const [isLoading, setLoading] = useState(false)  
     const [sendModal, setSendModal] = useState(false)
+    
+
+    const resizeHandler = () => {
+        setLoading(false);
+    }
+
+    const resize = useCallback(
+        debounce(resizeHandler, 300)
+    , []);
+    
     
     function handleSend(asset, balance, divisible, unconfirmed){
         
@@ -154,18 +291,7 @@ export default function CollectionList(props) {
         const directoryNameNoSpaces = directoryName.replace(/\s+/g, '-').toLowerCase()
         return directoryNameNoSpaces
     }
-    
-    function checkIfAssetShown(asset){
-        if(asset.directory == directoryView || directoryView == "show-all"){
-            
-            if((asset.asset).includes(assetSearch.toUpperCase())){
-                return true
-            } else {
-                return false
-            }
 
-        }
-    }
 
     function AssetSendModal() {
         
@@ -186,18 +312,12 @@ export default function CollectionList(props) {
       )
     }
     
-    useEffect(() => {
-        const { observe } = lozad('.lozad', {
-            loaded: el => {
-                el.classList.add(styles.fade);
-            }
-        });
-        observe();
-    }, [isLoading])
-    
+
     useEffect(() => {
       window.scrollTo(0, 0)
     }, [directoryView])
+
+
   
     useEffect(() => {
             
@@ -213,23 +333,11 @@ export default function CollectionList(props) {
         } else {
         
             recommendedFee(function(feeData){
-//FOR TESTING...
-//                const feeData = 0.00000747
+
                 setFee(feeData)
                 console.log(feeData)
                 getBtcFromAddress(address.address, function(btc){
-//FOR TESTING...
-//                    const btc = {
-//                                  "address": "1Kvddk8d9HywrXjpFUTxuPwgHgm2Cdc9h9",
-//                                  "total_received": 143028,
-//                                  "total_sent": 128165,
-//                                  "balance": 14863,
-//                                  "unconfirmed_balance": 0,
-//                                  "final_balance": 14863,
-//                                  "n_tx": 70,
-//                                  "unconfirmed_n_tx": 0,
-//                                  "final_n_tx": 70
-//                                }
+
                     console.log(btc)
                     const confirmedFromSats = new Decimal(btc.balance).dividedBy(1e8).toNumber()
                     const unconfirmedFromSats = new Decimal(btc.unconfirmed_balance).dividedBy(1e8).toNumber()
@@ -238,6 +346,7 @@ export default function CollectionList(props) {
                     getAssetsFromAddress(address.address, function(res) {  
                          
                         console.log(res)
+                        
                         
 
                         setDirectories(res.directories)
@@ -250,6 +359,12 @@ export default function CollectionList(props) {
                 })
             })         
         }
+        
+        window.addEventListener("resize", ()=>{
+          setLoading(true);
+          resize()
+        }, false);
+    
     }, [])
     
     if (isLoading) return (
@@ -272,38 +387,29 @@ export default function CollectionList(props) {
     )
 
 
-
-
-//className={`${checkIfAssetShown(asset) ? (""):("hidden")} ${styles.collectionItem}`}
-    function displayCardInfo(series, card, directory, artist){
-        if(directory != "Other"){
-            return "S"+series+" C"+card+" "+directory
-        }
-        return "Directory Unknown"
-    }
-
-    function checkCard(wtf){
-        if(!wtf){
-            return (<AssetCard front="/notrare.jpeg" back="/cardback.png"/>)
-        }
-        if(!wtf.mp4){
-            return (<AssetCard front={wtf.img_url} back="/cardback.png"/>)
-        }
-
-        return (<AssetCard front={wtf.img_url} back="/cardback.png" mp4={wtf.mp4}/>)
-
-    }
+    function filterCollection(collection, view, query){
         
+        console.log(view)
+        console.log(query)
+        
+        if(view == "show-all" && query.length == 0){return collection}
+        
+        let filteredCollection = []
+        
+        for(const asset of collection){
+            if(view == asset.directory || view == "show-all"){
+                if((asset.asset).includes(query.toUpperCase())){
+                    filteredCollection.push(asset)            
+                }
+            }
+        }
+        
+        console.log(filteredCollection)
+        
+        return filteredCollection
 
-//                                <div className="m-auto cursor-pointer" onClick={() => handleSend(asset.asset, asset.quantity, asset.divisible, asset.unconfirmed)}>
-//                                    <LazyLoadImage 
-//                                        src={asset.wtf != null ? (asset.wtf.img_url):("/notrare.jpeg")}
-//                                        height="560"
-//                                        width="400"
-//                                        alt={asset.asset}
-//                                        effect="blur"
-//                                    />               
-//                                </div>
+    }
+  
 
     return (  
         <PageTemplate address={thisAddress} btc={btcBalance} fee={fee} collection="true">
@@ -316,72 +422,15 @@ export default function CollectionList(props) {
         <div>
             <AssetSendModal />
         </div>
-        <div className="mx-1 md:mx-6">
+        <div className="mx-0 md:mx-0">
             {checkArrayEmpty(collection) != true ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-6 w-full mt-10 pt-14 mb-16">  
-                    {collection.map((asset) => (
-                        <div 
-                            key={asset.asset} 
-                            className={classNames(checkIfAssetShown(asset) ? "":"hidden", styles.collectionItem)}
-                        >   
-                            <div className="mx-2 mt-2 mb-3 text-left">
-                                <div className="text-sm font-medium text-stone-800">{asset.asset}
-                                <div className="inline-block float-right text-base text-stone-800"><span className="font-bold">x{asset.quantity}</span>
-                                    {asset.unconfirmed < 0 &&
-                                        <div className="inline-block mx-1 text-red-400">
-                                        &#40;
-                                            {asset.unconfirmed}
-                                        &#41;
-                                        </div>
-                                    }
-                                    {asset.unconfirmed > 0 &&
-                                        <div className="inline-block mx-1 text-green-600">
-                                        &#40;&#43;
-                                            {asset.unconfirmed}
-                                        &#41;
-                                        </div>
-                                    }
-                                </div>
-                                </div>
-                                <div className="text-sm">
-                                    <div className="text-stone-800 inline-block">
-                                        {asset.wtf != null ? (displayCardInfo(asset.wtf.serie, asset.wtf.card, asset.wtf.collectionName, asset.wtf.artist)):("Directory Unknown")}
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="m-2">
-                                <div className="m-auto">
-                                    {checkCard(asset.wtf)}
-                                </div>    
-                            </div>
-                            <div className="ml-1 my-2 h-7 text-center">
-                                <div className="text-slate-600 inline-block cursor-pointer" onClick={() => handleSend(asset.asset, asset.quantity, asset.divisible, asset.unconfirmed)}>
-                                        <PaperAirplaneIcon className="inline-block h-6"/>
-                                </div>
-                                <div className="float-left inline-block">
-                                    <a href={`https://xchain.io/asset/${asset.asset}`} target="_blank" rel="noreferrer" className="text-slate-600 underline underline-offset-2 text-sm">
-                                        <DocumentTextIcon className="inline-block h-6"/>
-                                    </a>
-                                </div>
-                                <div className="float-right inline-block">
-
-
-                                    <a href={`https://pepe.wtf/asset/${asset.asset}`} target="_blank" rel="noreferrer" className="text-slate-600 underline underline-offset-2 text-sm">
-                                        <BuildingStorefrontIcon className="inline-block mr-1.5 h-6"/>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>    
-
-                    ))}
-                </div>
+                <VirtualCollection collection={filterCollection(collection, directoryView, assetSearch)} width={self.innerWidth} height={self.innerHeight} handleSend={(asset, balance, divisible, unconfirmed) => handleSend(asset, balance, divisible, unconfirmed)}/>
             ) : (<div className="text-center mt-32"><div className="text-xl pb-16">You don&#39;t have any pepes</div><Image src="/sad-pepe-transparent.png" width="240" height="190" alt="" /></div>)
         }
         </div>
         </PageTemplate>
     )
 
+
 }
-
-
 

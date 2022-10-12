@@ -41,7 +41,7 @@ export default function SettingsPage() {
         <div className={styles.grid}>
             <Link href="/settings/select">
               <a href="#" className={styles.card}>
-                <h3>Select Wallet &nbsp; &frasl; &nbsp; Address &rarr;</h3>
+                <h3>Select Wallet&frasl;Address &rarr;</h3>
               </a>
             </Link>
         

@@ -3,6 +3,8 @@ import { Popover, Transition } from '@headlessui/react'
 import { ChevronDownIcon, EnvelopeIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { classNames, viewToName } from '../lib/util.js' 
 
+import { useState, useEffect } from "react";
+
 const directories = [
   {
     name: 'Rare Pepes',
@@ -39,8 +41,20 @@ const directories = [
 
 export default function AssetNavbar(props) {
     
-    function handleSearch(event){
-        props.setSearch(event.target.value)
+    const [inputValue, setInputValue] = useState('')
+    const [timer, setTimer] = useState(null)
+    
+    function handleSearch(e){
+        setInputValue(e.target.value)
+
+        clearTimeout(timer)
+
+        const newTimer = setTimeout(() => {
+            props.setSearch(e.target.value)
+        }, 500)
+
+        setTimer(newTimer)        
+        
     }    
     
     return (
