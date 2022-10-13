@@ -16,14 +16,14 @@ export default function PageTemplate(props) {
             <Head>
                 <title>rpw.wtf</title>
                 <meta name="description" content="" />
-                <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0" />
+                <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0"/>
                 <link rel="icon" href="/favicon-16x16.png" />
             </Head>
             <Navigation address={props.address} btc={props.btc} fee={props.fee}/>
             <main className={props.collection ? (styles.mainCollection) : (styles.main)}>
                 {props.children}
             </main>
-            <PageFooter hideLogo={props.hideLogoInFooter}/>
+            <PageFooter hideLogo={props.hideLogoInFooter} collection={props.collection}/>
         </div>
     )
 
@@ -31,7 +31,7 @@ export default function PageTemplate(props) {
 
 export function PageFooter(props) {
     return (
-            <footer className={styles.footer}>
+            <footer className={props.collection ? classNames(styles.footer, styles.footerCollection) : styles.footer}>
                 {props.hideLogo ? null : (
                 <div className="inline-block pl-4">
                     <Image src="/rarefakemerge.gif" height="50px" width="50px" alt=""/>

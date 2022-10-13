@@ -16,7 +16,7 @@ import { BuildingStorefrontIcon, DocumentTextIcon, PaperAirplaneIcon } from '@he
 
 import ReactDOM from "react-dom";
 
-import { useState, useEffect, useCallback, Component, PureComponent } from "react";
+import { useState, useEffect, useCallback, Component, PureComponent, createRef } from "react";
 import { recommendedFee, getAssetsFromAddress, getBtcFromAddress, getAddressFromStorage } from '../lib/fetch.js'
 import { checkArrayEmpty, classNames, viewToName } from '../lib/util.js'
 
@@ -25,13 +25,13 @@ var Decimal = require('decimal.js-light')
 
 function VirtualCollection(props){
     
-    const cardAspectRatio = 362/562.8
+    const cardAspectRatio = 414/641
       
     const collection = props.collection
     const columnCount = getColumnCount(props.width)
     
     let assetTotal = props.collection.length
-    //add extra white space for mobile
+    //add extra whitespace on mobile
     if(props.width < 767){assetTotal++}    
 
     console.log(columnCount)
@@ -134,14 +134,14 @@ function VirtualCollection(props){
       }
     }
 
-    
-//        columnWidth={Math.ceil(props.width/columnCount)}
+
+
     return (
       <FixedSizeGrid
         className={styles.newGrid}
         columnCount={columnCount}
-        columnWidth={Math.ceil((props.width-((70/2189)*props.width))/columnCount)}
-        height={props.height}
+        columnWidth={Math.ceil(props.widthMinusScroll/columnCount)-(6)}
+        height={props.height-256}
         rowCount={rowCount}
         rowHeight={Math.ceil((Math.ceil((props.width-20)/columnCount))/cardAspectRatio)}
         width={props.width}
@@ -150,6 +150,7 @@ function VirtualCollection(props){
       </FixedSizeGrid>
     );
 
+    
 }
 
 
@@ -176,15 +177,15 @@ class AssetCard extends Component {
                 <div className={styles.flipper}>
                     <div className={styles.front} onClick={this.handleClick}>
                     {this.props.mp4 ? (
-                        <video controls loop className="m-auto" width="400px" height="560px" preload="none" poster={this.props.front}>
+                        <video controls loop className="m-auto" width="800px" height="1120px" preload="none" poster={this.props.front}>
                             <source src={this.props.mp4} type="video/mp4" />
                             Sorry, your browser doesn&#39;t support embedded videos.
                         </video>
                     ):(
                         <LazyLoadImage 
                             src={this.props.front}
-                            height="560"
-                            width="400"
+                            height="1120"
+                            width="800"
                             alt=""
                             effect="blur"
                             threshold="400"
@@ -194,8 +195,8 @@ class AssetCard extends Component {
                     <div className={styles.back} onClick={this.handleClick}>
                         <LazyLoadImage 
                             src={this.props.back}
-                            height="560"
-                            width="400"
+                            height="1120"
+                            width="800"
                             alt=""
                             effect="blur"
                             threshold="400"
@@ -225,11 +226,12 @@ export default function CollectionList(props) {
     const [fee, setFee] = useState(null)
     
     const [isLoading, setLoading] = useState(false)  
+    const [isCollectionGridLoading, setCollectionGridLoading] = useState(false)  
     const [sendModal, setSendModal] = useState(false)
     
 
     const resizeHandler = () => {
-        setLoading(false);
+        setCollectionGridLoading(false);
     }
 
     const resize = useCallback(
@@ -315,12 +317,7 @@ export default function CollectionList(props) {
     }
     
 
-    useEffect(() => {
-      window.scrollTo(0, 0)
-    }, [directoryView])
-
-
-  
+ 
     useEffect(() => {
             
         setLoading(true)
@@ -364,10 +361,10 @@ export default function CollectionList(props) {
         
         window.addEventListener("resize", ()=>{
           //check if mobile device
-          if (!window.matchMedia("(max-width: 767px)").matches){    
-              setLoading(true);
+//          if (!window.matchMedia("(max-width: 767px)").matches){    
+              setCollectionGridLoading(true);
               resize()
-          }
+//          }
         }, false);
     
     }, [])
@@ -375,6 +372,18 @@ export default function CollectionList(props) {
     if (isLoading) return (
         <PageTemplate>
             <div className="text-center">Loading...</div>
+        </PageTemplate>
+    )
+
+    if (isCollectionGridLoading) return (
+        <PageTemplate address={thisAddress} btc={btcBalance} fee={fee} collection="true">
+
+            <div className="w-full min-w-0 fixed h-[86px] z-10 -mt-1.5">
+
+                <AssetNavbar view={directoryView} setView={(view) => setDirectoryView(view)} setSearch={(query) => setAssetSearch(query)}/>
+
+            </div>
+            <div className={styles.main}>Loading...</div>
         </PageTemplate>
     )
 
@@ -429,7 +438,7 @@ export default function CollectionList(props) {
         </div>
         <div className="mx-0 md:mx-0">
             {checkArrayEmpty(collection) != true ? (
-                <VirtualCollection collection={filterCollection(collection, directoryView, assetSearch)} width={self.innerWidth} height={self.innerHeight} handleSend={(asset, balance, divisible, unconfirmed) => handleSend(asset, balance, divisible, unconfirmed)}/>
+                <VirtualCollection collection={filterCollection(collection, directoryView, assetSearch)} width={self.innerWidth} widthMinusScroll={document.body.scrollWidth} height={self.innerHeight} handleSend={(asset, balance, divisible, unconfirmed) => handleSend(asset, balance, divisible, unconfirmed)}/>
             ) : (<div className="text-center mt-32"><div className="text-xl pb-16">You don&#39;t have any pepes</div><Image src="/sad-pepe-transparent.png" width="240" height="190" alt="" /></div>)
         }
         </div>

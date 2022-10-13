@@ -24,12 +24,14 @@
   background-color: rgb(250 250 249);
   color: rgb(41 37 36);
 /*  align-items: center;*/
-    overflow-x: hidden;
+  overflow-x: hidden;
+
     
 }
 
 .newGrid {
-    margin-top:100px;
+    margin-top:70px;
+    margin-left:2px;
 }
 
 .directoryBtn {
@@ -81,7 +83,7 @@
 	backface-visibility: hidden;
     cursor: pointer;
     margin:auto;
-    max-width: 400px;
+    max-width: 800px;
 }
 
 .front {
@@ -139,9 +141,12 @@
   padding: 2rem 0;
   align-items: center;
 
-    
   background: rgb(90,197,69);
 
+}
+
+.footerCollection {
+    margin-top: -120px;
 }
 
 .footer a {
@@ -283,6 +288,10 @@
 @media (max-width: 767px) {
     .mainCollection {
         padding: 2.5rem 0;
+        flex: 2;
+    }
+    .newGrid {
+        margin-top: 92px;
     }
 }
 
