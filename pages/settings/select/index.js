@@ -57,7 +57,7 @@ export default function SelectTypePage() {
            
             <Link href="/settings/select/ledger">
                 <a href="#" className={styles.card}>
-                    <h3><div className="inline-block mr-1 align-middle -mt-[5px] select-none"><Image src="/ledger-logo-white.png" height="17px" width="20px" /></div> Ledger Nano <div className="inline-block ml-1 mr-2 -mt-1 text-sm align-middle">S &frasl; S Plus &frasl; X </div>&rarr;</h3>
+                    <h3><div className="inline-block mr-1 align-middle -mt-[5px] select-none"><Image src="/ledger-logo-green.png" height="17px" width="20px" /></div> Ledger Nano <div className="inline-block ml-1 mr-2 -mt-1 text-sm align-middle">S &frasl; S Plus &frasl; X </div>&rarr;</h3>
                     {isAttachedLedger ? 
                         (
                             <p className='text-green-600'>CONNECTED</p>

@@ -28,9 +28,11 @@ function VirtualCollection(props){
     const cardAspectRatio = 362/562.8
       
     const collection = props.collection
-    const assetTotal = props.collection.length
     const columnCount = getColumnCount(props.width)
-        
+    
+    let assetTotal = props.collection.length
+    //add extra white space for mobile
+    if(props.width < 767){assetTotal++}    
 
     console.log(columnCount)
     
@@ -361,8 +363,11 @@ export default function CollectionList(props) {
         }
         
         window.addEventListener("resize", ()=>{
-          setLoading(true);
-          resize()
+          //check if mobile device
+          if (!window.matchMedia("(max-width: 767px)").matches){    
+              setLoading(true);
+              resize()
+          }
         }, false);
     
     }, [])
@@ -422,7 +427,7 @@ export default function CollectionList(props) {
         <div>
             <AssetSendModal />
         </div>
-        <div className="mx-0 md:mx-0 xs:mb-72">
+        <div className="mx-0 md:mx-0">
             {checkArrayEmpty(collection) != true ? (
                 <VirtualCollection collection={filterCollection(collection, directoryView, assetSearch)} width={self.innerWidth} height={self.innerHeight} handleSend={(asset, balance, divisible, unconfirmed) => handleSend(asset, balance, divisible, unconfirmed)}/>
             ) : (<div className="text-center mt-32"><div className="text-xl pb-16">You don&#39;t have any pepes</div><Image src="/sad-pepe-transparent.png" width="240" height="190" alt="" /></div>)

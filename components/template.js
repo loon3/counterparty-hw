@@ -16,6 +16,7 @@ export default function PageTemplate(props) {
             <Head>
                 <title>rpw.wtf</title>
                 <meta name="description" content="" />
+                <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0" />
                 <link rel="icon" href="/favicon-16x16.png" />
             </Head>
             <Navigation address={props.address} btc={props.btc} fee={props.fee}/>
