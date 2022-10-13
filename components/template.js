@@ -23,7 +23,7 @@ export default function PageTemplate(props) {
             <main className={props.collection ? (styles.mainCollection) : (styles.main)}>
                 {props.children}
             </main>
-            <PageFooter hideLogo={props.hideLogoInFooter} collection={props.collection}/>
+            <PageFooter hideLogo={props.hideLogoInFooter}/>
         </div>
     )
 
@@ -31,7 +31,7 @@ export default function PageTemplate(props) {
 
 export function PageFooter(props) {
     return (
-            <footer className={props.collection ? classNames(styles.footer, styles.footerCollection) : styles.footer}>
+            <footer className={styles.footer}>
                 {props.hideLogo ? null : (
                 <div className="inline-block pl-4">
                     <Image src="/rarefakemerge.gif" height="50px" width="50px" alt=""/>

@@ -141,7 +141,7 @@ function VirtualCollection(props){
         className={styles.newGrid}
         columnCount={columnCount}
         columnWidth={Math.ceil(props.widthMinusScroll/columnCount)-(6)}
-        height={props.height-256}
+        height={props.height}
         rowCount={rowCount}
         rowHeight={Math.ceil((Math.ceil((props.width-20)/columnCount))/cardAspectRatio)}
         width={props.width}

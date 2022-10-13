@@ -288,7 +288,6 @@
 @media (max-width: 767px) {
     .mainCollection {
         padding: 2.5rem 0;
-        flex: 2;
     }
     .newGrid {
         margin-top: 92px;
