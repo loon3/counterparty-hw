@@ -361,10 +361,10 @@ export default function CollectionList(props) {
         
         window.addEventListener("resize", ()=>{
           //check if mobile device
-//          if (!window.matchMedia("(max-width: 767px)").matches){    
+          if (!window.matchMedia("(max-width: 480px)").matches){    
               setCollectionGridLoading(true);
               resize()
-//          }
+          }
         }, false);
     
     }, [])
