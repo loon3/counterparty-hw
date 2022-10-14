@@ -143,7 +143,7 @@ function VirtualCollection(props){
         columnWidth={Math.ceil(props.widthMinusScroll/columnCount)-(6/columnCount)}
         height={props.height}
         rowCount={rowCount}
-        rowHeight={Math.ceil((Math.ceil((props.width-20)/columnCount))/cardAspectRatio)}
+        rowHeight={Math.ceil((Math.ceil(props.widthMinusScroll/columnCount))/cardAspectRatio)}
         width={props.width}
       >
         {ItemRenderer}
