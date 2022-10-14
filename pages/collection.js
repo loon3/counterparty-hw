@@ -140,7 +140,7 @@ function VirtualCollection(props){
       <FixedSizeGrid
         className={styles.newGrid}
         columnCount={columnCount}
-        columnWidth={Math.ceil(props.widthMinusScroll/columnCount)-(6)}
+        columnWidth={Math.ceil(props.widthMinusScroll/columnCount)-(6/columnCount)}
         height={props.height}
         rowCount={rowCount}
         rowHeight={Math.ceil((Math.ceil((props.width-20)/columnCount))/cardAspectRatio)}
@@ -188,7 +188,7 @@ class AssetCard extends Component {
                             width="800"
                             alt=""
                             effect="blur"
-                            threshold="400"
+                            visibleByDefault="true"
                         />  
                     )}
                     </div>
@@ -199,7 +199,7 @@ class AssetCard extends Component {
                             width="800"
                             alt=""
                             effect="blur"
-                            threshold="400"
+                            visibleByDefault="true"
                         />         
                     </div>
                 </div>

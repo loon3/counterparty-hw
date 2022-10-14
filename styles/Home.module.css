@@ -82,7 +82,7 @@
 .front, .back {
 	backface-visibility: hidden;
     cursor: pointer;
-    margin:auto;
+    margin: auto;
     max-width: 800px;
 }
 
