@@ -239,7 +239,7 @@ export default function AssetSendForm(props) {
                 <div className="mt-6">
                     <label htmlFor="txfee" className="block text-gray-700 text-sm font-bold mb-2">Bitcoin Tx Fee</label>
                     <input type="text" name="txfee" id="txfee" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" defaultValue={props.fee} required />
-                    <div className="text-xs text-gray-500 text-left">(Suggested fee shown above)</div>
+                    <div className="text-xs text-gray-500 text-left">(Suggested fee above)</div>
                 </div>
             </div>
             {props.address.key == "ledger" &&

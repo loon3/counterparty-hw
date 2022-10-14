@@ -49,7 +49,7 @@ export default function ConnectLandingPage() {
 
     return (  
         <PageTemplate hideLogoInFooter>
-            <div className="h-[100px] sm:h-[200px] w-[100px] sm:w-[200px] mb-2 flex">
+            <div className="h-[100px] sm:h-[200px] w-[100px] sm:w-[200px] mb-0 sm:mb-2 flex">
                 
                 <Image src="/rarefakemerge.gif" height="200px" width="200px" alt=""/>
             </div>
@@ -57,7 +57,7 @@ export default function ConnectLandingPage() {
               Wallet Address
             </h1>
 
-            <div className="text-2xl mb-12 text-center">
+            <div className="text-2xl mb-4 sm:mb-12 text-center">
                 {thisAddress.key == "ledger" &&
                     <div className="inline-block mr-2 align-middle -mt-[2px] select-none"><Image src="/ledger-logo-stone.png" height="20px" width="23px" /></div>
                 }

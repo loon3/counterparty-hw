@@ -387,13 +387,13 @@ export default function CollectionList(props) {
     }, [])
     
     if (isLoading) return (
-        <PageTemplate>
+        <PageTemplate type="centeredFull">
             <div className={styles.centered}><Image src="/spinning-logo.gif" width="100" height="100" alt="" /></div>
         </PageTemplate>
     )
 
     if (isCollectionGridLoading) return (
-        <PageTemplate address={thisAddress} btc={btcBalance} fee={fee} collection="true">
+        <PageTemplate address={thisAddress} btc={btcBalance} fee={fee} type="mainCollection">
 
             <div className="w-full min-w-0 fixed h-[86px] z-10 -mt-1.5">
 
@@ -443,7 +443,7 @@ export default function CollectionList(props) {
   
 
     return (  
-        <PageTemplate address={thisAddress} btc={btcBalance} fee={fee} collection="true">
+        <PageTemplate address={thisAddress} btc={btcBalance} fee={fee} type="mainCollection">
 
         <div className="w-full min-w-0 fixed h-[86px] z-10 -mt-1.5">
      
