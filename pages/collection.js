@@ -265,9 +265,9 @@ export default function CollectionList(props) {
         setSendData({asset: asset, balance: finalBalance, divisible: divisible, supply: supply, imgUrl: imgUrl})
         setSendModal(true)
               
-        const scrollBarCompensation = window.innerWidth - document.body.offsetWidth;
-        document.body.style.paddingRight = `${scrollBarCompensation}px`;       
-        document.body.style.overflow = 'hidden';
+//        const scrollBarCompensation = window.innerWidth - document.body.offsetWidth;
+//        document.body.style.paddingRight = `${scrollBarCompensation}px`;       
+//        document.body.style.overflow = 'hidden';
         
     }
     
@@ -279,8 +279,8 @@ export default function CollectionList(props) {
     
 
     function handleModalClose(){
-        document.body.style.overflow = ''
-        document.body.style.paddingRight = ''
+//        document.body.style.overflow = ''
+//        document.body.style.paddingRight = ''
         
         const isTxSent = window.sessionStorage.getItem("txSent")
         
