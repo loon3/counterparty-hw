@@ -49,7 +49,8 @@ export default function ConnectLandingPage() {
 
     return (  
         <PageTemplate hideLogoInFooter>
-            <div>
+            <div className="h-[100px] sm:h-[200px] w-[100px] sm:w-[200px] mb-2 flex">
+                
                 <Image src="/rarefakemerge.gif" height="200px" width="200px" alt=""/>
             </div>
             <h1 className="text-3xl font-bold">

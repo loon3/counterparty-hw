@@ -12,7 +12,7 @@ import 'react-lazy-load-image-component/src/effects/blur.css';
 import { debounce } from "lodash"
 import { FixedSizeGrid } from 'react-window';
 
-import { BuildingStorefrontIcon, DocumentTextIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline'
+import { BuildingStorefrontIcon, DocumentTextIcon, PaperAirplaneIcon, GiftIcon } from '@heroicons/react/24/outline'
 
 import ReactDOM from "react-dom";
 
@@ -26,7 +26,7 @@ var Decimal = require('decimal.js-light')
 function VirtualCollection(props){
     
     const cardAspectRatio = 414/641
-      
+    
     const collection = props.collection
     const columnCount = getColumnCount(props.width)
     
@@ -65,7 +65,15 @@ function VirtualCollection(props){
         return (<AssetCard front={wtf.img_url} back="/cardback.png" mp4={wtf.mp4}/>)
 
     }
-    
+                
+                        
+      function checkCardImgUrl(wtf){
+        if(!wtf){return "/cardback.png"} else {return wtf.img_url}
+      }
+      function checkCardSupply(wtf){
+        if(!wtf){return "?"} else {return wtf.supply}
+      }
+        
     class ItemRenderer extends PureComponent {
         
       constructor(props) {
@@ -110,21 +118,30 @@ function VirtualCollection(props){
                             {checkCard(collection[this.assetCount].wtf)}
                         </div>    
                     </div>
-                    <div className="ml-1 my-2 h-7 text-center">
-                        <div className="text-slate-600 inline-block cursor-pointer" onClick={() => props.handleSend(collection[this.assetCount].asset, collection[this.assetCount].quantity, collection[this.assetCount].divisible, collection[this.assetCount].unconfirmed)}>
-                                <PaperAirplaneIcon className="inline-block h-6"/>
-                        </div>
-                        <div className="float-left inline-block">
-                            <a href={`https://xchain.io/asset/${collection[this.assetCount].asset}`} target="_blank" rel="noreferrer" className="text-slate-600 underline underline-offset-2 text-sm">
-                                <DocumentTextIcon className="inline-block h-6"/>
+                    <div className="ml-1 my-4 h-7 text-center grid grid-cols-3">
+                        <div className="inline-block m-auto hidden">
+
+
+                            <a href="#">
+                                <GiftIcon className="mr-1.5 h-6"/>
                             </a>
                         </div>
-                        <div className="float-right inline-block">
+                       
+                        <div className="inline-block m-auto">
+                            <a href={`https://xchain.io/asset/${collection[this.assetCount].asset}`} target="_blank" rel="noreferrer" className="text-slate-600 underline underline-offset-2 text-sm">
+                                <DocumentTextIcon className="h-6"/>
+                            </a>
+                        </div>
+                        <div className="inline-block m-auto">
 
 
                             <a href={`https://pepe.wtf/asset/${collection[this.assetCount].asset}`} target="_blank" rel="noreferrer" className="text-slate-600 underline underline-offset-2 text-sm">
-                                <BuildingStorefrontIcon className="inline-block mr-1.5 h-6"/>
+                                <BuildingStorefrontIcon className="mr-1.5 h-6"/>
                             </a>
+                        </div>
+                       
+                        <div className="text-slate-600 inline-block cursor-pointer m-auto" onClick={() => props.handleSend(collection[this.assetCount].asset, collection[this.assetCount].quantity, collection[this.assetCount].divisible, checkCardSupply(collection[this.assetCount].wtf), checkCardImgUrl(collection[this.assetCount].wtf), collection[this.assetCount].unconfirmed)}>
+                                <PaperAirplaneIcon className="h-6"/>
                         </div>
                     </div>
                 </div>      
@@ -222,7 +239,7 @@ export default function CollectionList(props) {
     const [directories, setDirectories] = useState(null)
     const [directoryView, setDirectoryView] = useState("show-all")
     const [assetSearch, setAssetSearch] = useState("")
-    const [sendData, setSendData] = useState({asset: null, balance: null, divisible: null})
+    const [sendData, setSendData] = useState({asset: null, balance: null, divisible: null, supply: null, imgUrl: null})
     const [fee, setFee] = useState(null)
     
     const [isLoading, setLoading] = useState(false)  
@@ -239,13 +256,13 @@ export default function CollectionList(props) {
     , []);
     
     
-    function handleSend(asset, balance, divisible, unconfirmed){
+    function handleSend(asset, balance, divisible, supply, imgUrl, unconfirmed){
         
         const balConf = new Decimal(balance)
         const balUnconf = new Decimal(unconfirmed)
         const finalBalance = balConf.plus(balUnconf).toNumber();
  
-        setSendData({asset: asset, balance: finalBalance, divisible: divisible})
+        setSendData({asset: asset, balance: finalBalance, divisible: divisible, supply: supply, imgUrl: imgUrl})
         setSendModal(true)
               
         const scrollBarCompensation = window.innerWidth - document.body.offsetWidth;
@@ -305,7 +322,7 @@ export default function CollectionList(props) {
         <>
           {sendModal ? (
             <ModalTemplate title={title}>
-                <AssetSendForm address={thisAddress} asset={sendData.asset} balance={sendData.balance} divisible={sendData.divisible} fee={fee} btc={btcBalance}>
+                <AssetSendForm address={thisAddress} asset={sendData.asset} balance={sendData.balance} divisible={sendData.divisible} supply={sendData.supply} imgUrl={sendData.imgUrl} fee={fee} btc={btcBalance}>
                     <button className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => handleModalClose()}>
                         Close
                     </button>
@@ -371,7 +388,7 @@ export default function CollectionList(props) {
     
     if (isLoading) return (
         <PageTemplate>
-            <div className="text-center">Loading...</div>
+            <div className={styles.centered}><Image src="/spinning-logo.gif" width="100" height="100" alt="" /></div>
         </PageTemplate>
     )
 
@@ -383,7 +400,7 @@ export default function CollectionList(props) {
                 <AssetNavbar view={directoryView} setView={(view) => setDirectoryView(view)} setSearch={(query) => setAssetSearch(query)}/>
 
             </div>
-            <div className={styles.main}>Loading...</div>
+            <div className={styles.centered}><Image src="/spinning-logo.gif" width="100" height="100" alt="" /></div>
         </PageTemplate>
     )
 
@@ -438,7 +455,7 @@ export default function CollectionList(props) {
         </div>
         <div className="mx-0 md:mx-0">
             {checkArrayEmpty(collection) != true ? (
-                <VirtualCollection collection={filterCollection(collection, directoryView, assetSearch)} width={self.innerWidth} widthMinusScroll={document.body.scrollWidth} height={self.innerHeight} handleSend={(asset, balance, divisible, unconfirmed) => handleSend(asset, balance, divisible, unconfirmed)}/>
+                <VirtualCollection collection={filterCollection(collection, directoryView, assetSearch)} width={self.innerWidth} widthMinusScroll={document.body.scrollWidth} height={self.innerHeight} handleSend={(asset, balance, divisible, supply, imgUrl, unconfirmed) => handleSend(asset, balance, divisible, supply, imgUrl, unconfirmed)}/>
             ) : (<div className="text-center mt-32"><div className="text-xl pb-16">You don&#39;t have any pepes</div><Image src="/sad-pepe-transparent.png" width="240" height="190" alt="" /></div>)
         }
         </div>

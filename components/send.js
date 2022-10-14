@@ -2,6 +2,7 @@ import styles from '../styles/Home.module.css'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import PageTemplate from '../components/template'
+import Image from 'next/image';
 
 import { useState, useEffect } from "react";
 import { createTxSendAssetOpreturn, createTxSendBtc, getPrivkeyFromPassphrase, createTxSendAssetOpreturnPsbt, createTxSendBtcPsbt } from "../lib/xcp.js"
@@ -197,34 +198,56 @@ export default function AssetSendForm(props) {
   return (
   
     <div id="sendForm">  
-      <div className="w-full pt-4 pb-8 rounded-lg my-2">
- 
-        <div className="mt-1">              
-            <h3 className="text-md text-center text-gray-500">Available Balance:</h3>
-            <h1 className="text-4xl text-center font-semibold">{availableBalance}</h1>
-        </div>
+      <div className="w-full pt-1 rounded-lg my-2">
+
+      
         <form onSubmit={handleSubmit} autoComplete="off">
-            <div className="mt-10">
-                <label htmlFor="address" className="block text-gray-700 text-sm font-bold mb-2">Receiver Address</label>
-                <div className="flex">
-                    <input type="text" name="address" id="address" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" defaultValue="" required />
+            <div className="grid grid-cols-2 gap-3">
+                <div className="m-auto"> 
+                    <div className="pb-8">
+                        <h3 className="text-sm sm:text-md text-center text-gray-500">You Have</h3>
+                        <h1 className="text-xl sm:text-4xl text-center font-semibold break-all">{availableBalance}</h1>                        
+                    </div>
+                    <div>  
+                        <h3 className="text-sm sm:text-md text-center text-gray-500 break-all">Total Supply</h3>
+                        <h1 className="text-sm sm:text-xl text-center font-semibold break-all">{props.supply}</h1>                        
+                    </div>
+                </div>                
+                <div className="m-auto">
+                    <Image 
+                        src={props.imgUrl}
+                        height="189"
+                        width="135"
+                        alt=""
+                    />  
                 </div>
+
             </div>
-            <div className="mt-10">
-                <label htmlFor="amount" className="block text-gray-700 text-sm font-bold mb-2">Amount to Send</label>
-                <input type="text" name="amount" id="amount" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" defaultValue="" required />
-            </div>
-            <div className="mt-10">
-                <label htmlFor="txfee" className="block text-gray-700 text-sm font-bold mb-2">Bitcoin Tx Fee</label>
-                <input type="text" name="txfee" id="txfee" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" defaultValue={props.fee} required />
-                <div className="text-xs text-gray-500 text-left">(Suggested fee shown above)</div>
+
+                <div className="mt-6">
+                        <label htmlFor="address" className="block text-gray-700 text-sm font-bold mb-2">Receiving Address</label>
+                        <div className="flex">
+                            <input type="text" name="address" id="address" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" defaultValue="" required />
+                        </div>
+                    </div>
+            
+            <div className="grid grid-cols-2 sm:gap-8 gap-2">
+                <div className="mt-6">
+                    <label htmlFor="amount" className="block text-gray-700 text-sm font-bold mb-2">Amount to Send</label>
+                    <input type="text" name="amount" id="amount" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" defaultValue="" required />
+                </div>
+                <div className="mt-6">
+                    <label htmlFor="txfee" className="block text-gray-700 text-sm font-bold mb-2">Bitcoin Tx Fee</label>
+                    <input type="text" name="txfee" id="txfee" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" defaultValue={props.fee} required />
+                    <div className="text-xs text-gray-500 text-left">(Suggested fee shown above)</div>
+                </div>
             </div>
             {props.address.key == "ledger" &&
             <div className="mt-12 text-center">
                 <div className="w-80 justify-center inline-flex">Unlock your Ledger device and open the Bitcoin app before clicking send</div>
             </div>          
             }
-            <div className="mt-12 pt-6 w-full border-t border-solid border-slate-200">
+            <div className="mt-6 pt-6 w-full border-t border-solid border-slate-200">
             <div className="text-center float-right">
                 <div className="inline-flex text-center">{props.children}</div>
 
