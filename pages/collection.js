@@ -68,7 +68,7 @@ function VirtualCollection(props){
                 
                         
       function checkCardImgUrl(wtf){
-        if(!wtf){return "/cardback.png"} else {return wtf.img_url}
+        if(!wtf){return "/notrare.jpeg"} else {return wtf.img_url}
       }
       function checkCardSupply(wtf){
         if(!wtf){return "?"} else {return wtf.supply}
@@ -360,13 +360,9 @@ export default function CollectionList(props) {
                     setBtcBalance({confirmed: confirmedFromSats, unconfirmed: unconfirmedFromSats})
 
                     getAssetsFromAddress(address.address, function(res) {  
-                         
                         console.log(res)
                         
-                        
-
                         setDirectories(res.directories)
-
                         setCollection(res.data)
                         setAddress(address)
                         setLoading(false)                      

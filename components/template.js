@@ -82,7 +82,7 @@ export function Navigation(props) {
         <>
           {sendModalBtc ? (
             <ModalTemplate title="Send BTC">                 
-                <AssetSendForm address={props.address} asset="BTC" balance={props.btc.confirmed} btc={props.btc} fee={props.fee}>
+                <AssetSendForm address={props.address} asset="BTC" balance={props.btc.confirmed} btc={props.btc} imgUrl="/bitcoin-logo.png" supply="2.1e7" fee={props.fee}>
                     <button className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => handleModalClose()}>
                         Close
                     </button>
