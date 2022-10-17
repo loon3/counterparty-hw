@@ -25,18 +25,17 @@ var Decimal = require('decimal.js-light')
 
 function VirtualCollection(props){
     
-    const cardAspectRatio = 414/641
+    const cardAspectRatio = 420/660
     
     const collection = props.collection
     const columnCount = getColumnCount(props.width)
     
     let assetTotal = props.collection.length
-    //add extra whitespace on mobile
-    if(props.width < 767){assetTotal++}    
 
     console.log(columnCount)
     
-    const rowCount = Math.ceil(assetTotal / columnCount)
+    let rowCount = Math.ceil(assetTotal / columnCount)
+    if((assetTotal % columnCount) == 0){rowCount++}
     
     function getColumnCount(width){
         if(width <= 700) return 1;
@@ -145,27 +144,29 @@ function VirtualCollection(props){
                         </div>
                     </div>
                 </div>      
-            ) : (<div className={styles.centered}>Need pepes?  Visit <a href="https://pepe.wtf/market/" target="_blank" rel="noreferrer" className="font-bold">Pepe.wtf Markets</a></div>)}
+            ) : ("")}
+            {assetTotal == this.assetCount ? (<div className={styles.centered}>Need pepes?  Visit <a href="https://pepe.wtf/market/" target="_blank" rel="noreferrer" className="font-bold">Pepe.wtf Markets</a></div>):("")}
           </div>
         );   
       }
     }
 
-    let height = props.height - 136
-    //if(props.width < 768){height -= 6}
+            //let height = props.height - 136
+
+
 
     return (
-      <FixedSizeGrid
-        className={styles.newGrid}
-        columnCount={columnCount}
-        columnWidth={Math.ceil(props.widthMinusScroll/columnCount)-(6/columnCount)}
-        height={height}
-        rowCount={rowCount}
-        rowHeight={Math.ceil((Math.ceil(props.widthMinusScroll/columnCount))/cardAspectRatio)}
-        width={props.width}
-      >
-        {ItemRenderer}
-      </FixedSizeGrid>
+            <FixedSizeGrid
+                className={styles.newGrid}
+                columnCount={columnCount}
+                columnWidth={(props.widthMinusScroll/columnCount)}
+                height={props.height}
+                rowCount={rowCount}
+                rowHeight={(props.widthMinusScroll/columnCount)/cardAspectRatio}
+                width={props.width}
+            >
+                {ItemRenderer}
+            </FixedSizeGrid>
     );
 
     
@@ -251,8 +252,7 @@ export default function CollectionList(props) {
     
 
     const resizeHandler = () => {
-        setViewportWidth(document.body.scrollWidth-18)
-        setCollectionGridLoading(false);
+         setCollectionGridLoading(false);
     }
 
     const resize = useCallback(
@@ -396,7 +396,7 @@ export default function CollectionList(props) {
     )
 
     if (isCollectionGridLoading) return (
-        <PageTemplate address={thisAddress} btc={btcBalance} fee={fee} type="mainCollection" hideFooter>
+        <PageTemplate address={thisAddress} btc={btcBalance} fee={fee} type="mainCollection" >
 
             <div className="w-full min-w-0 fixed h-[86px] z-10 -mt-1.5">
 
@@ -448,7 +448,7 @@ export default function CollectionList(props) {
     console.log(document.body.scrollWidth)
 
     return (  
-        <PageTemplate address={thisAddress} btc={btcBalance} fee={fee} type="mainCollection" hideFooter>
+        <PageTemplate address={thisAddress} btc={btcBalance} fee={fee} type="mainCollection" >
 
         <div className="w-full min-w-0 fixed h-[86px] z-10 -mt-1.5">
      
@@ -458,7 +458,7 @@ export default function CollectionList(props) {
         <div>
             <AssetSendModal />
         </div>
-        <div className="mx-0 md:mx-0">
+        <div>
             {checkArrayEmpty(collection) != true ? (
                 <VirtualCollection collection={filterCollection(collection, directoryView, assetSearch)} width={self.innerWidth} widthMinusScroll={viewportWidth} height={self.innerHeight} handleSend={(asset, balance, divisible, supply, imgUrl, unconfirmed) => handleSend(asset, balance, divisible, supply, imgUrl, unconfirmed)}/>
             ) : (<div className="text-center mt-32"><div className="text-xl pb-16">You don&#39;t have any pepes</div><Image src="/sad-pepe-transparent.png" width="240" height="190" alt="" /></div>)

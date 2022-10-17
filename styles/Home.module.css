@@ -9,7 +9,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: rgb(250 250 249);
+
   color: rgb(41 37 36);
 }
 
@@ -20,7 +20,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: rgb(250 250 249);
+
   color: rgb(41 37 36);
     
   
@@ -34,7 +34,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: rgb(250 250 249);
+
   color: rgb(41 37 36);
   
 }
@@ -45,17 +45,22 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  background-color: rgb(250 250 249);
+
   color: rgb(41 37 36);
 /*  align-items: center;*/
   overflow-x: hidden;
-
+/*
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+*/
     
 }
 
 .newGrid {
     margin-top:70px;
-    margin-left:2px;
+    padding-bottom:70px;
 }
 
 .directoryBtn {
@@ -133,7 +138,6 @@
     padding: 2rem;
 /*    cursor: pointer;*/
     text-align: center;
-    
 }
 
 .collectionItem:hover {
@@ -298,6 +302,14 @@
   background-color: rgb(241 245 249);
 }
 
+.hideBalanceInNav {
+        display: inline-block;
+    }
+
+.hideAddressInNav {
+        display: inline-block;
+    }
+
 @media (max-width: 600px) {
 
     .card {
@@ -306,6 +318,13 @@
     
     .card h3 {
       font-size: 1.25rem;
+    }
+}
+
+
+@media (max-width: 900px) {
+    .hideAddressInNav {
+        display: none;
     }
 }
 
@@ -318,28 +337,13 @@
     }
 }
 
-
-@media (max-width: 900px) {
-    .hideAddressInNav {
-        display: none;
-    }
-}
-@media (min-width: 901px) {
-    .hideAddressInNav {
-        display: inline-block;
-    }
-}
-
 @media (max-width: 500px) {
     .hideBalanceInNav {
         display: none;
     }
+
 }
-@media (min-width: 501px) {
-    .hideBalanceInNav {
-        display: inline-block;
-    }
-}
+
 
 
 
