@@ -11,6 +11,9 @@ export default function SignMessagePage() {
     
     const router = useRouter()
     
+    let message = null
+    if(router.query.msg){message = router.query.msg}
+    
     const [thisAddress, setAddress] = useState({"address": null, "derivationPath": null, "format": null, "formatType": null, "index": null, "key": null})
     const [isLoading, setLoading] = useState(false)  
 
@@ -33,7 +36,7 @@ export default function SignMessagePage() {
     
     return (
         <PageTemplate address={thisAddress}>
-            <MessageSignForm address={thisAddress}/>
+            <MessageSignForm address={thisAddress} message={message}/>
         </PageTemplate>
     )
 }
@@ -53,6 +56,8 @@ export function MessageSignForm(props) {
     
     
     const handleSubmit = (event) => {
+        
+        window.scrollTo(0, 0)
     
         event.preventDefault()
         
@@ -142,7 +147,7 @@ export function MessageSignForm(props) {
                         <div>
                             <label htmlFor="message" className="block text-gray-700 text-sm font-bold mb-2">Message</label>
                             <div className="flex">
-                                <input type="message" name="message" id="message" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" defaultValue="" required />
+                                <input type="message" name="message" id="message" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" defaultValue={props.message ? props.message:""} required />
                             </div>
                         </div>
                         {props.address.key == "ledger" && 
@@ -165,4 +170,6 @@ export function MessageSignForm(props) {
         </div>
           
     )
+
+
 }

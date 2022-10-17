@@ -252,7 +252,7 @@ export default function AssetSendForm(props) {
                 </div>
             </div>
             {props.address.key == "ledger" &&
-            <div className="mt-12 text-center">
+            <div className="mt-5 text-center py-2">
                 <div className="w-80 justify-center inline-flex">Unlock your Ledger device and open the Bitcoin app before clicking send</div>
             </div>          
             }

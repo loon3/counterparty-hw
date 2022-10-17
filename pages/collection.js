@@ -16,7 +16,7 @@ import { BuildingStorefrontIcon, DocumentTextIcon, PaperAirplaneIcon, GiftIcon }
 
 import ReactDOM from "react-dom";
 
-import { useState, useEffect, useCallback, Component, PureComponent, createRef } from "react";
+import { useState, useEffect, useCallback, Component, PureComponent, useRef, createRef } from "react";
 import { recommendedFee, getAssetsFromAddress, getBtcFromAddress, getAddressFromStorage } from '../lib/fetch.js'
 import { checkArrayEmpty, classNames, viewToName } from '../lib/util.js'
 
@@ -32,7 +32,7 @@ function VirtualCollection(props){
     
     let assetTotal = props.collection.length
 
-    console.log(columnCount)
+    //console.log(columnCount)
     
     let rowCount = Math.ceil(assetTotal / columnCount)
     if((assetTotal % columnCount) == 0){rowCount++}
@@ -145,14 +145,31 @@ function VirtualCollection(props){
                     </div>
                 </div>      
             ) : ("")}
-            {assetTotal == this.assetCount ? (<div className={styles.centered}>Need pepes?  Visit <a href="https://pepe.wtf/market/" target="_blank" rel="noreferrer" className="font-bold">Pepe.wtf Markets</a></div>):("")}
+            {assetTotal == this.assetCount ? (<div className={styles.centered}><div className="h-4/6 w-4/6 m-auto border-4 rounded-[20px]"><div className={styles.centered}>Need pepes?  Visit <a href="https://pepe.wtf/market/" target="_blank" rel="noreferrer" className="font-bold">Pepe.wtf Markets</a></div></div></div>):("")}
           </div>
         );   
       }
     }
 
-            //let height = props.height - 136
+    const gridRef = useRef(null)
+    const scrollUpHandler = () => {
+        if(gridRef.current){
+            gridRef?.current.scrollToItem({
+                align: "start",
+                columnIndex: 0,
+                rowIndex: 0
+            });
+            window.scrollTo(0, 0)
+        }   
+    }
+    const scrollUp = useCallback(
+        debounce(scrollUpHandler, 0)
+    , []);
 
+    useEffect(() => {
+        scrollUp()
+        console.log("trigger effect")
+    }, [props.collection])
 
 
     return (
@@ -164,6 +181,7 @@ function VirtualCollection(props){
                 rowCount={rowCount}
                 rowHeight={(props.widthMinusScroll/columnCount)/cardAspectRatio}
                 width={props.width}
+                ref={gridRef}
             >
                 {ItemRenderer}
             </FixedSizeGrid>
@@ -423,8 +441,8 @@ export default function CollectionList(props) {
 
     function filterCollection(collection, view, query){
         
-        console.log(view)
-        console.log(query)
+        //console.log(view)
+        //console.log(query)
         
         if(view == "show-all" && query.length == 0){return collection}
         
@@ -444,8 +462,8 @@ export default function CollectionList(props) {
 
     }
   
-    console.log(self.innerWidth)
-    console.log(document.body.scrollWidth)
+    //console.log(self.innerWidth)
+    //console.log(document.body.scrollWidth)
 
     return (  
         <PageTemplate address={thisAddress} btc={btcBalance} fee={fee} type="mainCollection" >
@@ -461,7 +479,7 @@ export default function CollectionList(props) {
         <div>
             {checkArrayEmpty(collection) != true ? (
                 <VirtualCollection collection={filterCollection(collection, directoryView, assetSearch)} width={self.innerWidth} widthMinusScroll={viewportWidth} height={self.innerHeight} handleSend={(asset, balance, divisible, supply, imgUrl, unconfirmed) => handleSend(asset, balance, divisible, supply, imgUrl, unconfirmed)}/>
-            ) : (<div className="text-center mt-32"><div className="text-xl pb-16">You don&#39;t have any pepes</div><Image src="/sad-pepe-transparent.png" width="240" height="190" alt="" /></div>)
+            ) : (<div className="text-center mt-32 text-xl"><div className="pb-16">You don&#39;t have any pepes</div><Image src="/sad-pepe-transparent.png" width="240" height="190" alt="" /><div className="pt-16">Visit <a href="https://pepe.wtf/market/" target="_blank" rel="noreferrer" className="font-bold">Pepe.wtf Markets</a></div></div>)
         }
         </div>
         </PageTemplate>
