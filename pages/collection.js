@@ -71,7 +71,7 @@ function VirtualCollection(props){
         if(!wtf){return "/notrare.jpeg"} else {return wtf.img_url}
       }
       function checkCardSupply(wtf){
-        if(!wtf){return "?"} else {return wtf.supply}
+        if(!wtf){return "..."} else {return wtf.supply}
       }
         
     class ItemRenderer extends PureComponent {
@@ -145,20 +145,21 @@ function VirtualCollection(props){
                         </div>
                     </div>
                 </div>      
-            ) : ""}
+            ) : (<div className={styles.centered}>Need pepes?  Visit <a href="https://pepe.wtf/market/" target="_blank" rel="noreferrer" className="font-bold">Pepe.wtf Markets</a></div>)}
           </div>
         );   
       }
     }
 
-
+    let height = props.height - 136
+    //if(props.width < 768){height -= 6}
 
     return (
       <FixedSizeGrid
         className={styles.newGrid}
         columnCount={columnCount}
         columnWidth={Math.ceil(props.widthMinusScroll/columnCount)-(6/columnCount)}
-        height={props.height}
+        height={height}
         rowCount={rowCount}
         rowHeight={Math.ceil((Math.ceil(props.widthMinusScroll/columnCount))/cardAspectRatio)}
         width={props.width}
@@ -246,8 +247,11 @@ export default function CollectionList(props) {
     const [isCollectionGridLoading, setCollectionGridLoading] = useState(false)  
     const [sendModal, setSendModal] = useState(false)
     
+    const [viewportWidth, setViewportWidth] = useState(0)
+    
 
     const resizeHandler = () => {
+        setViewportWidth(document.body.scrollWidth-18)
         setCollectionGridLoading(false);
     }
 
@@ -339,6 +343,8 @@ export default function CollectionList(props) {
             
         setLoading(true)
         
+        setViewportWidth(document.body.scrollWidth)
+        
         const isTxSent = window.sessionStorage.getItem("txSent")
         if(isTxSent){sessionStorage.removeItem('txSent')}
         
@@ -376,6 +382,7 @@ export default function CollectionList(props) {
           //check if mobile device
           if (!window.matchMedia("(max-width: 480px)").matches){    
               setCollectionGridLoading(true);
+              setViewportWidth(self.innerWidth-18)
               resize()
           }
         }, false);
@@ -389,7 +396,7 @@ export default function CollectionList(props) {
     )
 
     if (isCollectionGridLoading) return (
-        <PageTemplate address={thisAddress} btc={btcBalance} fee={fee} type="mainCollection">
+        <PageTemplate address={thisAddress} btc={btcBalance} fee={fee} type="mainCollection" hideFooter>
 
             <div className="w-full min-w-0 fixed h-[86px] z-10 -mt-1.5">
 
@@ -437,9 +444,11 @@ export default function CollectionList(props) {
 
     }
   
+    console.log(self.innerWidth)
+    console.log(document.body.scrollWidth)
 
     return (  
-        <PageTemplate address={thisAddress} btc={btcBalance} fee={fee} type="mainCollection">
+        <PageTemplate address={thisAddress} btc={btcBalance} fee={fee} type="mainCollection" hideFooter>
 
         <div className="w-full min-w-0 fixed h-[86px] z-10 -mt-1.5">
      
@@ -451,7 +460,7 @@ export default function CollectionList(props) {
         </div>
         <div className="mx-0 md:mx-0">
             {checkArrayEmpty(collection) != true ? (
-                <VirtualCollection collection={filterCollection(collection, directoryView, assetSearch)} width={self.innerWidth} widthMinusScroll={document.body.scrollWidth} height={self.innerHeight} handleSend={(asset, balance, divisible, supply, imgUrl, unconfirmed) => handleSend(asset, balance, divisible, supply, imgUrl, unconfirmed)}/>
+                <VirtualCollection collection={filterCollection(collection, directoryView, assetSearch)} width={self.innerWidth} widthMinusScroll={viewportWidth} height={self.innerHeight} handleSend={(asset, balance, divisible, supply, imgUrl, unconfirmed) => handleSend(asset, balance, divisible, supply, imgUrl, unconfirmed)}/>
             ) : (<div className="text-center mt-32"><div className="text-xl pb-16">You don&#39;t have any pepes</div><Image src="/sad-pepe-transparent.png" width="240" height="190" alt="" /></div>)
         }
         </div>

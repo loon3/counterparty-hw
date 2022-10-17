@@ -23,7 +23,7 @@ export default function PageTemplate(props) {
             <main className={props.type ? (styles[props.type]) : (styles.main)}>
                 {props.children}
             </main>
-            <PageFooter hideLogo={props.hideLogoInFooter}/>
+            <PageFooter hideLogo={props.hideLogoInFooter} hideFooter={props.hideFooter}/>
         </div>
     )
 
@@ -31,16 +31,20 @@ export default function PageTemplate(props) {
 
 export function PageFooter(props) {
     return (
-            <footer className={styles.footer}>
-                {props.hideLogo ? null : (
-                <div className="inline-block pl-4">
-                    <Image src="/rarefakemerge.gif" height="50px" width="50px" alt=""/>
-                </div>  
-                )}
-                <div className="inline-block pl-4 font-mono font-bold text-white">
-                    rpw.wtf
-                </div>       
-            </footer>
+        <>
+            {!props.hideFooter &&
+                <footer className={styles.footer}>
+                    {props.hideLogo ? null : (
+                    <div className="inline-block pl-4">
+                        <Image src="/rarefakemerge.gif" height="50px" width="50px" alt=""/>
+                    </div>  
+                    )}
+                    <div className="inline-block pl-4 font-mono font-bold text-white">
+                        rpw.wtf
+                    </div>       
+                </footer>
+            }
+        </>
     )
 }
 

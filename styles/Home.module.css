@@ -11,8 +11,6 @@
   align-items: center;
   background-color: rgb(250 250 249);
   color: rgb(41 37 36);
-    
-  
 }
 
 .centeredFull {
@@ -43,7 +41,7 @@
 
 .mainCollection {
   min-height: 100vh;
-  padding: 4rem 0;
+  padding: 4rem 0 0 0;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -313,7 +311,7 @@
 
 @media (max-width: 767px) {
     .mainCollection {
-        padding: 2.5rem 0;
+        padding: 2.5rem 0 0 0;
     }
     .newGrid {
         margin-top: 92px;

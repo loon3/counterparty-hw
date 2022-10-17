@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 import { useState, useEffect } from "react";
 import { createTxSendAssetOpreturn, createTxSendBtc, getPrivkeyFromPassphrase, createTxSendAssetOpreturnPsbt, createTxSendBtcPsbt } from "../lib/xcp.js"
-import { getHexFromUtxo, pushTx, getAddressFromStorage, getPassphraseFromStorage } from "../lib/fetch.js"
+import { getHexFromUtxo, pushTx, getAddressFromStorage, getPassphraseFromStorage, getAssetInfo } from "../lib/fetch.js"
 import { sendAssetLedger } from '../lib/ledger.js'
 
 var Decimal = require('decimal.js-light')
@@ -30,10 +30,19 @@ export default function AssetSendForm(props) {
                                   privkey: null
                                 })
   const [txid, setTxid] = useState(null)
+  const [supply, setSupply] = useState(props.supply)
   
   const btcConf = new Decimal(props.btc.confirmed).toDecimalPlaces(8).times(1e8)
   const btcUnconf = new Decimal(props.btc.unconfirmed).toDecimalPlaces(8).times(1e8)
   const btcBalanceSatoshis = btcConf.plus(btcUnconf).toNumber(); 
+    
+  useEffect(() => {
+      if(supply == "..."){
+          getAssetInfo(props.asset, function(info){
+              setSupply(info.supply)
+          })
+      }
+  },[])
     
   function handleLedgerTx(inputData, parsedData){
       getHexFromUtxo(parsedData.inputs, function(hexData){
@@ -210,7 +219,7 @@ export default function AssetSendForm(props) {
                     </div>
                     <div>  
                         <h3 className="text-sm sm:text-md text-center text-gray-500 break-all">Total Supply</h3>
-                        <h1 className="text-sm sm:text-xl text-center font-semibold break-all">{props.supply}</h1>                        
+                        <h1 className="text-sm sm:text-xl text-center font-semibold break-all">{supply}</h1>                        
                     </div>
                 </div>                
                 <div className="m-auto">
