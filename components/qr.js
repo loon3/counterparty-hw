@@ -6,23 +6,23 @@ import { checkIfValidAddress } from "../lib/xcp.js"
 
 export default function TestQr(props) {
     
-  const [facing, setFacing] = useState({facingMode: "user"})
+  const [facing, setFacing] = useState({facingMode: "environment"})
     
 
-  useEffect(() => {
-      const detectRearCamera = async () => {
-          try {
-              const hasRearCamera = await navigator.mediaDevices.getUserMedia({
-                  video: { facingMode: { exact: "environment" } },
-              })
-              if (hasRearCamera) {
-                  setFacing({facingMode: "environment"})
-              }
-          } catch {
-          }
-      };
-      detectRearCamera();
-  }, [])
+//  useEffect(() => {
+//      const detectRearCamera = async () => {
+//          try {
+//              const hasRearCamera = await navigator.mediaDevices.getUserMedia({
+//                  video: { facingMode: { exact: "environment" } },
+//              })
+//              if (hasRearCamera) {
+//                  setFacing({facingMode: "environment"})
+//              }
+//          } catch {
+//          }
+//      };
+//      detectRearCamera();
+//  }, [])
 
   return (
     <>
