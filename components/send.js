@@ -3,11 +3,14 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import PageTemplate from '../components/template'
 import Image from 'next/image';
+import TestQr from '../components/qr'
 
-import { useState, useEffect } from "react";
-import { createTxSendAssetOpreturn, createTxSendBtc, getPrivkeyFromPassphrase, createTxSendAssetOpreturnPsbt, createTxSendBtcPsbt } from "../lib/xcp.js"
+import { useState, useEffect, Component } from "react";
+import { createTxSendAssetOpreturn, createTxSendBtc, getPrivkeyFromPassphrase, createTxSendAssetOpreturnPsbt, createTxSendBtcPsbt, checkIfValidAddress } from "../lib/xcp.js"
 import { getHexFromUtxo, pushTx, getAddressFromStorage, getPassphraseFromStorage, getAssetInfo } from "../lib/fetch.js"
 import { sendAssetLedger } from '../lib/ledger.js'
+
+import { QrCodeIcon } from '@heroicons/react/24/outline'
 
 var Decimal = require('decimal.js-light')
 
@@ -35,6 +38,9 @@ export default function AssetSendForm(props) {
   const btcConf = new Decimal(props.btc.confirmed).toDecimalPlaces(8).times(1e8)
   const btcUnconf = new Decimal(props.btc.unconfirmed).toDecimalPlaces(8).times(1e8)
   const btcBalanceSatoshis = btcConf.plus(btcUnconf).toNumber(); 
+    
+  const [qrCode, setQrCode] = useState({status: null, address: null})
+  const [addressFromQr, setAddressFromQr] = useState("")
     
   useEffect(() => {
       if(supply == "..."){
@@ -136,6 +142,11 @@ export default function AssetSendForm(props) {
         let statusMessage = "Fee is too low, must be at least "+minFee+" BTC"
         setStatus(statusMessage)
     }
+    if(!checkIfValidAddress(data.toAddress)){
+        stopSend = true
+        let statusMessage = "Invalid Address"
+        setStatus(statusMessage)
+    }
       
     setXcpData(data)
         
@@ -204,13 +215,50 @@ export default function AssetSendForm(props) {
   let availableBalance = props.balance
   if(props.asset == "BTC"){ availableBalance = new Decimal(btcBalanceSatoshis).dividedBy(1e8).toNumber()}
     
+  function handleQr(){
+      setAddressFromQr("")
+      setQrCode({status: "check", address: null})
+  }
+
+  useEffect(() => {
+      if(qrCode.status == "success"){
+          setAddressFromQr(qrCode.address)
+          setQrCode({status: null, address: null})
+      }
+  },[qrCode])
+
+
+    class ReceivingAddress extends Component {
+      constructor(props) {
+        super(props);
+        this.state = {value: this.props.fromQr};
+        this.handleChange = this.handleChange.bind(this);
+      }
+
+      handleChange(event) {
+        this.setState({value: event.target.value})
+      }
+
+      render() {
+        return (
+            <input type="text" name="address" id="address" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value={this.state.value} onChange={this.handleChange} required />
+         
+        );
+      }
+    }
+
+
   return (
   
     <div id="sendForm">  
       <div className="w-full pt-1 rounded-lg my-2">
-
+        
+      {qrCode.status == "check" ? (<TestQr setQrCode={(status) => setQrCode(status)}/>):(
       
         <form onSubmit={handleSubmit} autoComplete="off">
+
+            
+            
             <div className="grid grid-cols-2 gap-3">
                 <div className="m-auto"> 
                     <div className="pb-8">
@@ -232,12 +280,15 @@ export default function AssetSendForm(props) {
                 </div>
 
             </div>
+           
 
                 <div className="mt-6">
                         <label htmlFor="address" className="block text-gray-700 text-sm font-bold mb-2">Receiving Address</label>
                         <div className="flex">
-                            <input type="text" name="address" id="address" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" defaultValue="" required />
+                            <ReceivingAddress fromQr={addressFromQr}/>
+                            <QrCodeIcon className="ml-1.5 h-10 cursor-pointer" onClick={() => handleQr()} />
                         </div>
+                        
                     </div>
             
             <div className="grid grid-cols-2 sm:gap-8 gap-2">
@@ -266,6 +317,7 @@ export default function AssetSendForm(props) {
             </div>  
             </div>
         </form>  
+        )}
       </div>  
       
     </div>
@@ -274,7 +326,6 @@ export default function AssetSendForm(props) {
 
   )
 }
-
 
 export function AssetSendFormSent(props) {
 

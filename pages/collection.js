@@ -167,9 +167,11 @@ function VirtualCollection(props){
     , []);
 
     useEffect(() => {
-        scrollUp()
-        console.log("trigger effect")
-    }, [props.collection])
+        if(props.resetList){
+            scrollUp()
+        }
+        props.setResetList(false)
+    }, [props.resetList])
 
 
     return (
@@ -267,6 +269,7 @@ export default function CollectionList(props) {
     const [sendModal, setSendModal] = useState(false)
     
     const [viewportWidth, setViewportWidth] = useState(0)
+    const [resetList, setResetList] = useState(false)
     
 
     const resizeHandler = () => {
@@ -425,7 +428,7 @@ export default function CollectionList(props) {
         </PageTemplate>
     )
 
-    if (!collection) return (
+    if (!isLoading && !collection) return (
         <PageTemplate>
             <div className="mb-12">{error}</div>
             <div className={styles.grid}>
@@ -470,7 +473,7 @@ export default function CollectionList(props) {
 
         <div className="w-full min-w-0 fixed h-[86px] z-10 -mt-1.5">
      
-            <AssetNavbar view={directoryView} setView={(view) => setDirectoryView(view)} setSearch={(query) => setAssetSearch(query)}/>
+            <AssetNavbar view={directoryView} setView={(view) => setDirectoryView(view)} setSearch={(query) => setAssetSearch(query)} setResetList={(resetList) => setResetList(resetList)}/>
        
         </div>
         <div>
@@ -478,7 +481,7 @@ export default function CollectionList(props) {
         </div>
         <div>
             {checkArrayEmpty(collection) != true ? (
-                <VirtualCollection collection={filterCollection(collection, directoryView, assetSearch)} width={self.innerWidth} widthMinusScroll={viewportWidth} height={self.innerHeight} handleSend={(asset, balance, divisible, supply, imgUrl, unconfirmed) => handleSend(asset, balance, divisible, supply, imgUrl, unconfirmed)}/>
+                <VirtualCollection collection={filterCollection(collection, directoryView, assetSearch)} width={self.innerWidth} widthMinusScroll={viewportWidth} height={self.innerHeight} resetList={resetList} setResetList={(resetList) => setResetList(resetList)} handleSend={(asset, balance, divisible, supply, imgUrl, unconfirmed) => handleSend(asset, balance, divisible, supply, imgUrl, unconfirmed)}/>
             ) : (<div className="text-center mt-32 text-xl"><div className="pb-16">You don&#39;t have any pepes</div><Image src="/sad-pepe-transparent.png" width="240" height="190" alt="" /><div className="pt-16">Visit <a href="https://pepe.wtf/market/" target="_blank" rel="noreferrer" className="font-bold">Pepe.wtf Markets</a></div></div>)
         }
         </div>

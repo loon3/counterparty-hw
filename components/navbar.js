@@ -51,10 +51,16 @@ export default function AssetNavbar(props) {
 
         const newTimer = setTimeout(() => {
             props.setSearch(e.target.value)
+            props.setResetList(true)
         }, 500)
 
         setTimer(newTimer)        
         
+    }    
+    
+    function handleSelectView(view){
+        props.setView(view)
+        props.setResetList(true)
     }    
     
     return (
@@ -98,7 +104,7 @@ export default function AssetNavbar(props) {
                               key={item.name}
                               href={item.href}
                               className="-m-3 flex items-start rounded-lg p-3 hover:bg-gray-50 text-left"
-                              onClick={() => props.setView(item.view)}
+                              onClick={() => handleSelectView(item.view)}
                             >
                              
                               <div>
@@ -115,7 +121,7 @@ export default function AssetNavbar(props) {
                                 href="#"
                                 className="-m-3 flex items-center rounded-md p-3 text-base font-medium text-gray-900 hover:bg-gray-100 text-center mx-auto w-full"
                               >
-                                 <div className="w-full text-center" onClick={() => props.setView("show-all")}>Show All</div>
+                                 <div className="w-full text-center" onClick={() => handleSelectView("show-all")}>Show All</div>
                               </Popover.Button>
                            
                        

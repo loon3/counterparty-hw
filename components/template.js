@@ -60,9 +60,9 @@ export function Navigation(props) {
     
     function handleSend(){
 
-        const scrollBarCompensation = window.innerWidth - document.body.offsetWidth;
-        document.body.style.paddingRight = `${scrollBarCompensation}px`;       
-        document.body.style.overflow = 'hidden';
+//        const scrollBarCompensation = window.innerWidth - document.body.offsetWidth;
+//        document.body.style.paddingRight = `${scrollBarCompensation}px`;       
+//        document.body.style.overflow = 'hidden';
         
         setSendModalBtc(true)
     }
@@ -86,7 +86,7 @@ export function Navigation(props) {
         <>
           {sendModalBtc ? (
             <ModalTemplate title="Send BTC">                 
-                <AssetSendForm address={props.address} asset="BTC" balance={props.btc.confirmed} btc={props.btc} imgUrl="/bitcoin-logo.png" supply="2.1e7" fee={props.fee}>
+                <AssetSendForm address={props.address} asset="BTC" balance={props.btc.confirmed} btc={props.btc} imgUrl="/bitcoin-logo.png" supply="21000000" fee={props.fee}>
                     <button className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" onClick={() => handleModalClose()}>
                         Close
                     </button>
@@ -98,7 +98,25 @@ export function Navigation(props) {
     }
     
   
-
+//    <div className="inline-block cursor-pointer" onClick={() => handleSend()}><div className={styles.hideBalanceInNav}>{props.btc.confirmed}</div> BTC</div>
+//    <div className={styles.hideBalanceInNav}>
+//    {props.btc.unconfirmed < 0 &&
+//        <div className="inline-block mx-1 text-red-400">
+//        &#40;
+//            {props.btc.unconfirmed}
+//        &#41;
+//        </div>
+//    }
+//    {props.btc.unconfirmed > 0 &&
+//        <div className="inline-block mx-1 text-green-600">
+//        &#40;&#43;
+//            {props.btc.unconfirmed}
+//        &#41;
+//        </div>
+//    }
+//    </div>
+    
+    
     if(props.btc) {
         return (   
             <div>
@@ -114,32 +132,18 @@ export function Navigation(props) {
                                 </button>
                          
                         </div>
+                        <div className="inline-block -mt-[5px] ml-4 float-right cursor-pointer" onClick={() => handleSend()}><Image src="/btc-icon.png" height="36px" width="36px" alt=""/></div>
                         <div className="float-right">
                             <div className={styles.hideAddressInNav}>
                             {props.address.key == "ledger" &&
                             <div className="inline-block align-middle mt-[2px] mr-2"><Image src="/ledger-logo-stone.png" height="20px" width="23px" /></div>
                             }
                             <div className="inline-block font-bold">{props.address.address}</div>
-                            <div className="inline-block mx-2"> &#47;&#47; </div>
-                            </div>
-                            <div className="inline-block cursor-pointer" onClick={() => handleSend()}><div className={styles.hideBalanceInNav}>{props.btc.confirmed}</div> BTC</div>
-                            <div className={styles.hideBalanceInNav}>
-                            {props.btc.unconfirmed < 0 &&
-                                <div className="inline-block mx-1 text-red-400">
-                                &#40;
-                                    {props.btc.unconfirmed}
-                                &#41;
-                                </div>
-                            }
-                            {props.btc.unconfirmed > 0 &&
-                                <div className="inline-block mx-1 text-green-600">
-                                &#40;&#43;
-                                    {props.btc.unconfirmed}
-                                &#41;
-                                </div>
-                            }
+                            
                             </div>
                         </div>
+                        
+                        
                     </div>
                 </div>
             </div>
