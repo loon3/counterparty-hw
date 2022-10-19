@@ -50,6 +50,13 @@ export default function AssetSendForm(props) {
       }
   },[])
     
+  useEffect(() => {
+      if(qrCode.status == "success"){
+          setAddressFromQr(qrCode.address)
+          setQrCode({status: null, address: null})
+      }
+  },[qrCode])
+    
   function handleLedgerTx(inputData, parsedData){
       getHexFromUtxo(parsedData.inputs, function(hexData){
         setStatus("Sending transaction to device for signing...")
@@ -220,12 +227,7 @@ export default function AssetSendForm(props) {
       setQrCode({status: "check", address: null})
   }
 
-  useEffect(() => {
-      if(qrCode.status == "success"){
-          setAddressFromQr(qrCode.address)
-          setQrCode({status: null, address: null})
-      }
-  },[qrCode])
+
 
 
     class ReceivingAddress extends Component {
