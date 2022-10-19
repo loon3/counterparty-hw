@@ -1,12 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { QrReader } from 'react-qr-reader';
 import { checkIfValidAddress } from "../lib/xcp.js"
 
+
+
 export default function TestQr(props) {
+    
+  const [facing, setFacing] = useState({facingMode: "user"})
+    
+
+  useEffect(() => {
+      const detectRearCamera = async () => {
+          try {
+              const hasRearCamera = await navigator.mediaDevices.getUserMedia({
+                  video: { facingMode: { exact: "environment" } },
+              })
+              if (hasRearCamera) {
+                  setFacing({facingMode: "environment"})
+              }
+          } catch {
+          }
+      };
+      detectRearCamera();
+  }, [])
 
   return (
     <>
       <QrReader
+        constraints={facing}
         onResult={(result, error) => {
           if (!!result) {
               if(checkIfValidAddress(result?.text)){
