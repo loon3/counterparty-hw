@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import PageTemplate from '../components/template'
 import Image from 'next/image';
-import TestQr from '../components/qr'
+import ReadQr from '../components/qr'
 
 import { useState, useEffect, Component } from "react";
 import { createTxSendAssetOpreturn, createTxSendBtc, getPrivkeyFromPassphrase, createTxSendAssetOpreturnPsbt, createTxSendBtcPsbt, checkIfValidAddress } from "../lib/xcp.js"
@@ -255,7 +255,7 @@ export default function AssetSendForm(props) {
     <div id="sendForm">  
       <div className="w-full pt-1 rounded-lg my-2">
         
-      {qrCode.status == "check" ? (<TestQr setQrCode={(status) => setQrCode(status)}/>):(
+      {qrCode.status == "check" ? (<ReadQr setQrCode={(status) => setQrCode(status)}/>):(
       
         <form onSubmit={handleSubmit} autoComplete="off">
 

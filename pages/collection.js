@@ -127,7 +127,7 @@ function VirtualCollection(props){
                         </div>
                        
                         <div className="inline-block m-auto">
-                            <a href={`https://xchain.io/asset/${collection[this.assetCount].asset}`} target="_blank" rel="noreferrer" className="text-slate-600 underline underline-offset-2 text-sm">
+                            <a href={collection[this.assetCount].wtf != null ?(`https://pepe.wtf/asset/${collection[this.assetCount].asset}`):(`https://xchain.io/asset/${collection[this.assetCount].asset}`)} target="_blank" rel="noreferrer" className="text-slate-600 underline underline-offset-2 text-sm">
                                 <DocumentTextIcon className="h-6"/>
                             </a>
                         </div>
