@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import styles from '../styles/Home.module.css'
-import AssetSendForm from '../components/send'
+
 
 import Image from 'next/image';
 import { useState } from "react"
