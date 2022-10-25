@@ -256,6 +256,7 @@ background-color: rgb(250 250 249);
 	  color: rgb(90,197,69);
     font-weight: 700;
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    background-color: rgb(250 250 249);
 }
 
 
@@ -268,7 +269,7 @@ background-color: rgb(250 250 249);
   border-color: #0070f3;
 */
 
-  box-shadow: 0 6px 10px -1px rgba(0, 0, 0, 0.15), 0 4px 6px -1px rgba(0, 0, 0, 0.1); 
+  filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
 }
 
 .card h2 {

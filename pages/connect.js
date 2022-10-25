@@ -204,16 +204,16 @@ export default function ConnectLandingPage() {
         
          <div className="grid grid-cols-2 gap-4 sm:gap-12 sm:grid-cols-3 lg:grid-cols-4 w-full sm:max-w-[800px]">
         <Link href="/collection">
-        <div className="col-span-2 lg:col-span-4 justify-center p-8 sm:p-8 rounded-xl border-2 border-[#5ac545] text-[#5ac545] cursor-pointer">
+        <div className="col-span-2 lg:col-span-4 justify-center p-8 sm:p-8 rounded-xl border-2 border-[#5ac545] text-[#5ac545] cursor-pointer hover:drop-shadow-lg bg-stone-50">
             <div><BookOpenIcon className="h-16 m-auto"/></div>
             <div className="text-center text-lg">View Collection</div>
           </div>
         </Link>
-        <div className="col-span-1 justify-center p-8 rounded-xl border-2 border-[#5ac545] text-[#5ac545] cursor-pointer" onClick={() => handleSendModal()}>
+        <div className="col-span-1 justify-center p-8 rounded-xl border-2 border-[#5ac545] text-[#5ac545] cursor-pointer hover:drop-shadow-lg bg-stone-50" onClick={() => handleSendModal()}>
             <div><PaperAirplaneIcon className="h-16 m-auto"/></div>
             <div className="text-center text-lg">Send</div>
           </div>
-          <div className="col-span-1 justify-center p-8 rounded-xl border-2 border-[#5ac545] text-[#5ac545] cursor-pointer" onClick={() => handleQrModal()}>
+          <div className="col-span-1 justify-center p-8 rounded-xl border-2 border-[#5ac545] text-[#5ac545] cursor-pointer hover:drop-shadow-lg bg-stone-50" onClick={() => handleQrModal()}>
             <div><QrCodeIcon className="h-16 m-auto"/></div>
             <div className="text-center text-lg">Receive</div>
           </div>
@@ -221,14 +221,14 @@ export default function ConnectLandingPage() {
           
        
         <Link href="/sign">
-          <div className="col-span-1 justify-center p-8 rounded-xl border-2 border-[#5ac545] text-[#5ac545] cursor-pointer">
+          <div className="col-span-1 justify-center p-8 rounded-xl border-2 border-[#5ac545] text-[#5ac545] cursor-pointer hover:drop-shadow-lg bg-stone-50">
         
             <div><PencilSquareIcon className="h-16 m-auto"/></div>
             <div className="text-center text-lg">Sign</div>
           </div>
         </Link>
         <Link href="/settings">
-          <div className="col-span-1 justify-center p-8 rounded-xl border-2 border-[#5ac545] text-[#5ac545] cursor-pointer">
+          <div className="col-span-1 justify-center p-8 rounded-xl border-2 border-[#5ac545] text-[#5ac545] cursor-pointer hover:drop-shadow-lg bg-stone-50">
             <div><WrenchScrewdriverIcon className="h-16 m-auto"/></div>
             <div className="text-center text-lg">Settings</div>
           </div>
