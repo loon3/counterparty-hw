@@ -26,6 +26,7 @@ background-color: rgb(250 250 249);
   
 }
 
+
 .main {
   min-height: 100vh;
   padding: 6rem 1.5rem 8rem 1.5rem;
@@ -131,7 +132,6 @@ background-color: rgb(250 250 249);
 .flipContainer.flip .flipper {
 	transform: rotateY(180deg);
 }
-
 
 
 .collectionItem {
@@ -322,7 +322,7 @@ background-color: rgb(250 250 249);
 }
 
 
-@media (max-width: 900px) {
+@media (max-width: 680px) {
     .hideAddressInNav {
         display: none;
     }

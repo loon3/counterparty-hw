@@ -117,7 +117,7 @@ function VirtualCollection(props){
                             {checkCard(collection[this.assetCount].wtf)}
                         </div>    
                     </div>
-                    <div className="ml-1 my-4 h-7 text-center grid grid-cols-3">
+                    <div className="ml-1 my-4 h-7 text-center grid grid-cols-2">
                         <div className="inline-block m-auto hidden">
 
 
@@ -127,14 +127,14 @@ function VirtualCollection(props){
                         </div>
                        
                         <div className="inline-block m-auto">
-                            <a href={collection[this.assetCount].wtf != null ?(`https://pepe.wtf/asset/${collection[this.assetCount].asset}`):(`https://xchain.io/asset/${collection[this.assetCount].asset}`)} target="_blank" rel="noreferrer" className="text-slate-600 underline underline-offset-2 text-sm">
+                            <a href={collection[this.assetCount].wtf != null ?("https://pepe.wtf/asset/"+collection[this.assetCount].asset):("https://xchain.io/asset/"+collection[this.assetCount].asset)} target="_blank" rel="noreferrer" className="text-slate-600 underline underline-offset-2 text-sm">
                                 <DocumentTextIcon className="h-6"/>
                             </a>
                         </div>
-                        <div className="inline-block m-auto">
+                        <div className="inline-block m-auto hidden">
 
 
-                            <a href={`https://pepe.wtf/asset/${collection[this.assetCount].asset}`} target="_blank" rel="noreferrer" className="text-slate-600 underline underline-offset-2 text-sm">
+                            <a href={"https://pepe.wtf/asset/"+collection[this.assetCount].asset} target="_blank" rel="noreferrer" className="text-slate-600 underline underline-offset-2 text-sm">
                                 <BuildingStorefrontIcon className="mr-1.5 h-6"/>
                             </a>
                         </div>
@@ -145,7 +145,7 @@ function VirtualCollection(props){
                     </div>
                 </div>      
             ) : ("")}
-            {assetTotal == this.assetCount ? (<div className={styles.centered}><div className="h-4/6 w-4/6 m-auto border-4 rounded-[20px]"><div className={styles.centered}>Need pepes?  Visit <a href="https://pepe.wtf/market/" target="_blank" rel="noreferrer" className="font-bold">Pepe.wtf Markets</a></div></div></div>):("")}
+            {assetTotal == this.assetCount ? (<div className={styles.centered}><div className="h-4/6 w-4/6 m-auto border-4 rounded-[20px]"><div className={styles.centered}>Need pepes?  Visit <a href="https://pepe.wtf/market/" target="_blank" rel="noreferrer" className="font-bold">Pepe.wtf Market</a></div></div></div>):("")}
           </div>
         );   
       }
@@ -264,7 +264,7 @@ export default function CollectionList(props) {
     const [sendData, setSendData] = useState({asset: null, balance: null, divisible: null, supply: null, imgUrl: null})
     const [fee, setFee] = useState(null)
     
-    const [isLoading, setLoading] = useState(false)  
+    const [isLoading, setLoading] = useState(true)  
     const [isCollectionGridLoading, setCollectionGridLoading] = useState(false)  
     const [sendModal, setSendModal] = useState(false)
     
@@ -362,8 +362,6 @@ export default function CollectionList(props) {
  
     useEffect(() => {
             
-        setLoading(true)
-        
         setViewportWidth(document.body.scrollWidth)
         
         const isTxSent = window.sessionStorage.getItem("txSent")

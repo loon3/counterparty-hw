@@ -2,12 +2,16 @@ import Head from 'next/head'
 import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 import AssetSendForm from '../components/send'
-import ModalTemplate from '../components/modal'
+
 import Image from 'next/image';
 import { useState } from "react"
 import { useRouter } from 'next/router'
 
 import { classNames } from '../lib/util.js'
+
+import ModalTemplate from '../components/modal'
+import AssetSendForm from '../components/send'
+
 
 export default function PageTemplate(props) {
     
@@ -19,7 +23,7 @@ export default function PageTemplate(props) {
                 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0"/>
                 <link rel="icon" href="/favicon-16x16.png" />
             </Head>
-            <Navigation address={props.address} btc={props.btc} fee={props.fee}/>
+            <Navigation address={props.address} btc={props.btc} fee={props.fee} hideNav={props.hideNav} />
             <main className={props.type ? (styles[props.type]) : (styles.main)}>
                 {props.children}
             </main>
@@ -69,8 +73,8 @@ export function Navigation(props) {
     
 
     function handleModalClose(){
-        document.body.style.overflow = ''
-        document.body.style.paddingRight = ''
+//        document.body.style.overflow = ''
+//        document.body.style.paddingRight = ''
         
         const isTxSent = window.sessionStorage.getItem("txSent")
         
@@ -117,7 +121,7 @@ export function Navigation(props) {
 //    </div>
     
     
-    if(props.btc) {
+    if(props.btc && !props.hideNav){
         return (   
             <div>
                 <BtcSendModal />
@@ -148,9 +152,13 @@ export function Navigation(props) {
                 </div>
             </div>
         )
-    } else if(props.address){
+    } else if(props.address && !props.hideNav){
+        
+        console.log(props.address)
+        
         return (   
                 <div className="w-full fixed h-[58px] z-10 border-b-2 border-stone-300 bg-stone-200 text-stone-700">
+            
                     <div className="w-full top-4 inline-block pt-4 pr-4">
 
                         <div className="float-left">
@@ -168,10 +176,14 @@ export function Navigation(props) {
                         </div>
                     </div>
                 </div>
+           
         )
     } else {
         return (<div></div>)
     } 
+        
+    return (<div></div>)
+    
                 
 }
                 

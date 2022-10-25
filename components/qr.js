@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { QrReader } from 'react-qr-reader';
 import { checkIfValidAddress } from "../lib/xcp.js"
-
+import styles from '../styles/Home.module.css'
 
 
 export default function ReadQr(props) {
@@ -43,7 +43,7 @@ export default function ReadQr(props) {
       />
     <div className="w-full text-center pb-6" onClick={() => props.setQrCode({status: null, address: null})}>
        <button className="bg-red-500 text-white hover:bg-red-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mt-1 ease-linear transition-all duration-150">
-                    Close QR Scan
+                    Close
                 </button> 
 </div>
     </>
