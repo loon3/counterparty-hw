@@ -13,7 +13,7 @@ import { getAddressFromStorage, recommendedFee, getBtcFromAddress } from '../lib
 
 import { useRouter } from 'next/router'
 
-import { QrCodeIcon, PencilSquareIcon, WrenchScrewdriverIcon, BookOpenIcon, BuildingStorefrontIcon } from '@heroicons/react/24/outline'
+import { QrCodeIcon, PencilSquareIcon, WrenchScrewdriverIcon, BookOpenIcon, BuildingStorefrontIcon, PaperAirplaneIcon } from '@heroicons/react/24/outline'
 
 var Decimal = require('decimal.js-light')
 
@@ -173,7 +173,7 @@ export default function ConnectLandingPage() {
                 <div className="inline-block mx-2 break-all">{thisAddress.address}</div>
             </div>
         </div>
-            <div className="text-center my-12 p-2" onClick={() => handleSendModal()}>
+            <div className="text-center my-12 p-2">
 
                 <div className="text-5xl sm:text-8xl block mx-2 break-all">
                     {btcBalance.firstHalfBalance}<span className="text-2xl sm:text-4xl">{btcBalance.secondHalfBalance}</span>
@@ -209,16 +209,17 @@ export default function ConnectLandingPage() {
             <div className="text-center text-lg">View Collection</div>
           </div>
         </Link>
+        <div className="col-span-1 justify-center p-8 rounded-xl border-2 border-[#5ac545] text-[#5ac545] cursor-pointer" onClick={() => handleSendModal()}>
+            <div><PaperAirplaneIcon className="h-16 m-auto"/></div>
+            <div className="text-center text-lg">Send</div>
+          </div>
           <div className="col-span-1 justify-center p-8 rounded-xl border-2 border-[#5ac545] text-[#5ac545] cursor-pointer" onClick={() => handleQrModal()}>
             <div><QrCodeIcon className="h-16 m-auto"/></div>
-            <div className="text-center text-lg">Deposit</div>
+            <div className="text-center text-lg">Receive</div>
           </div>
-        <a href="https://pepe.wtf/market" target="_blank" rel="noopener noreferrer">
-          <div className="col-span-1 justify-center p-8 rounded-xl border-2 border-[#5ac545] text-[#5ac545] cursor-pointer">
-            <div><BuildingStorefrontIcon className="h-16 m-auto"/></div>
-            <div className="text-center text-lg">Market</div>
-          </div>
-        </a>
+        
+          
+       
         <Link href="/sign">
           <div className="col-span-1 justify-center p-8 rounded-xl border-2 border-[#5ac545] text-[#5ac545] cursor-pointer">
         
