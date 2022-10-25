@@ -10,7 +10,7 @@ export default function Home() {
   const router = useRouter()    
   
   function connectLedger(){
-//      window.localStorage.clear();
+      window.sessionStorage.clear();
       router.push('/settings/select')
   }
     

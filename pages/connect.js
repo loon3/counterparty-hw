@@ -158,8 +158,8 @@ export default function ConnectLandingPage() {
         <PageTemplate address={thisAddress} btc={btcBalance} hideLogoInFooter hideNav darkBg>
         <BtcSendModal />
         <QrDepositModal />
-        <div className="pb-6">
-            <Image src="/rarefakemerge.gif" height="100px" width="100px" alt=""/>
+        <div className="pb-2">
+            <Image src="/rarefakemerge.gif" height="60px" width="60px" alt=""/>
         </div>
         <div className="text-center">
             <h1 className="text-xl sm:text-3xl font-bold">
@@ -167,15 +167,15 @@ export default function ConnectLandingPage() {
             </h1>
 
             <div className="text-md sm:text-2xl text-center">
+                <div className="block mx-2 break-all cursor-pointer" onClick={() => handleQrModal()}>{(thisAddress.address).substring(0, 10)}...</div>
                 {thisAddress.key == "ledger" &&
-                    <div className="inline-block align-middle mt-1 sm:-mt-[2px] select-none"><Image src="/ledger-logo-stone.png" height="20px" width="23px" /></div>
+                    <div className="block align-middle select-none mt-1.5 sm:mt-1"><Image src="/ledger-logo-stone.png" height="20px" width="23px" /></div>
                 }
-                <div className="inline-block mx-2 break-all">{thisAddress.address}</div>
             </div>
         </div>
-            <div className="text-center my-12 p-2">
+            <div className="text-center my-10 sm:my-20 p-2">
 
-                <div className="text-5xl sm:text-8xl block mx-2 break-all">
+                <div className="text-6xl sm:text-8xl block break-all">
                     {btcBalance.firstHalfBalance}<span className="text-2xl sm:text-4xl">{btcBalance.secondHalfBalance}</span>
                 </div>
                 {btcBalance.unconfirmed < 0 &&
@@ -204,16 +204,16 @@ export default function ConnectLandingPage() {
         
          <div className="grid grid-cols-2 gap-4 sm:gap-12 sm:grid-cols-3 lg:grid-cols-4 w-full sm:max-w-[800px]">
         <Link href="/collection">
-        <div className="col-span-2 lg:col-span-4 justify-center p-8 sm:p-8 rounded-xl border-2 border-[#5ac545] text-[#5ac545] cursor-pointer hover:drop-shadow-lg bg-stone-50">
+        <div className="col-span-2 lg:col-span-4 justify-center p-7 sm:p-8 rounded-xl border-2 border-[#5ac545] text-[#5ac545] cursor-pointer hover:drop-shadow-lg bg-stone-50">
             <div><BookOpenIcon className="h-16 m-auto"/></div>
             <div className="text-center text-lg">View Collection</div>
           </div>
         </Link>
-        <div className="col-span-1 justify-center p-8 rounded-xl border-2 border-[#5ac545] text-[#5ac545] cursor-pointer hover:drop-shadow-lg bg-stone-50" onClick={() => handleSendModal()}>
+        <div className="col-span-1 justify-center p-7 sm:p-8  rounded-xl border-2 border-[#5ac545] text-[#5ac545] cursor-pointer hover:drop-shadow-lg bg-stone-50" onClick={() => handleSendModal()}>
             <div><PaperAirplaneIcon className="h-16 m-auto"/></div>
             <div className="text-center text-lg">Send</div>
           </div>
-          <div className="col-span-1 justify-center p-8 rounded-xl border-2 border-[#5ac545] text-[#5ac545] cursor-pointer hover:drop-shadow-lg bg-stone-50" onClick={() => handleQrModal()}>
+          <div className="col-span-1 justify-center p-7 sm:p-8  rounded-xl border-2 border-[#5ac545] text-[#5ac545] cursor-pointer hover:drop-shadow-lg bg-stone-50" onClick={() => handleQrModal()}>
             <div><QrCodeIcon className="h-16 m-auto"/></div>
             <div className="text-center text-lg">Receive</div>
           </div>
@@ -221,14 +221,14 @@ export default function ConnectLandingPage() {
           
        
         <Link href="/sign">
-          <div className="col-span-1 justify-center p-8 rounded-xl border-2 border-[#5ac545] text-[#5ac545] cursor-pointer hover:drop-shadow-lg bg-stone-50">
+          <div className="col-span-1 justify-center p-7 sm:p-8  rounded-xl border-2 border-[#5ac545] text-[#5ac545] cursor-pointer hover:drop-shadow-lg bg-stone-50">
         
             <div><PencilSquareIcon className="h-16 m-auto"/></div>
             <div className="text-center text-lg">Sign</div>
           </div>
         </Link>
         <Link href="/settings">
-          <div className="col-span-1 justify-center p-8 rounded-xl border-2 border-[#5ac545] text-[#5ac545] cursor-pointer hover:drop-shadow-lg bg-stone-50">
+          <div className="col-span-1 justify-center p-7 sm:p-8  rounded-xl border-2 border-[#5ac545] text-[#5ac545] cursor-pointer hover:drop-shadow-lg bg-stone-50">
             <div><WrenchScrewdriverIcon className="h-16 m-auto"/></div>
             <div className="text-center text-lg">Settings</div>
           </div>

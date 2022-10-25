@@ -152,7 +152,7 @@ export function MessageSignForm(props) {
                         </div>
                         {props.address.key == "ledger" && 
                         <div className="mt-14 text-center">
-                            <div className="w-80 justify-center inline-flex">Unlock your Ledger device and open the Bitcoin app before clicking sign</div>
+                            <div className="max-w-80 justify-center inline-flex">Unlock your Ledger device and open the Bitcoin app before clicking sign</div>
                         </div>  
                         }
 
