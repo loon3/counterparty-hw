@@ -29,7 +29,7 @@ background-color: rgb(250 250 249);
 
 .main {
   min-height: 100vh;
-  padding: 3rem 1.5rem 8rem 1.5rem;
+  padding: 3rem 1.5rem 3rem 1.5rem;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -39,6 +39,7 @@ background-color: rgb(250 250 249);
   color: rgb(41 37 36);
   
 }
+
 
 .mainCollection {
   min-height: 100vh;

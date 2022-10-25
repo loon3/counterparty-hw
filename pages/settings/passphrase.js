@@ -161,7 +161,7 @@ export function ImportPassphrase(props){
     )
     
     if(newPassphrase) return (
-        <div className="w-full max-w-2xl">
+        <div className="w-full max-w-2xl py-8">
             <h1 className="text-3xl font-bold mb-8 text-center">
                 Your New Wallet was Created&#33;
             </h1>

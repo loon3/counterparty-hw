@@ -298,10 +298,10 @@ export default function SelectAddressPage(props) {
    
     if (addressList) return (
     <PageTemplate address={thisAddress}>
-        <h1 className="text-3xl font-bold mb-8">
+        <h1 className="text-3xl font-bold mt-12 mb-8">
           Select Address
         </h1>
-        <div className="w-full max-w-2xl">
+        <div className="w-full max-w-2xl mb-12">
             <ul role="list" className="p-2 divide-y divide-slate-200">
             {addressList.map((address) => (
                 <li 

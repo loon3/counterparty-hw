@@ -63,7 +63,7 @@ export default function ForgetPage() {
     return (
     <PageTemplate address={thisAddress}>
         {connected.any &&
-            <h1 className="text-3xl font-bold mb-8">
+            <h1 className="text-3xl font-bold mb-8 text-center">
               Are you sure you want to continue?
             </h1>
         }
