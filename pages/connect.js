@@ -202,32 +202,32 @@ export default function ConnectLandingPage() {
       
      
         
-         <div className="grid grid-cols-2 gap-10 sm:gap-8 sm:grid-cols-3 lg:grid-cols-4">
+         <div className="grid grid-cols-2 gap-4 sm:gap-12 sm:grid-cols-3 lg:grid-cols-4 w-full sm:max-w-[800px]">
         <Link href="/collection">
-        <div className="col-span-2 lg:col-span-4 justify-center p-4 sm:p-8 rounded-xl border-2 border-[#5ac545] text-[#5ac545] cursor-pointer">
+        <div className="col-span-2 lg:col-span-4 justify-center p-8 sm:p-8 rounded-xl border-2 border-[#5ac545] text-[#5ac545] cursor-pointer">
             <div><BookOpenIcon className="h-16 m-auto"/></div>
             <div className="text-center text-lg">View Collection</div>
           </div>
         </Link>
-          <div className="col-span-1 justify-center p-4 sm:p-8 rounded-xl border-2 border-[#5ac545] text-[#5ac545] cursor-pointer" onClick={() => handleQrModal()}>
+          <div className="col-span-1 justify-center p-8 rounded-xl border-2 border-[#5ac545] text-[#5ac545] cursor-pointer" onClick={() => handleQrModal()}>
             <div><QrCodeIcon className="h-16 m-auto"/></div>
             <div className="text-center text-lg">Deposit</div>
           </div>
         <a href="https://pepe.wtf/market" target="_blank" rel="noopener noreferrer">
-          <div className="col-span-1 justify-center p-4 sm:p-8 rounded-xl border-2 border-[#5ac545] text-[#5ac545] cursor-pointer">
+          <div className="col-span-1 justify-center p-8 rounded-xl border-2 border-[#5ac545] text-[#5ac545] cursor-pointer">
             <div><BuildingStorefrontIcon className="h-16 m-auto"/></div>
             <div className="text-center text-lg">Market</div>
           </div>
         </a>
         <Link href="/sign">
-          <div className="col-span-1 justify-center p-4 sm:p-8 rounded-xl border-2 border-[#5ac545] text-[#5ac545] cursor-pointer">
+          <div className="col-span-1 justify-center p-8 rounded-xl border-2 border-[#5ac545] text-[#5ac545] cursor-pointer">
         
             <div><PencilSquareIcon className="h-16 m-auto"/></div>
             <div className="text-center text-lg">Sign</div>
           </div>
         </Link>
         <Link href="/settings">
-          <div className="col-span-1 justify-center p-4 sm:p-8 rounded-xl border-2 border-[#5ac545] text-[#5ac545] cursor-pointer">
+          <div className="col-span-1 justify-center p-8 rounded-xl border-2 border-[#5ac545] text-[#5ac545] cursor-pointer">
             <div><WrenchScrewdriverIcon className="h-16 m-auto"/></div>
             <div className="text-center text-lg">Settings</div>
           </div>
