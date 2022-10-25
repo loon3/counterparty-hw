@@ -166,11 +166,11 @@ export default function ConnectLandingPage() {
               Wallet Address
             </h1>
 
-            <div className="text-lg sm:text-2xl text-center">
+            <div className="text-md sm:text-2xl text-center">
                 {thisAddress.key == "ledger" &&
-                    <div className="inline-block mr-2 align-middle -mt-[2px] select-none"><Image src="/ledger-logo-stone.png" height="20px" width="23px" /></div>
+                    <div className="inline-block align-middle mt-1 sm:-mt-[2px] select-none"><Image src="/ledger-logo-stone.png" height="20px" width="23px" /></div>
                 }
-                <div className="inline-block break-all">{thisAddress.address}</div>
+                <div className="inline-block mx-2 break-all">{thisAddress.address}</div>
             </div>
         </div>
             <div className="text-center my-12 p-2" onClick={() => handleSendModal()}>
