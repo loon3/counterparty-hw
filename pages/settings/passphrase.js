@@ -1,5 +1,6 @@
 import styles from '../../styles/Home.module.css'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useState, useEffect } from "react";
 import { useRouter } from 'next/router'
 import PageTemplate from '../../components/template'
@@ -29,8 +30,8 @@ export default function PassphrasePage() {
     }, [])   
     
     if (isLoading) return (
-        <PageTemplate>
-            <div className="text-center">Loading...</div>
+        <PageTemplate type="centeredFull">
+            <div className={styles.centered}><Image src="/spinning-logo.gif" width="100" height="100" alt="" /></div>
         </PageTemplate>
     )
     
@@ -146,7 +147,9 @@ export function ImportPassphrase(props){
     }, [])  
     
     if (isLoading) return (   
-        <div className="text-center">Loading...</div>     
+        <PageTemplate type="centeredFull">
+            <div className={styles.centered}><Image src="/spinning-logo.gif" width="100" height="100" alt="" /></div>
+        </PageTemplate>   
     )
 
     if (error) return (
@@ -161,7 +164,7 @@ export function ImportPassphrase(props){
     )
     
     if(newPassphrase) return (
-        <div className="w-full max-w-2xl py-8">
+        <div className="w-full max-w-2xl py-12">
             <h1 className="text-3xl font-bold mb-8 text-center">
                 Your New Wallet was Created&#33;
             </h1>
@@ -267,7 +270,7 @@ export function EncryptPassphrase(props){
     )
     
     return (
-        <div className="w-full max-w-2xl">
+        <div className="w-full max-w-2xl py-12">
             <h1 className="text-3xl font-bold mb-8 text-center">
                 Choose a Password to Lock your Wallet
             </h1>

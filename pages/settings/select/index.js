@@ -43,14 +43,15 @@ export default function SelectTypePage() {
     }, [])
 
     if (isLoading) return (
-        <PageTemplate>
-            <div className="text-center">Loading...</div>
+        <PageTemplate type="centeredFull">
+            <div className={styles.centered}><Image src="/spinning-logo.gif" width="100" height="100" alt="" /></div>
         </PageTemplate>
     )
     
     return (
     <PageTemplate address={thisAddress}>
-        <h1 className="text-3xl font-bold mb-8">
+        <div className="py-12">
+        <h1 className="text-3xl font-bold mb-8 text-center">
           Select Wallet
         </h1>
         <div className={styles.grid}>
@@ -81,7 +82,7 @@ export default function SelectTypePage() {
             </Link>
 
         </div>
-        
+        </div>
     </PageTemplate>
     )
 }

@@ -1,5 +1,6 @@
 import styles from '../../../styles/Home.module.css'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useState, useEffect } from "react";
 import PageTemplate from '../../../components/template'
@@ -64,7 +65,8 @@ export function AddAddressSelect(props) {
                 if(response.status == "success"){
                     addressList.push(response.message)
                     window.localStorage.setItem("addressListLedger", JSON.stringify(addressList))
-                    window.location.reload()
+                    props.setAdded(true)
+                    setLoading(null)
                 } else {
                     setError(response.message)
                 }
@@ -90,7 +92,8 @@ export function AddAddressSelect(props) {
             
             addressList.push(newAddress.message)
             window.localStorage.setItem("addressListPassphrase", JSON.stringify(addressList))
-            window.location.reload()
+            props.setAdded(true)
+            setLoading(null)
         }
     }
     
@@ -140,6 +143,8 @@ export default function SelectAddressPage(props) {
     const [isError, setError] = useState(null)  
     
     const [needPassword, setNeedPassword] = useState(false)
+    
+    const [addressAdded, setAddressAdded] = useState(false)
         
     
     function handleAddressSelect(address){
@@ -234,10 +239,28 @@ export default function SelectAddressPage(props) {
         }
              
     }, [])
+    
+    useEffect(() => {
+        setLoading("Loading...")
+        if(source == "passphrase") {
+            const addressListStorage = window.localStorage.getItem("addressListPassphrase")
+            setAddressList(JSON.parse(addressListStorage))
+        }
+        if(source == "ledger"){
+            const addressListStorage = window.localStorage.getItem("addressListLedger")
+            setAddressList(JSON.parse(addressListStorage))
+        }
+        setAddressAdded(false)
+        setLoading(false)
+
+    }, [addressAdded])
 
     if (isLoading) return (
         <PageTemplate address={thisAddress}>
-            <div className="text-center">{isLoading}</div>
+ 
+            <div className={styles.centered}><Image src="/spinning-logo.gif" width="100" height="100" alt="" /></div>
+
+            <div className="text-center mt-8">{isLoading}</div>
         </PageTemplate>
     )
     
@@ -298,10 +321,11 @@ export default function SelectAddressPage(props) {
    
     if (addressList) return (
     <PageTemplate address={thisAddress}>
-        <h1 className="text-3xl font-bold mt-12 mb-8">
+        <div className="py-24">
+        <h1 className="text-3xl font-bold mb-8 text-center">
           Select Address
         </h1>
-        <div className="w-full max-w-2xl mb-12">
+        <div className="w-full max-w-2xl">
             <ul role="list" className="p-2 divide-y divide-slate-200">
             {addressList.map((address) => (
                 <li 
@@ -316,11 +340,11 @@ export default function SelectAddressPage(props) {
                 </li>
             ))}
                 <li className={styles.addressListSelect}>
-                    <AddAddressSelect source={source}/>
+                    <AddAddressSelect source={source} setAdded={(add) => setAddressAdded(add)}/>
                 </li>
             </ul>
         </div>
-        
+        </div>
     </PageTemplate>
     )
 

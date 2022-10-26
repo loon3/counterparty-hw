@@ -202,7 +202,7 @@ export default function ConnectLandingPage() {
       
      
         
-         <div className="grid grid-cols-2 gap-4 sm:gap-12 sm:grid-cols-3 lg:grid-cols-4 w-full sm:max-w-[800px]">
+         <div className="grid grid-cols-2 gap-4 sm:gap-12 sm:grid-cols-3 lg:grid-cols-4 w-full sm:max-w-[800px] pb-16">
         <Link href="/collection">
         <div className="col-span-2 lg:col-span-4 justify-center p-7 sm:p-8 rounded-xl border-2 border-[#5ac545] text-[#5ac545] cursor-pointer hover:drop-shadow-lg bg-stone-50">
             <div><BookOpenIcon className="h-16 m-auto"/></div>
