@@ -129,22 +129,20 @@ export function AddAddressSelect(props) {
 }
 
 export default function SelectAddressPage(props) {
-    
-    
-    
-    
+
     const router = useRouter()
     
     const source = props.source
     
     const [thisAddress, setAddress] = useState(null) 
     const [addressList, setAddressList] = useState(null)     
-    const [isLoading, setLoading] = useState(null)  
+    const [loading, setLoading] = useState(null)  
     const [isError, setError] = useState(null)  
     
     const [needPassword, setNeedPassword] = useState(false)
     
     const [addressAdded, setAddressAdded] = useState(false)
+    
         
     
     function handleAddressSelect(address){
@@ -188,32 +186,29 @@ export default function SelectAddressPage(props) {
     }
 
     useEffect(() => {
-        setLoading("Loading...")
-        
+
         const address = getAddressFromStorage("all")    
         setAddress(address)
         
         if(source == "ledger"){
+            
+            setLoading("Connecting to device...")
         
             const addressListStorage = window.localStorage.getItem("addressListLedger")
 
             if(!addressListStorage){
 
-                setLoading("Connecting...")
-
                 getAddressSelectLedger(function(deviceResponse){            
                     if(deviceResponse.status == "success"){
                         window.localStorage.setItem("addressListLedger", JSON.stringify(deviceResponse.message))
                         setAddressList(deviceResponse.message)
-                        setLoading(false)   
                     } else {
                         setLoading(deviceResponse.message)                
                     } 
                 })
 
             } else {
-                setAddressList(JSON.parse(addressListStorage))
-                setLoading(false)           
+                setAddressList(JSON.parse(addressListStorage))         
             }
             
         }
@@ -231,8 +226,6 @@ export default function SelectAddressPage(props) {
                 if(!passphrase){
                     setNeedPassword(true)
                 }     
-
-                setLoading(false)
                 
             }
                         
@@ -241,7 +234,7 @@ export default function SelectAddressPage(props) {
     }, [])
     
     useEffect(() => {
-        setLoading("Loading...")
+        
         if(source == "passphrase") {
             const addressListStorage = window.localStorage.getItem("addressListPassphrase")
             setAddressList(JSON.parse(addressListStorage))
@@ -251,19 +244,9 @@ export default function SelectAddressPage(props) {
             setAddressList(JSON.parse(addressListStorage))
         }
         setAddressAdded(false)
-        setLoading(false)
 
     }, [addressAdded])
 
-    if (isLoading) return (
-        <PageTemplate address={thisAddress}>
- 
-            <div className={styles.centered}><Image src="/spinning-logo.gif" width="100" height="100" alt="" /></div>
-
-            <div className="text-center mt-8">{isLoading}</div>
-        </PageTemplate>
-    )
-    
     
     if (isError) return (
         <PageTemplate address={thisAddress}>
@@ -346,6 +329,16 @@ export default function SelectAddressPage(props) {
         </div>
         </div>
     </PageTemplate>
+    )
+    
+    return (
+        
+        <PageTemplate address={thisAddress}>
+
+            <div className={styles.centered}><Image src="/spinning-logo.gif" width="100" height="100" alt="" /></div>
+
+            <div className="text-center mt-8">{loading}</div>
+        </PageTemplate>
     )
 
 }
