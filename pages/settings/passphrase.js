@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useState, useEffect } from "react";
 import { useRouter } from 'next/router'
 import PageTemplate from '../../components/template'
+import Loading from '../../components/loading'
 import { getAddressFromStorage, checkConnected } from '../../lib/fetch.js'
 import { getNewPassphrase, getAddressFromPassphrase, aesEncrypt } from '../../lib/xcp.js'
 
@@ -31,7 +32,7 @@ export default function PassphrasePage() {
     
     if (isLoading) return (
         <PageTemplate type="centeredFull">
-            <div className={styles.centered}><Image src="/spinning-logo.gif" width="100" height="100" alt="" /></div>
+            <Loading />
         </PageTemplate>
     )
     
@@ -148,7 +149,7 @@ export function ImportPassphrase(props){
     
     if (isLoading) return (   
         <PageTemplate type="centeredFull">
-            <div className={styles.centered}><Image src="/spinning-logo.gif" width="100" height="100" alt="" /></div>
+            <Loading />
         </PageTemplate>   
     )
 

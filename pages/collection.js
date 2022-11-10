@@ -5,12 +5,14 @@ import PageTemplate from '../components/template'
 import ModalTemplate from '../components/modal'
 import AssetSendForm from '../components/send'
 import AssetNavbar from '../components/navbar'
+import Loading from '../components/loading'
 import { useRouter } from 'next/router'
 import Image from 'next/image';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import { debounce } from "lodash"
 import { FixedSizeGrid } from 'react-window';
+
 
 import { BuildingStorefrontIcon, DocumentTextIcon, PaperAirplaneIcon, GiftIcon } from '@heroicons/react/24/outline'
 
@@ -179,7 +181,7 @@ function VirtualCollection(props){
                 className={styles.newGrid}
                 columnCount={columnCount}
                 columnWidth={(props.widthMinusScroll/columnCount)}
-                height={props.height}
+                height={props.height-134}
                 rowCount={rowCount}
                 rowHeight={(props.widthMinusScroll/columnCount)/cardAspectRatio}
                 width={props.width}
@@ -188,6 +190,19 @@ function VirtualCollection(props){
                 {ItemRenderer}
             </FixedSizeGrid>
     );
+
+//            <FixedSizeGrid
+//                className={styles.newGrid}
+//                columnCount={columnCount}
+//                columnWidth={(props.widthMinusScroll/columnCount)}
+//                height={props.height}
+//                rowCount={rowCount}
+//                rowHeight={(props.widthMinusScroll/columnCount)/cardAspectRatio}
+//                width={props.width}
+//                ref={gridRef}
+//            >
+//                {ItemRenderer}
+//            </FixedSizeGrid>
 
     
 }
@@ -410,7 +425,7 @@ export default function CollectionList(props) {
     
     if (isLoading) return (
         <PageTemplate type="centeredFull">
-            <div className={styles.centered}><Image src="/spinning-logo.gif" width="100" height="100" alt="" /></div>
+            <Loading />
         </PageTemplate>
     )
 
@@ -422,7 +437,7 @@ export default function CollectionList(props) {
                 <AssetNavbar view={directoryView} setView={(view) => setDirectoryView(view)} setSearch={(query) => setAssetSearch(query)}/>
 
             </div>
-            <div className={styles.centered}><Image src="/spinning-logo.gif" width="100" height="100" alt="" /></div>
+            <Loading />
         </PageTemplate>
     )
 
@@ -467,7 +482,7 @@ export default function CollectionList(props) {
     //console.log(document.body.scrollWidth)
 
     return (  
-        <PageTemplate address={thisAddress} btc={btcBalance} fee={fee} type="mainCollection" >
+        <PageTemplate address={thisAddress} btc={btcBalance} fee={fee} type="mainCollection" hideFooter>
 
         <div className="w-full min-w-0 fixed h-[86px] z-10 -mt-1.5">
      

@@ -5,7 +5,10 @@ import { useState, useEffect } from "react";
 import { useRouter } from 'next/router'
 import PageTemplate from '../../../components/template'
 import ModalTemplate from '../../../components/modal'
+import Loading from '../../../components/loading'
 import { getAddressFromStorage, checkConnected } from '../../../lib/fetch.js'
+
+import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/20/solid'
 
 export default function SelectTypePage() {
     
@@ -44,7 +47,7 @@ export default function SelectTypePage() {
 
     if (isLoading) return (
         <PageTemplate type="centeredFull">
-            <div className={styles.centered}><Image src="/spinning-logo.gif" width="100" height="100" alt="" /></div>
+            <Loading />
         </PageTemplate>
     )
     
@@ -61,9 +64,9 @@ export default function SelectTypePage() {
                     <h3><div className="inline-block mr-1 align-middle -mt-[5px] select-none"><Image src="/ledger-logo-green.png" height="17px" width="20px" /></div> Ledger Nano <div className="inline-block ml-1 mr-2 -mt-1 text-sm align-middle">S &frasl; S Plus &frasl; X </div>&rarr;</h3>
                     {isAttachedLedger ? 
                         (
-                            <p className='text-green-600'>CONNECTED</p>
+                            <div className='text-blue-400 text-md text-center mt-3'><CheckCircleIcon className="m-auto h-6"/>Connected</div>
                         ) : (
-                            <p className='text-red-500'>NOT CONNECTED</p>
+                            <div className='text-red-400 text-md text-center mt-3'><XCircleIcon className="m-auto h-6"/>Not Connected</div>
                         )
                     }
                 </a>
@@ -73,9 +76,9 @@ export default function SelectTypePage() {
                     <h3>Passphrase  &rarr;</h3>
                     {isAttachedPassphrase ? 
                         (
-                            <p className='text-green-600'>CONNECTED</p>
+                            <div className='text-blue-400 text-md text-center mt-3'><CheckCircleIcon className="m-auto h-6"/>Connected</div>
                         ) : (
-                            <p className='text-red-500'>NOT CONNECTED</p>
+                            <div className='text-red-400 text-md text-center mt-3'><XCircleIcon className="m-auto h-6"/>Not Connected</div>
                         )
                     }
                 </a>

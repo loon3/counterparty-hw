@@ -3,9 +3,18 @@ import Link from 'next/link'
 import { useState, useEffect } from "react";
 import { useRouter } from 'next/router'
 import PageTemplate from '../components/template'
+import Loading from '../components/loading'
 import { getAddressFromStorage, getPassphraseFromStorage } from '../lib/fetch.js'
 import { signMessageLedger } from '../lib/ledger.js'
-import { getPrivkeyFromPassphrase, signMessagePassphrase } from '../lib/xcp.js'
+import { getPrivkeyFromPassphrase, signMessagePassphrase, verifyMessageSignature } from '../lib/xcp.js'
+
+//console.log(verifyMessageSignature("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyZXNzIjoiYmMxcXdhN2N4ZzVuYXN3c3dzM2o1dzY4ODJ6cGh3OWpoc25xbGg2ZGVrIiwiaWF0IjoxNjY3ODQ4ODA1LCJleHAiOjE2Njc4NDg4NjV9.wniR9YvLkaGFbUoSMGBN2vj4rYaTPuDrDMPJUC8cm6w", "bc1qwa7cxg5naswsws3j5w6882zphw9jhsnqlh6dek", "IFKtkNTzZ9RxwEFHcZGNJgvJwYJL70CFyCsd0FPh0r+8YMuAkjWYuLJIbPb8TWQn3iR3mmRupbTpuyApI5eihzc="))
+//
+//console.log(verifyMessageSignature("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyZXNzIjoiYmMxcTRzZjhsbHZ3cmZkd3F4cDdjcG1qOG56ZXhwY3FjYXI5bmc3ZWhhIiwiaWF0IjoxNjY3ODQ5Nzg2LCJleHAiOjE2Njc4NDk4NDZ9.RM0j4AEPZgl9qgNHUbdwCtorThQjynAU8iGntooB5Kg","bc1q4sf8llvwrfdwqxp7cpmj8nzexpcqcar9ng7eha","IGCkS77AYLjozPIguKLhZA4En4G1A8YK2tHce9AD3jqudwkqjSmbHVn26/iKtU97zKDR2beoCcGIoZiRmzbWFBM="))
+//
+//{"msg": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyZXNzIjoiYmMxcXdhN2N4ZzVuYXN3c3dzM2o1dzY4ODJ6cGh3OWpoc25xbGg2ZGVrIiwiaWF0IjoxNjY3ODQ4ODA1LCJleHAiOjE2Njc4NDg4NjV9.wniR9YvLkaGFbUoSMGBN2vj4rYaTPuDrDMPJUC8cm6w", "address": "bc1qwa7cxg5naswsws3j5w6882zphw9jhsnqlh6dek", "sig": "IFKtkNTzZ9RxwEFHcZGNJgvJwYJL70CFyCsd0FPh0r+8YMuAkjWYuLJIbPb8TWQn3iR3mmRupbTpuyApI5eihzc="}
+//
+//{"msg": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyZXNzIjoiYmMxcTRzZjhsbHZ3cmZkd3F4cDdjcG1qOG56ZXhwY3FjYXI5bmc3ZWhhIiwiaWF0IjoxNjY3ODQ5Nzg2LCJleHAiOjE2Njc4NDk4NDZ9.RM0j4AEPZgl9qgNHUbdwCtorThQjynAU8iGntooB5Kg", "address": "bc1q4sf8llvwrfdwqxp7cpmj8nzexpcqcar9ng7eha", "sig": "IGCkS77AYLjozPIguKLhZA4En4G1A8YK2tHce9AD3jqudwkqjSmbHVn26/iKtU97zKDR2beoCcGIoZiRmzbWFBM="}
 
 export default function SignMessagePage() {
     
@@ -15,10 +24,9 @@ export default function SignMessagePage() {
     if(router.query.msg){message = router.query.msg}
     
     const [thisAddress, setAddress] = useState({"address": null, "derivationPath": null, "format": null, "formatType": null, "index": null, "key": null})
-    const [isLoading, setLoading] = useState(false)  
+    const [isLoading, setLoading] = useState(true)  
 
     useEffect(() => {
-        setLoading(true)
         const address = getAddressFromStorage("array")   
         if(!address){
             router.push('/settings/select')
@@ -30,7 +38,7 @@ export default function SignMessagePage() {
 
     if (isLoading) return (
         <PageTemplate>
-            <div className="text-center">Loading...</div>
+            <Loading />
         </PageTemplate>
     )
     
@@ -40,7 +48,6 @@ export default function SignMessagePage() {
         </PageTemplate>
     )
 }
-
 
 
 export function MessageSignForm(props) {
@@ -115,7 +122,7 @@ export function MessageSignForm(props) {
                 <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                     <div className="mb-10">
                         <div className="text-lg underline text-gray-500">Message:</div>
-                        <div className="font-bold">{messageData.message}</div>
+                        <div className="font-bold break-words">{messageData.message}</div>
                     </div>
                     <div className="mb-2">
                         <div className="text-lg underline text-gray-500">Signature:</div>

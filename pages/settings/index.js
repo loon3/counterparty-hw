@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from 'next/router'
 import PageTemplate from '../../components/template'
 import ModalTemplate from '../../components/modal'
+import Loading from '../../components/loading'
 import { getAddressFromStorage, getPassphraseFromStorage } from '../../lib/fetch.js'
 
 
@@ -61,7 +62,7 @@ export default function SettingsPage() {
 
     if (isLoading) return (
         <PageTemplate type="centeredFull">
-            <div className={styles.centered}><Image src="/spinning-logo.gif" width="100" height="100" alt="" /></div>
+            <Loading />
         </PageTemplate>
     )
     

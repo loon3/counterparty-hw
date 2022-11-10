@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { useState, useEffect } from "react";
 import { useRouter } from 'next/router'
 import PageTemplate from '../../components/template'
+import Loading from '../../components/loading'
 import { getAddressFromStorage, checkConnected } from '../../lib/fetch.js'
 
 export default function ForgetPage() {
@@ -10,7 +11,7 @@ export default function ForgetPage() {
     const router = useRouter()
 
     const [thisAddress, setAddress] = useState(null)  
-    const [isLoading, setLoading] = useState(false)  
+    const [isLoading, setLoading] = useState(true)  
     const [connected, setConnected] = useState({ledger: false, passphrase: false, both: false})
     
     function handleForget(source){
@@ -43,8 +44,7 @@ export default function ForgetPage() {
     }
 
     useEffect(() => {
-        setLoading(true)
-        
+
         setConnected(checkConnected())
         
         const address = getAddressFromStorage("all") 
@@ -56,7 +56,7 @@ export default function ForgetPage() {
     
     if (isLoading) return (
         <PageTemplate>
-            <div className="text-center">Loading...</div>
+            <Loading />
         </PageTemplate>
     )
     

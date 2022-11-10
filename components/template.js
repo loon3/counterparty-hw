@@ -59,7 +59,7 @@ export function Navigation(props) {
     const [sendModalBtc, setSendModalBtc] = useState(false)
     
     function handleBack(){
-        router.push('/connect')
+        router.push('/wallet')
     }
     
     function handleSend(){
@@ -131,7 +131,7 @@ export function Navigation(props) {
                         
                         <div className="float-left">
                           
-                                <button className="inline-block text-white rounded border-2 hover:shadow-md font-bold uppercase font-mono text-sm px-2 py-1 -mt-2 mx-4 mb-4 ease-linear transition-all duration-150 select-none bg-[#5AC545] border-[#5AC545]" onClick={() => handleBack()}>
+                                <button className="inline-block text-white rounded border-2 hover:bg-[#51b13e] hover:border-[#51b13e] font-bold uppercase font-mono text-sm px-2 py-1 -mt-2 mx-4 mb-4 ease-linear transition-all duration-150 select-none bg-[#5AC545] border-[#5AC545]" onClick={() => handleBack()}>
                                     &larr; Back
                                 </button>
                          
@@ -162,7 +162,7 @@ export function Navigation(props) {
                     <div className="w-full top-4 inline-block pt-4 pr-4">
 
                         <div className="float-left">
-                            <button className="inline-block text-white rounded border-2 hover:shadow-md font-bold uppercase font-mono text-sm px-2 py-1 -mt-2 mx-4 mb-4 ease-linear transition-all duration-150 select-none bg-[#5AC545] border-[#5AC545]" onClick={() => handleBack()}>
+                            <button className="inline-block text-white rounded border-2 hover:bg-[#51b13e] hover:border-[#51b13e] font-bold uppercase font-mono text-sm px-2 py-1 -mt-2 mx-4 mb-4 ease-linear transition-all duration-150 select-none bg-[#5AC545] border-[#5AC545]" onClick={() => handleBack()}>
                                     &larr; Back
                                 </button>
                         </div>

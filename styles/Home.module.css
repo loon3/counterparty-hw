@@ -262,15 +262,11 @@ background-color: rgb(250 250 249);
 
 
 
-.card:hover,
-.card:focus,
-.card:active {
-/*
-  color: #0070f3;
-  border-color: #0070f3;
-*/
-
-  filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+.card:hover {
+/*    background-color: rgb(245 245 244);*/
+/*    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));*/
+    color: #51b13e;
+    border-color: #51b13e;
 }
 
 .card h2 {

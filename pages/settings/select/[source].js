@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useState, useEffect } from "react";
 import PageTemplate from '../../../components/template'
+import Loading from '../../../components/loading'
 import { getAddressSelectLedger, getAddressFromPathLedger } from '../../../lib/ledger.js'
 import { getAddressFromStorage, getPassphraseFromStorage } from '../../../lib/fetch.js'
 import { aesDecrypt, getAddressFromPassphrase } from '../../../lib/xcp.js'
@@ -149,7 +150,7 @@ export default function SelectAddressPage(props) {
         
         window.sessionStorage.setItem("address", JSON.stringify(address))
         
-        router.push('/connect')
+        router.push('/wallet')
         
     }
     
@@ -335,7 +336,7 @@ export default function SelectAddressPage(props) {
         
         <PageTemplate address={thisAddress}>
 
-            <div className={styles.centered}><Image src="/spinning-logo.gif" width="100" height="100" alt="" /></div>
+            <Loading />
 
             <div className="text-center mt-8">{loading}</div>
         </PageTemplate>
