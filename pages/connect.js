@@ -1,10 +1,11 @@
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useState, useEffect } from "react";
 import { useRouter } from 'next/router'
 import PageTemplate from '../components/template'
 import Loading from '../components/loading'
-import { getAddressFromStorage, getPassphraseFromStorage } from '../lib/fetch.js'
+import { getAddressFromStorage, getPassphraseFromStorage, getWtfMsg, setTryConnect, setCallbackUrl } from '../lib/fetch.js'
 import { signMessageLedger } from '../lib/ledger.js'
 import { getPrivkeyFromPassphrase, signMessagePassphrase, verifyMessageSignature } from '../lib/xcp.js'
 
@@ -20,20 +21,24 @@ export default function SignMessagePage() {
     
     const router = useRouter()
     
-    let message = null
-    if(router.query.msg){message = router.query.msg}
+    if(router.query.callbackUrl){setCallbackUrl(router.query.callbackUrl)}
     
     const [thisAddress, setAddress] = useState({"address": null, "derivationPath": null, "format": null, "formatType": null, "index": null, "key": null})
     const [isLoading, setLoading] = useState(true)  
+    const [message, setMessage] = useState(null)
 
     useEffect(() => {
+            
         const address = getAddressFromStorage("array")   
         if(!address){
+            setTryConnect(true)
             router.push('/settings/select')
         } else {
             setAddress(address)
-            setLoading(false)            
-
+            getWtfMsg(address.address, function(data){
+                setMessage(data.message)
+                setLoading(false)
+            })
         }
     }, [])
 
@@ -57,6 +62,7 @@ export function MessageSignForm(props) {
     const [status, setStatus] = useState("Preparing to Sign...")
     const [messageData, setMessageData] = useState(null)
     const [signature, setSignature] = useState(null)
+    const [connectLink, setConnectLink] = useState(null)
     
     function handleSignAnother(){
         setSigned("init")
@@ -69,6 +75,8 @@ export function MessageSignForm(props) {
     
         event.preventDefault()
         
+        if(!props.message){return}
+        
         if(props.address.key == "ledger") {
                 
             setSigned("signing")    
@@ -78,7 +86,7 @@ export function MessageSignForm(props) {
                 address: props.address.address,
                 format: props.address.format,
                 derivationPath: props.address.derivationPath,
-                message: event.target.message.value,
+                message: props.message,
             }
 
             setMessageData(data)
@@ -87,8 +95,15 @@ export function MessageSignForm(props) {
 
             signMessageLedger(data, function(response){
                 if(response.status == "success"){
-                    setSignature(response.message)
-                    setSigned("signed")
+                    
+                    const sig = response.message
+                    
+                    const url = "https://pepe.wtf/signin?address="+props.address.address+"&msg="+encodeURIComponent(props.message)+"&sig="+encodeURIComponent(sig)
+            
+                    window.location.replace(url)
+                    
+//                    setSignature(response.message)
+//                    setSigned("signed")
                 } else if(response.status == "error"){
                     setStatus(response.message)
                 } else {
@@ -101,13 +116,19 @@ export function MessageSignForm(props) {
             
             const passphrase = getPassphraseFromStorage()
             const privkey = getPrivkeyFromPassphrase(passphrase, props.address)
-            const sig = signMessagePassphrase(event.target.message.value, props.address, privkey)
+            const sig = signMessagePassphrase(props.message, props.address, privkey)
             
-            setMessageData({message: event.target.message.value})
-            setSignature(sig)
-            setSigned("signed")    
+            const url = "https://pepe.wtf/signin?address="+props.address.address+"&msg="+encodeURIComponent(props.message)+"&sig="+encodeURIComponent(sig)
             
-            event.target.reset()
+            window.location.replace(url)
+            
+//            setConnectLink(url)
+//            
+//            setMessageData({message: props.message})
+//            setSignature(sig)
+//            setSigned("signed")    
+//            
+//            event.target.reset()
         
         }
 
@@ -129,6 +150,10 @@ export function MessageSignForm(props) {
                         <div className="text-lg underline text-gray-500">Signature:</div>
                         <div className="font-bold break-words">{signature}</div>
                     </div>
+                    <div className="mb-2">
+                        <div className="text-lg underline text-gray-500">Sign In Link:</div>
+                        <div className="font-bold break-words">{connectLink}</div>
+                    </div>
                     <div className="mt-12 w-full">
                         <div className="flex flex-col max-w-xs text-center m-auto">
                             <button className="bg-blue-500 text-white hover:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" onClick={() => handleSignAnother()}>
@@ -144,34 +169,29 @@ export function MessageSignForm(props) {
   
     return (
   
-        <div className="w-full max-w-2xl">    
-            <h1 className="text-3xl font-bold mb-8 text-center">
-                Sign Message
-            </h1>
+        <div className="w-full max-w-2xl text-center">  
+            <div className="m-auto"><Image src="/pepewtf.png" height="200" width="450" alt=""/></div>
+
             <div id="sendForm">  
                 <div className="w-full px-5 pt-4 pb-8 rounded-lg">
 
-                    <form onSubmit={handleSubmit} autoComplete="off" className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                        <div>
-                            <label htmlFor="message" className="block text-gray-700 text-sm font-bold mb-2">Message</label>
-                            <div className="flex">
-                                <input type="message" name="message" id="message" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" defaultValue={props.message ? props.message:""} required />
-                            </div>
-                        </div>
-                        {props.address.key == "ledger" && 
-                        <div className="mt-14 text-center">
-                            <div className="max-w-80 justify-center inline-flex">Unlock your Ledger device and open the Bitcoin app before clicking sign</div>
-                        </div>  
-                        }
+                    <form onSubmit={handleSubmit} autoComplete="off" className="bg-white shadow-md rounded px-8 py-6">
+                        
 
-                        <div className="mt-12 w-full">
+
+                        <div className="my-12 w-full">
                             <div className="flex flex-col max-w-xs text-center m-auto">
-                                <button className="bg-blue-500 text-white hover:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
-                                    Sign
+                                <button className="bg-blue-500 text-white hover:bg-blue-600 font-bold uppercase text-xl px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150">
+                                    Connect to pepe.wtf
                                 </button>
                             </div>  
 
                         </div>
+                                {props.address.key == "ledger" && 
+                        <div className="mt-2 text-center">
+                            <div className="max-w-80 justify-center inline-flex">Unlock your Ledger device and open the Bitcoin app before clicking connect</div>
+                        </div>  
+                        }
                     </form>  
                 </div>  
             </div>

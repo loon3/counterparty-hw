@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import PageTemplate from '../../../components/template'
 import Loading from '../../../components/loading'
 import { getAddressSelectLedger, getAddressFromPathLedger } from '../../../lib/ledger.js'
-import { getAddressFromStorage, getPassphraseFromStorage } from '../../../lib/fetch.js'
+import { getAddressFromStorage, getPassphraseFromStorage, getTryConnect, setTryConnect } from '../../../lib/fetch.js'
 import { aesDecrypt, getAddressFromPassphrase } from '../../../lib/xcp.js'
 
 
@@ -149,9 +149,15 @@ export default function SelectAddressPage(props) {
     function handleAddressSelect(address){
         
         window.sessionStorage.setItem("address", JSON.stringify(address))
+        const tryConnect = getTryConnect()
         
-        router.push('/wallet')
-        
+        if(tryConnect){
+            setTryConnect(false)
+            router.push('/connect')
+        } else {
+            router.push('/wallet')
+        }
+            
     }
     
     const handlePasswordSubmit = (event) => {

@@ -200,10 +200,13 @@ export default function ConnectLandingPage() {
             </div>
         
          
-      
+ 
      
         
          <div className="grid grid-cols-2 gap-4 sm:gap-12 sm:grid-cols-3 lg:grid-cols-4 w-full sm:max-w-[800px] pb-16">
+             
+        
+
         <Link href="/collection">
         <div className="col-span-2 lg:col-span-4 justify-center p-7 sm:p-8 rounded-xl border-2 hover:border-[#51b13e] hover:text-[#51b13e] border-[#5ac545] text-[#5ac545] cursor-pointer bg-stone-50">
             <div><BookOpenIcon className="h-16 m-auto"/></div>
@@ -221,19 +224,22 @@ export default function ConnectLandingPage() {
         
           
        
-        <Link href="/sign">
-          <div className="col-span-1 justify-center p-7 sm:p-8  rounded-xl border-2 hover:border-[#51b13e] hover:text-[#51b13e] border-[#5ac545] text-[#5ac545] cursor-pointer bg-stone-50">
-        
-            <div><PencilSquareIcon className="h-16 m-auto"/></div>
-            <div className="text-center text-lg">Sign</div>
-          </div>
-        </Link>
+
         <Link href="/settings">
-          <div className="col-span-1 justify-center p-7 sm:p-8  rounded-xl border-2 hover:border-[#51b13e] hover:text-[#51b13e] border-[#5ac545] text-[#5ac545] cursor-pointer bg-stone-50">
+          <div className="col-span-1 justify-center p-7 sm:p-8 rounded-xl border-2 hover:border-[#51b13e] hover:text-[#51b13e] border-[#5ac545] text-[#5ac545] cursor-pointer bg-stone-50">
             <div><WrenchScrewdriverIcon className="h-16 m-auto"/></div>
             <div className="text-center text-lg">Settings</div>
           </div>
         </Link>
+
+        <Link href="/connect">
+          <div className="col-span-1 justify-center px-4 py-12 rounded-xl border-2 hover:border-[#51b13e] hover:bg-[#51b13e] hover:text-[#51b13e] border-[#5ac545] bg-[#5ac545] cursor-pointer bg-stone-50 text-center ">
+        
+            <div className="m-auto h-full flex justify-center"><Image src="/pepewtf-white.png" height="64" width="144" alt=""/></div>
+            
+          </div>
+        </Link>
+
           
         </div>
         
