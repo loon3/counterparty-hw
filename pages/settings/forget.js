@@ -30,13 +30,13 @@ export default function ForgetPage() {
             window.localStorage.removeItem("passphrase")
             window.sessionStorage.removeItem("passphrase")
             if(connected.both && activeAddressRemoved){
-                window.sessionStorage.setItem("address", JSON.stringify(JSON.parse(connected.ledger)[0]))
+                window.sessionStorage.setItem("address", JSON.stringify(connected.ledger[0]))
             }
         }        
         if(source == "ledger"){
             window.localStorage.removeItem("addressListLedger")
             if(connected.both && activeAddressRemoved){
-                window.sessionStorage.setItem("address", JSON.stringify(JSON.parse(connected.passphrase)[0]))
+                window.sessionStorage.setItem("address", JSON.stringify(connected.passphrase[0]))
             }
         }        
 
@@ -63,12 +63,10 @@ export default function ForgetPage() {
     return (
     <PageTemplate address={thisAddress}>
         <div className="py-12">
-        {connected.any &&
             <h1 className="text-3xl font-bold mb-8 text-center">
               Are you sure you want to continue?
             </h1>
-        }
-        <div className={styles.grid}>
+            <div className={styles.grid}>
            
             {connected.ledger &&
               <a href="#" className={styles.card} onClick={() => handleForget("ledger")}>
@@ -87,7 +85,7 @@ export default function ForgetPage() {
                 <h3>Forget Both &rarr;</h3>
               </a>
             }
-        </div>
+            </div>
         </div>
     </PageTemplate>
     )

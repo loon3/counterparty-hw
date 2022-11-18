@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from 'next/router'
 import PageTemplate from '../components/template'
 import Loading from '../components/loading'
-import { getAddressFromStorage, getPassphraseFromStorage, getWtfMsg, setTryConnect, setCallbackUrl } from '../lib/fetch.js'
+import { getAddressFromStorage, getPassphraseFromStorage, getWtfMsg, setTryConnect } from '../lib/fetch.js'
 import { signMessageLedger } from '../lib/ledger.js'
 import { getPrivkeyFromPassphrase, signMessagePassphrase, verifyMessageSignature } from '../lib/xcp.js'
 
@@ -17,11 +17,11 @@ import { getPrivkeyFromPassphrase, signMessagePassphrase, verifyMessageSignature
 //
 //{"msg": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyZXNzIjoiYmMxcTRzZjhsbHZ3cmZkd3F4cDdjcG1qOG56ZXhwY3FjYXI5bmc3ZWhhIiwiaWF0IjoxNjY3ODQ5Nzg2LCJleHAiOjE2Njc4NDk4NDZ9.RM0j4AEPZgl9qgNHUbdwCtorThQjynAU8iGntooB5Kg", "address": "bc1q4sf8llvwrfdwqxp7cpmj8nzexpcqcar9ng7eha", "sig": "IGCkS77AYLjozPIguKLhZA4En4G1A8YK2tHce9AD3jqudwkqjSmbHVn26/iKtU97zKDR2beoCcGIoZiRmzbWFBM="}
 
+
+
 export default function SignMessagePage() {
     
     const router = useRouter()
-    
-    if(router.query.callbackUrl){setCallbackUrl(router.query.callbackUrl)}
     
     const [thisAddress, setAddress] = useState({"address": null, "derivationPath": null, "format": null, "formatType": null, "index": null, "key": null})
     const [isLoading, setLoading] = useState(true)  
@@ -31,10 +31,13 @@ export default function SignMessagePage() {
             
         const address = getAddressFromStorage("array")   
         if(!address){
+            
             setTryConnect(true)
             router.push('/settings/select')
+            
         } else {
             setAddress(address)
+            
             getWtfMsg(address.address, function(data){
                 setMessage(data.message)
                 setLoading(false)
@@ -91,8 +94,6 @@ export function MessageSignForm(props) {
 
             setMessageData(data)
 
-            event.target.reset()
-
             signMessageLedger(data, function(response){
                 if(response.status == "success"){
                     
@@ -102,8 +103,7 @@ export function MessageSignForm(props) {
             
                     window.location.replace(url)
                     
-//                    setSignature(response.message)
-//                    setSigned("signed")
+
                 } else if(response.status == "error"){
                     setStatus(response.message)
                 } else {
@@ -121,15 +121,7 @@ export function MessageSignForm(props) {
             const url = "https://pepe.wtf/signin?address="+props.address.address+"&msg="+encodeURIComponent(props.message)+"&sig="+encodeURIComponent(sig)
             
             window.location.replace(url)
-            
-//            setConnectLink(url)
-//            
-//            setMessageData({message: props.message})
-//            setSignature(sig)
-//            setSigned("signed")    
-//            
-//            event.target.reset()
-        
+    
         }
 
     }    
