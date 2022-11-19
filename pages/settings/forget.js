@@ -62,7 +62,7 @@ export default function ForgetPage() {
     
     return (
     <PageTemplate address={thisAddress}>
-        <div className="py-12">
+        <div className="my-16">
             <h1 className="text-3xl font-bold mb-8 text-center">
               Are you sure you want to continue?
             </h1>

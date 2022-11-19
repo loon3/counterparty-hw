@@ -161,7 +161,7 @@ export function MessageSignForm(props) {
   
     return (
   
-        <div className="w-full max-w-2xl text-center">  
+        <div className="w-full max-w-2xl text-center my-16">  
             <div className="m-auto"><Image src="/pepewtf.png" height="200" width="450" alt=""/></div>
 
             <div id="sendForm">  

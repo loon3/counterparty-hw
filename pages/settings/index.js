@@ -68,6 +68,7 @@ export default function SettingsPage() {
     
     return (
     <PageTemplate address={thisAddress}>
+        <div className="my-16 text-center">
         <ViewPassphraseModal />
         <h1 className="text-3xl font-bold mb-8">
           Settings
@@ -76,6 +77,11 @@ export default function SettingsPage() {
             <Link href="/settings/select">
               <a href="#" className={styles.card}>
                 <h3>Select Wallet&frasl;Address &rarr;</h3>
+              </a>
+            </Link>
+            <Link href="/sign">
+              <a href="#" className={styles.card}>
+                <h3>Sign Message &rarr;</h3>
               </a>
             </Link>
 {viewPassphrase &&
@@ -92,6 +98,7 @@ export default function SettingsPage() {
                 </a>
              </Link>
         
+        </div>
         </div>
     </PageTemplate>
     )

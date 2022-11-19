@@ -165,7 +165,7 @@ export function ImportPassphrase(props){
     )
     
     if(newPassphrase) return (
-        <div className="w-full max-w-2xl py-12">
+        <div className="w-full max-w-2xl my-16">
             <h1 className="text-3xl font-bold mb-8 text-center">
                 Your New Wallet was Created&#33;
             </h1>
@@ -196,7 +196,7 @@ export function ImportPassphrase(props){
     )
     
     return (
-        <div className="w-full max-w-2xl">
+        <div className="w-full max-w-2xl my-16">
             <h1 className="text-3xl font-bold mb-8 text-center">
                 Import Wallet
             </h1>
@@ -271,7 +271,7 @@ export function EncryptPassphrase(props){
     )
     
     return (
-        <div className="w-full max-w-2xl py-12">
+        <div className="w-full max-w-2xl my-16">
             <h1 className="text-3xl font-bold mb-8 text-center">
                 Choose a Password to Lock your Wallet
             </h1>

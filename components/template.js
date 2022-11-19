@@ -21,7 +21,7 @@ export default function PageTemplate(props) {
                 <title>rpw.wtf</title>
                 <meta name="description" content="" />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0"/>
-                <link rel="icon" href="/favicon-16x16.png" />
+                <link rel="icon" href="/favicon-32x32.png" />
             </Head>
         
             <Navigation address={props.address} btc={props.btc} fee={props.fee} hideNav={props.hideNav} />
@@ -40,8 +40,8 @@ export function PageFooter(props) {
             {!props.hideFooter &&
                 <footer className={styles.footer}>
                     {props.hideLogo ? null : (
-                    <div className="inline-block pl-4">
-                        <Image src="/rarefakemerge.gif" height="50px" width="50px" alt=""/>
+                    <div className="inline-block pl-4 mt-1">
+                        <Image src="/rpw-logo-classic.png" height="50px" width="50px" alt=""/>
                     </div>  
                     )}
                     <div className="inline-block pl-4 font-mono font-bold text-white">

@@ -16,10 +16,10 @@ export default function Home() {
     
   return (
       <PageTemplate hideLogoInFooter>
-        <div className="pb-12">
-            <Image src="/rarefakemerge.gif" height="200px" width="200px" alt=""/>
+        <div className="my-8">
+            <Image src="/rpw-logo-classic.png" height="200px" width="200px" alt=""/>
         </div>
-
+      <div className="mb-12">
         <div className={styles.grid}>
 
 
@@ -37,6 +37,7 @@ export default function Home() {
           
 
         </div>
+    </div>
       </PageTemplate>
   )
 }

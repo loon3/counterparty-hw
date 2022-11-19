@@ -159,8 +159,8 @@ export default function ConnectLandingPage() {
         <PageTemplate address={thisAddress} btc={btcBalance} hideLogoInFooter hideNav darkBg>
         <BtcSendModal />
         <QrDepositModal />
-        <div className="pb-2">
-            <Image src="/rarefakemerge.gif" height="60px" width="60px" alt=""/>
+        <div className="my-2">
+            <Image src="/rpw-logo-classic.png" height="60px" width="60px" alt=""/>
         </div>
         <div className="text-center">
             <h1 className="text-xl sm:text-3xl font-bold">
@@ -174,7 +174,7 @@ export default function ConnectLandingPage() {
                 }
             </div>
         </div>
-            <div className="text-center my-10 sm:my-20 p-2">
+            <div className="text-center my-10 sm:my-12 p-2">
 
                 <div className="text-6xl sm:text-8xl block break-all">
                     {btcBalance.firstHalfBalance}<span className="text-2xl sm:text-4xl">{btcBalance.secondHalfBalance}</span>
@@ -203,7 +203,7 @@ export default function ConnectLandingPage() {
  
      
         
-         <div className="grid grid-cols-2 gap-4 sm:gap-12 sm:grid-cols-3 lg:grid-cols-4 w-full sm:max-w-[800px] pb-16">
+         <div className="grid grid-cols-2 gap-4 sm:gap-12 sm:grid-cols-3 lg:grid-cols-4 w-full sm:max-w-[800px] pb-12">
              
         
 

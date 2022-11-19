@@ -495,7 +495,7 @@ export default function CollectionList(props) {
         <div>
             {checkArrayEmpty(collection) != true ? (
                 <VirtualCollection collection={filterCollection(collection, directoryView, assetSearch)} width={self.innerWidth} widthMinusScroll={viewportWidth} height={self.innerHeight} resetList={resetList} setResetList={(resetList) => setResetList(resetList)} handleSend={(asset, balance, divisible, supply, imgUrl, unconfirmed) => handleSend(asset, balance, divisible, supply, imgUrl, unconfirmed)}/>
-            ) : (<div className="text-center mt-32 text-xl"><div className="pb-16">You don&#39;t have any pepes</div><Image src="/sad-pepe-transparent.png" width="240" height="190" alt="" /><div className="pt-16">Visit <a href="https://pepe.wtf/market/" target="_blank" rel="noreferrer" className="font-bold">Pepe.wtf Markets</a></div></div>)
+            ) : (<div className="text-center mt-32 text-xl"><div className="pb-16">You don&#39;t have any pepes</div><Image src="/sad-pepe-transparent.png" width="240" height="190" alt="" /><div className="pt-16">Visit <a href="https://pepe.wtf/market/" target="_blank" rel="noreferrer" className="font-bold">Pepe.wtf Market</a></div></div>)
         }
         </div>
         </PageTemplate>

@@ -53,7 +53,7 @@ export default function SelectTypePage() {
     
     return (
     <PageTemplate address={thisAddress}>
-        <div className="py-12">
+        <div className="my-16">
         <h1 className="text-3xl font-bold mb-8 text-center">
           Select Wallet
         </h1>
@@ -63,11 +63,12 @@ export default function SelectTypePage() {
                 <a href="#" className={styles.card}>
                     <h3><div className="inline-block mr-1 align-middle -mt-[5px] select-none"><Image src="/ledger-logo-green.png" height="17px" width="20px" /></div> Ledger Nano <div className="inline-block ml-1 mr-2 -mt-1 text-sm align-middle">S &frasl; S Plus &frasl; X </div>&rarr;</h3>
                     {isAttachedLedger ? 
-                        (
-                            <div className='text-blue-400 text-md text-center mt-3'><CheckCircleIcon className="m-auto h-6"/>Connected</div>
-                        ) : (
-                            <div className='text-red-400 text-md text-center mt-3'><XCircleIcon className="m-auto h-6"/>Not Connected</div>
-                        )
+                        (<div className='text-blue-400 text-md text-center mt-3'><CheckCircleIcon className="m-auto h-6"/>Connected</div>
+                        ) : (null)
+                    }
+                    {!isAttachedLedger ?
+                        (<div className='text-red-400 text-md text-center mt-3'><XCircleIcon className="m-auto h-6"/>Not Connected</div>
+                        ) : (null)
                     }
                 </a>
             </Link>
@@ -75,11 +76,12 @@ export default function SelectTypePage() {
                 <a href="#" className={`${styles.card} justify-center`}>
                     <h3>Passphrase  &rarr;</h3>
                     {isAttachedPassphrase ? 
-                        (
-                            <div className='text-blue-400 text-md text-center mt-3'><CheckCircleIcon className="m-auto h-6"/>Connected</div>
-                        ) : (
-                            <div className='text-red-400 text-md text-center mt-3'><XCircleIcon className="m-auto h-6"/>Not Connected</div>
-                        )
+                        (<div className='text-blue-400 text-md text-center mt-3'><CheckCircleIcon className="m-auto h-6"/>Connected</div>
+                        ) : (null)
+                    }
+                    {!isAttachedPassphrase ? 
+                        (<div className='text-red-400 text-md text-center mt-3'><XCircleIcon className="m-auto h-6"/>Not Connected</div>
+                        ) :(null)
                     }
                 </a>
             </Link>

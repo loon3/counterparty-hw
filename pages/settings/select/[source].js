@@ -311,7 +311,7 @@ export default function SelectAddressPage(props) {
    
     if (addressList) return (
     <PageTemplate address={thisAddress}>
-        <div className="py-24">
+        <div className="my-16">
         <h1 className="text-3xl font-bold mb-8 text-center">
           Select Address
         </h1>

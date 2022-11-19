@@ -144,7 +144,7 @@ export function MessageSignForm(props) {
   
     return (
   
-        <div className="w-full max-w-2xl">    
+        <div className="w-full max-w-2xl my-16">    
             <h1 className="text-3xl font-bold mb-8 text-center">
                 Sign Message
             </h1>
