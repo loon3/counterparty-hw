@@ -86,20 +86,16 @@ export default function SettingsPage() {
                 <h3>Sign Message &rarr;</h3>
               </a>
             </Link>
-{viewPassphrase &&
-             
-               <div onClick={() => handleViewPassphrase()} className={styles.card}>
-                  <h3>View Passphrase &rarr;</h3>
+            {viewPassphrase &&
+                <div onClick={() => handleViewPassphrase()} className={styles.card}>
+                    <h3>View Passphrase &rarr;</h3>
                 </div>
-         
-}
-                
+            }    
             <Link href="/settings/forget">
-               <a href="#" className={styles.card}>
-                  <h3>Forget Wallet &rarr;</h3>
+                <a href="#" className={styles.card}>
+                    <h3>Forget Wallet &rarr;</h3>
                 </a>
-             </Link>
-        
+            </Link>     
         </div>
         </div>
     </PageTemplate>
