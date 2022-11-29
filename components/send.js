@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import PageTemplate from '../components/template'
 import Image from 'next/image';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 import ReadQr from '../components/qr'
 
 import { useState, useEffect, Component } from "react";
@@ -17,10 +18,10 @@ var Decimal = require('decimal.js-light')
 
 export default function AssetSendForm(props) {
       
-  const [isSent, setSent] = useState("init")
-  const [status, setStatus] = useState("Preparing to Send...")
-  const [btcData, setBtcData] = useState(null)
-  const [xcpData, setXcpData] = useState({
+    const [isSent, setSent] = useState("init")
+    const [status, setStatus] = useState("Preparing to Send...")
+    const [btcData, setBtcData] = useState(null)
+    const [xcpData, setXcpData] = useState({
                                   fromAddress: null,
                                   fromFormat: null,
                                   fromDerivationPath: null,    
@@ -32,32 +33,32 @@ export default function AssetSendForm(props) {
                                   txFeeSatoshis: null,
                                   privkey: null
                                 })
-  const [txid, setTxid] = useState(null)
-  const [supply, setSupply] = useState(props.supply)
-  
-  const btcConf = new Decimal(props.btc.confirmed).toDecimalPlaces(8).times(1e8)
-  const btcUnconf = new Decimal(props.btc.unconfirmed).toDecimalPlaces(8).times(1e8)
-  const btcBalanceSatoshis = btcConf.plus(btcUnconf).toNumber(); 
-    
-  const [qrCode, setQrCode] = useState({status: null, address: null})
-  const [addressFromQr, setAddressFromQr] = useState("")
-    
-  useEffect(() => {
+    const [txid, setTxid] = useState(null)
+    const [supply, setSupply] = useState(props.supply)
+
+    const btcConf = new Decimal(props.btc.confirmed).toDecimalPlaces(8).times(1e8)
+    const btcUnconf = new Decimal(props.btc.unconfirmed).toDecimalPlaces(8).times(1e8)
+    const btcBalanceSatoshis = btcConf.plus(btcUnconf).toNumber(); 
+
+    const [qrCode, setQrCode] = useState({status: null, address: null})
+    const [addressFromQr, setAddressFromQr] = useState("")
+
+    useEffect(() => {
       if(supply == "..."){
           getAssetInfo(props.asset, function(info){
               setSupply(info.supply)
           })
       }
-  },[])
-    
-  useEffect(() => {
+    },[])
+
+    useEffect(() => {
       if(qrCode.status == "success"){
           setAddressFromQr(qrCode.address)
           setQrCode({status: null, address: null})
       }
-  },[qrCode])
-    
-  function handleLedgerTx(inputData, parsedData){
+    },[qrCode])
+
+    function handleLedgerTx(inputData, parsedData){
       getHexFromUtxo(parsedData.inputs, function(hexData){
         setStatus("Sending transaction to device for signing...")
         let btcDataWithHex = {address: inputData.fromAddress, format: inputData.fromFormat, derivationPath: inputData.fromDerivationPath, tx: parsedData.tx, inputs: parsedData.inputs, inputsWithHex: hexData}
@@ -78,12 +79,12 @@ export default function AssetSendForm(props) {
         })
 
       })
-  }    
-    
-  function handlePassphraseTx(data){
-      
+    }    
+
+    function handlePassphraseTx(data){
+
       setSent("sending")
-      
+
       if(data.asset == "BTC"){
         createTxSendBtcPsbt(data, function(res){ 
             setStatus("Sending transaction...")
@@ -101,86 +102,86 @@ export default function AssetSendForm(props) {
             })
         })
       }
-  }
+    }
  
-  const handleSubmit = (event) => {
+    const handleSubmit = (event) => {
  
-    event.preventDefault()
-      
-    setSent("sending") 
-      
-    const txFeeSatoshis = new Decimal(event.target.txfee.value).toDecimalPlaces(8).times(1e8).toNumber();  
-      
-    const fromAddress = props.address  
-      
-    const data = {
-      fromAddress: fromAddress.address,
-      fromFormat: fromAddress.format,
-      fromDerivationPath: fromAddress.derivationPath,    
-      asset: props.asset,
-      balance: props.balance,    
-      toAddress: event.target.address.value,
-      amount: event.target.amount.value,
-      divisible: props.divisible,
-      txFeeSatoshis: txFeeSatoshis,
-      privkey: null
-    }
-    
-    if(fromAddress.key == "passphrase"){data.privkey = getPrivkeyFromPassphrase(getPassphraseFromStorage(), fromAddress)}
-    
-    console.log(btcBalanceSatoshis)
-    console.log(txFeeSatoshis)    
-    
-    let btcTotal = txFeeSatoshis  
-    if(data.asset == "BTC"){       
-        data.amount = new Decimal(data.amount).toDecimalPlaces(8).times(1e8).toNumber(); 
-        btcTotal += data.amount
-    }
-      
-      
-    let stopSend = false  
-    if (btcBalanceSatoshis == 0 || btcBalanceSatoshis < btcTotal){
-        stopSend = true
-        setStatus("Not enough BTC to complete the transaction.")
-    }
-    if(txFeeSatoshis < process.env.minFeeSatoshis){
-        stopSend = true
-        let minFee = process.env.minFeeSatoshis / 100000000
-        let statusMessage = "Fee is too low, must be at least "+minFee+" BTC"
-        setStatus(statusMessage)
-    }
-    if(!checkIfValidAddress(data.toAddress)){
-        stopSend = true
-        let statusMessage = "Invalid Address"
-        setStatus(statusMessage)
-    }
-      
-    setXcpData(data)
-        
-//    stopSend = true
-//    setSent("sent")  
+        event.preventDefault()
 
-    if(!stopSend){
-        if(data.asset != "BTC"){
-            if(fromAddress.key == "ledger"){
-                createTxSendAssetOpreturn(data, function(res){ handleLedgerTx(data, res) })
-            }
-            if(fromAddress.key == "passphrase"){
-                setSent("confirm")
-            }
-        } else {
-            if(fromAddress.key == "ledger"){
-                createTxSendBtc(data, function(res){ handleLedgerTx(data, res) })
-            }
-            if(fromAddress.key == "passphrase"){
-                setSent("confirm")
-            }
+        setSent("sending") 
+
+        const txFeeSatoshis = new Decimal(event.target.txfee.value).toDecimalPlaces(8).times(1e8).toNumber();  
+
+        const fromAddress = props.address  
+
+        const data = {
+          fromAddress: fromAddress.address,
+          fromFormat: fromAddress.format,
+          fromDerivationPath: fromAddress.derivationPath,    
+          asset: props.asset,
+          balance: props.balance,    
+          toAddress: event.target.address.value,
+          amount: event.target.amount.value,
+          divisible: props.divisible,
+          txFeeSatoshis: txFeeSatoshis,
+          privkey: null
         }
-    }    
-      
-  }
+
+        if(fromAddress.key == "passphrase"){data.privkey = getPrivkeyFromPassphrase(getPassphraseFromStorage(), fromAddress)}
+
+        console.log(btcBalanceSatoshis)
+        console.log(txFeeSatoshis)    
+
+        let btcTotal = txFeeSatoshis  
+        if(data.asset == "BTC"){       
+            data.amount = new Decimal(data.amount).toDecimalPlaces(8).times(1e8).toNumber(); 
+            btcTotal += data.amount
+        }
+
+
+        let stopSend = false  
+        if (btcBalanceSatoshis == 0 || btcBalanceSatoshis < btcTotal){
+            stopSend = true
+            setStatus("Not enough BTC to complete the transaction.")
+        }
+        if(txFeeSatoshis < process.env.minFeeSatoshis){
+            stopSend = true
+            let minFee = process.env.minFeeSatoshis / 100000000
+            let statusMessage = "Fee is too low, must be at least "+minFee+" BTC"
+            setStatus(statusMessage)
+        }
+        if(!checkIfValidAddress(data.toAddress)){
+            stopSend = true
+            let statusMessage = "Invalid Address"
+            setStatus(statusMessage)
+        }
+
+        setXcpData(data)
+
+        //    stopSend = true
+        //    setSent("sent")  
+
+        if(!stopSend){
+            if(data.asset != "BTC"){
+                if(fromAddress.key == "ledger"){
+                    createTxSendAssetOpreturn(data, function(res){ handleLedgerTx(data, res) })
+                }
+                if(fromAddress.key == "passphrase"){
+                    setSent("confirm")
+                }
+            } else {
+                if(fromAddress.key == "ledger"){
+                    createTxSendBtc(data, function(res){ handleLedgerTx(data, res) })
+                }
+                if(fromAddress.key == "passphrase"){
+                    setSent("confirm")
+                }
+            }
+        }    
+
+    }
   
-  if (isSent == "sending") return (
+    if (isSent == "sending") return (
         <div>
             <div className="w-full px-5 pt-12 pb-8 my-2 text-center">{status}</div>
             <div className="mt-12 pt-6 w-full border-t border-solid border-slate-200">
@@ -189,9 +190,9 @@ export default function AssetSendForm(props) {
                 </div>
             </div>
         </div>
-  )
-    
-  if (isSent == "confirm") return (
+    )
+
+    if (isSent == "confirm") return (
         <div>
             <div className="w-full px-5 pt-12 pb-8 my-2 text-center">
                 <div className="text-md text-center text-lg">Are you sure you want to send <div className="font-bold text-lg my-3">{xcpData.asset == "BTC" ? (new Decimal(xcpData.amount).toDecimalPlaces(8).dividedBy(1e8).toNumber()) : (xcpData.amount)} {xcpData.asset}</div> to <div className="font-bold text-lg my-3 break-all">{xcpData.toAddress}</div> &#63;</div>
@@ -203,13 +204,13 @@ export default function AssetSendForm(props) {
                         <button className="bg-emerald-500 text-white hover:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" onClick={() => handlePassphraseTx(xcpData)}>
                             Confirm Send
                         </button>
-                    
+
                 </div>
             </div>
         </div>
-  )
+    )
   
-  if (isSent == "sent") return (
+    if (isSent == "sent") return (
       <AssetSendFormSent xcpData={xcpData} btcData={btcData} txid={txid}>
         <div className="mt-12 pt-6 w-full border-t border-solid border-slate-200">
             <div className="text-center float-right">
@@ -217,15 +218,15 @@ export default function AssetSendForm(props) {
             </div>
         </div>
       </AssetSendFormSent>
-  )
-  
-  let availableBalance = props.balance
-  if(props.asset == "BTC"){ availableBalance = new Decimal(btcBalanceSatoshis).dividedBy(1e8).toNumber()}
-    
-  function handleQr(){
+    )
+
+    let availableBalance = props.balance
+    if(props.asset == "BTC"){ availableBalance = new Decimal(btcBalanceSatoshis).dividedBy(1e8).toNumber()}
+
+    function handleQr(){
       setAddressFromQr("")
       setQrCode({status: "check", address: null})
-  }
+    }
 
 
 
@@ -244,89 +245,99 @@ export default function AssetSendForm(props) {
       render() {
         return (
             <input type="text" name="address" id="address" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value={this.state.value} onChange={this.handleChange} required />
-         
+
         );
       }
     }
 
+ 
+    return (
 
-  return (
-  
-    <div id="sendForm">  
-      <div className="w-full pt-1 rounded-lg my-2">
-        
-      {qrCode.status == "check" ? (<ReadQr setQrCode={(status) => setQrCode(status)}/>):(
-      
-        <form onSubmit={handleSubmit} autoComplete="off">
+        <div id="sendForm">  
+          <div className="w-full pt-1 rounded-lg my-2">
 
-            
-            
-            <div className="grid grid-cols-2 gap-3">
-                <div className="m-auto"> 
-                    <div className="pb-8">
-                        <h3 className="text-sm sm:text-md text-center text-gray-500">You Have</h3>
-                        <h1 className="text-xl sm:text-4xl text-center font-semibold break-all">{availableBalance}</h1>                        
+          {qrCode.status == "check" ? (<ReadQr setQrCode={(status) => setQrCode(status)}/>):(
+
+            <form onSubmit={handleSubmit} autoComplete="off">
+
+            {props.asset !== "BTC" ? (           
+                <div className="grid grid-cols-2 gap-3">
+                    <div className="m-auto"> 
+                        <div className="pb-3">
+                            <h3 className="text-sm sm:text-md text-center text-gray-500">You have</h3>
+                            <div className="py-4">
+                                <h1 className="text-2xl sm:text-4xl text-center font-semibold break-all">{availableBalance}</h1>
+                                <h3 className="text-xs sm:text-sm text-center text-gray-500">of {supply}</h3>
+                            </div>
+                            <h3 className="text-md sm:text-lg text-center font-bold">{props.asset}</h3>  
+                        </div>                 
+                    </div>      
+                    <div className="m-auto">
+
+                        <LazyLoadImage 
+                            src={props.imgUrl}
+                            height="189"
+                            width="135"
+                            alt=""
+                            effect="blur"
+                            visibleByDefault="true"
+                        />  
                     </div>
-                    <div>  
-                        <h3 className="text-sm sm:text-md text-center text-gray-500 break-all">Total Supply</h3>
-                        <h1 className="text-sm sm:text-xl text-center font-semibold break-all">{supply}</h1>                        
-                    </div>
-                </div>                
-                <div className="m-auto">
-                    <Image 
-                        src={props.imgUrl}
-                        height="189"
-                        width="135"
-                        alt=""
-                    />  
                 </div>
-
-            </div>
-           
-
-                <div className="mt-6">
-                        <label htmlFor="address" className="block text-gray-700 text-sm font-bold mb-2">Receiving Address</label>
-                        <div className="flex">
-                            <ReceivingAddress fromQr={addressFromQr}/>
-                            <QrCodeIcon className="ml-1.5 h-10 cursor-pointer" onClick={() => handleQr()} />
+            ):(
+                <div className="grid grid-cols-1">
+                    <div className="m-auto"> 
+                        <div className="">
+                            <h3 className="text-sm sm:text-md text-center text-gray-500">You have</h3>
+                            <div className="py-4">
+                                <h1 className="text-2xl sm:text-4xl text-center font-semibold break-all">{availableBalance}</h1>
+                            </div>
+                            <h3 className="text-sm sm:text-md text-center text-gray-500">{props.asset}</h3>                       
                         </div>
-                        
+                    </div>      
+                </div>
+            )}     
+
+                <div className="mt-6">
+                    <label htmlFor="address" className="block text-gray-700 text-sm font-bold mb-2">Send {props.asset} to:</label>
+                    <div className="flex">
+                        <ReceivingAddress fromQr={addressFromQr}/>
+                        <QrCodeIcon className="ml-1.5 h-10 cursor-pointer" onClick={() => handleQr()} />
                     </div>
-            
-            <div className="grid grid-cols-2 sm:gap-8 gap-2">
-                <div className="mt-6">
-                    <label htmlFor="amount" className="block text-gray-700 text-sm font-bold mb-2">Amount to Send</label>
-                    <input type="text" name="amount" id="amount" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" defaultValue="" required />
+
                 </div>
-                <div className="mt-6">
-                    <label htmlFor="txfee" className="block text-gray-700 text-sm font-bold mb-2">Bitcoin Tx Fee</label>
-                    <input type="text" name="txfee" id="txfee" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" defaultValue={props.fee} required />
-                    <div className="text-xs text-gray-500 text-left">(Suggested fee above)</div>
+
+                <div className="grid grid-cols-2 sm:gap-8 gap-2">
+                    <div className="mt-6">
+                        <label htmlFor="amount" className="block text-gray-700 text-sm font-bold mb-2">Amount to Send:</label>
+                        <input type="text" name="amount" id="amount" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" defaultValue="" required />
+                    </div>
+                    <div className="mt-6">
+                        <label htmlFor="txfee" className="block text-gray-700 text-sm font-bold mb-2">Bitcoin Tx Fee:</label>
+                        <input type="text" name="txfee" id="txfee" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" defaultValue={props.fee} required />
+                        <div className="text-xs text-gray-500 text-left">(Suggested fee above)</div>
+                    </div>
                 </div>
-            </div>
-            {props.address.key == "ledger" &&
-            <div className="mt-5 text-center py-2">
-                <div>Unlock your Ledger device and open the Bitcoin app before clicking send</div>
-            </div>          
-            }
-            <div className="mt-6 pt-6 w-full border-t border-solid border-slate-200">
-            <div className="text-center float-right">
-                <div className="inline-flex text-center">{props.children}</div>
+                {props.address.key == "ledger" &&
+                <div className="mt-5 text-center py-2">
+                    <div>Unlock your Ledger device and open the Bitcoin app before clicking send</div>
+                </div>          
+                }
+                <div className="mt-6 pt-6 w-full border-t border-solid border-slate-200">
+                <div className="text-center float-right">
+                    <div className="inline-flex text-center">{props.children}</div>
 
-                <button className="bg-blue-500 text-white hover:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
-                    Send
-                </button>
-            </div>  
-            </div>
-        </form>  
-        )}
-      </div>  
-      
-    </div>
-    
+                    <button className="bg-blue-500 text-white hover:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
+                        Send
+                    </button>
+                </div>  
+                </div>
+            </form>  
+            )}
+          </div>  
 
-
-  )
+        </div>
+    )
 }
 
 export function AssetSendFormSent(props) {

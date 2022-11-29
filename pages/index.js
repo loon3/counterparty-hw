@@ -2,7 +2,7 @@ import styles from '../styles/Home.module.css'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import PageTemplate from '../components/template'
-import Image from 'next/image'
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 
 export default function Home() {  
@@ -17,7 +17,16 @@ export default function Home() {
   return (
       <PageTemplate hideLogoInFooter>
         <div className="my-8">
-            <Image src="/rpw-logo-classic.png" height="200px" width="200px" alt=""/>
+      
+                        <LazyLoadImage 
+                            src="/pepemoney.png"
+                            height="320"
+                            width="320"
+                            alt=""
+                            effect="blur"
+                            visibleByDefault="true"
+                        />       
+           
         </div>
       <div className="mb-12">
         <div className={styles.grid}>
@@ -25,7 +34,7 @@ export default function Home() {
 
 
            <a href="#" className={styles.card} onClick={() => connectLedger()}>
-              <h2>Wallet &rarr;</h2>
+              <h2>Rare Pepe Wallet &rarr;</h2>
               <p>Use a 12-word passphrase or connect a Ledger hardware wallet device via USB.</p>
             </a>
 

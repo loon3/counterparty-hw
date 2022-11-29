@@ -271,7 +271,7 @@ export default function SelectAddressPage(props) {
     if (needPassword) return (
 
             <PageTemplate address={thisAddress}>
-            <div className="w-full max-w-lg text-center">
+            <div className="w-full max-w-lg text-center my-16">
                 <h1 className="text-3xl font-bold mb-8 text-center">
                     Open Wallet
                 </h1>

@@ -35,7 +35,9 @@ export default function SettingsPage() {
           {passphraseModal ? (
             <ModalTemplate title="Wallet Passphrase">  
                 <div className="text-center">
-                    <div className="text-lg font-bold my-12">{passphrase}</div>
+                    <div className="text-2xl font-bold underline">Wallet Passphrase</div>
+                    <div className="text-lg mx-4 p-2 bg-black text-white font-mono text-center my-8">{passphrase}</div>
+                    <div className="mb-8 px-12 font-bold">Keep your passphrase a secret. No one should ever ask you for your passphrase.</div>
                     <button className="bg-red-500 text-white hover:bg-red-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mt-1 ease-linear transition-all duration-150" onClick={() => handleViewPassphraseClose()}>
                         Close
                     </button> 
